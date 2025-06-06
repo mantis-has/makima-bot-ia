@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,227 +9,219 @@
       font-family: "Segoe UI", sans-serif;
       background-color: #0d1a26; 
       color: #e0f7ff;
-    }
+    }header {
+  background-color: #15283c; 
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+  border-bottom: 2px solid #87CEFA; 
+  position: relative; 
+}
 
-    header {
-      background-color: #15283c; 
-      text-align: center;
-      padding: 2rem 1rem 1rem;
-      border-bottom: 2px solid #87CEFA; 
-      position: relative; 
-    }
+.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #87CEFA; 
+  object-fit: cover;
+  margin-top: -50px; 
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative; 
+  z-index: 1;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
 
-    .profile-img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 3px solid #87CEFA; 
-      object-fit: cover;
-      margin-top: -50px; 
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      position: relative; 
-      z-index: 1;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Sombra XD */
-    }
+h1 {
+  margin: 0.5rem 0 0.2rem;
+  font-size: 1.8rem;
+}
 
-    h1 {
-      margin: 0.5rem 0 0.2rem;
-      font-size: 1.8rem;
-    }
+.subtitle {
+  color: #94a3b8;
+  font-size: 1rem;
+}
 
-    .subtitle {
-      color: #94a3b8;
-      font-size: 1rem;
-    }
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  background-color: #1f1f1f; 
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #87CEFA; 
+}
 
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      background-color: #1f1f1f; 
-      padding: 0.8rem 0;
-      border-bottom: 1px solid #87CEFA; 
-    }
+nav a {
+  color: #4fc3f7; 
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    nav a {
-      color: #4fc3f7; 
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
+nav a:hover {
+  text-decoration: underline;
+  color: #81d4fa; 
+}
 
-    nav a:hover {
-      text-decoration: underline;
-      color: #81d4fa; 
-    }
+.banner-container {
+  width: 100%;
+  margin: 0 auto 2rem auto;
+  overflow: hidden;
+  padding: 0;
+  border: 2px solid #87CEFA; 
+  border-radius: 8px; 
+}
 
-    
-    .banner-container {
-      width: 100%; /* Ocupa todo el ancho disponible */
-      /* max-width: 800px; Eliminar o ajustar si se quiere full-width dentro del flujo normal */
-      margin: 0 auto 2rem auto; /* Centrado y con margen inferior */
-      overflow: hidden; /* Para que la sombra no se corte abruptamente */
-      padding: 0; /* Sin padding extra en el contenedor en sí */
-      border: 2px solid #87CEFA; 
-      border-radius: 8px; 
-    }
+.banner-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+}
 
-    .banner-img {
-      display: block;
-      width: 100%; /* La imagen ocupa el 100% de su contenedor */
-      height: auto; /* Mantiene la proporción de la imagen */
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Sombra para que resalte */
-      /* border-radius: 8px; Opcional: bordes redondeados (ahora en el container) */
-    }
-    
-    /* Contenido principal */
-    .content {
-      padding: 1.5rem;
-      max-width: 600px; /* Mantenemos el ancho máximo para el contenido de texto */
-      margin: 0 auto 2rem auto; /* Centrado y con margen inferior */
-    }
+.content {
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+}
 
-    .decor {
-      font-size: 1.3rem;
-      margin-bottom: 1.5rem;
-      color: #81d4fa; /* Azul claro para el decorador */
-      text-align: center;
-    }
+.decor {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: #81d4fa;
+  text-align: center;
+}
 
-    .card {
-      background-color: #1a2e3e; /* Tono azul oscuro para las tarjetas */
-      border: 1px solid #87CEFA; 
-      border-radius: 10px;
-      padding: 1.2rem 1.5rem;
-      margin-bottom: 1.5rem;
-      color: #e0f7ff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra sutil para las tarjetas */
-    }
+.card {
+  background-color: #1a2e3e;
+  border: 1px solid #87CEFA; 
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #e0f7ff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
 
-    .card h2 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.4rem;
-      color: #c7d2fe; /* Azul pálido para los títulos de las tarjetas */
-    }
+.card h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.4rem;
+  color: #c7d2fe;
+}
 
-    .card small {
-      display: block;
-      margin-bottom: 1rem;
-      color: #94a3b8; /* Gris azulado para el texto pequeño */
-      font-size: 0.85rem;
-    }
+.card small {
+  display: block;
+  margin-bottom: 1rem;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
 
-    .card p {
-      color: #cbd5e1; /* Azul muy claro para el texto de párrafo */
-      margin: 0.3rem 0 0.5rem 0;
-      line-height: 1.5;
-    }
+.card p {
+  color: #cbd5e1;
+  margin: 0.3rem 0 0.5rem 0;
+  line-height: 1.5;
+}
 
-    /* Estilos para los <details> de categorías de comandos 👍 */
-    .command-category-details {
-      margin-top: 1rem;
-      border: 1px solid #5e35b1; 
-      border-radius: 8px;
-      background: #2e3a4a; 
-      color: #dbeafe; /* Texto claro */
-      cursor: pointer;
-    }
+.command-category-details {
+  margin-top: 1rem;
+  border: 1px solid #5e35b1; 
+  border-radius: 8px;
+  background: #2e3a4a; 
+  color: #dbeafe;
+  cursor: pointer;
+}
 
-    .command-category-details + .command-category-details {
-        margin-top: 0.8rem;
-    }
+.command-category-details + .command-category-details {
+    margin-top: 0.8rem;
+}
 
-    .command-category-details summary {
-      font-weight: 700;
-      font-size: 1.15rem;
-      outline: none;
-      list-style: none;
-      user-select: none;
-      color: #9fa8da; /* Texto morado claro para el summary */
-      padding: 0.8rem 1rem;
-      display: flex;
-      align-items: center;
-    }
+.command-category-details summary {
+  font-weight: 700;
+  font-size: 1.15rem;
+  outline: none;
+  list-style: none;
+  user-select: none;
+  color: #9fa8da;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+}
 
-    .command-category-details summary::-webkit-details-marker {
-      display: none;
-    }
+.command-category-details summary::-webkit-details-marker {
+  display: none;
+}
 
-    .command-category-details summary::before {
-      content: "▶ ";
-      display: inline-block;
-      transition: transform 0.25s ease;
-      color: #7986cb; /* Icono morado */
-      margin-right: 0.5rem;
-      font-size: 0.9em;
-    }
+.command-category-details summary::before {
+  content: "▶ ";
+  display: inline-block;
+  transition: transform 0.25s ease;
+  color: #7986cb;
+  margin-right: 0.5rem;
+  font-size: 0.9em;
+}
 
-    .command-category-details[open] summary::before {
-      transform: rotate(90deg);
-      color: #bfdbfe; /* Icono más claro cuando está abierto */
-    }
+.command-category-details[open] summary::before {
+  transform: rotate(90deg);
+  color: #bfdbfe;
+}
 
-    .command-category-details ul {
-      margin: 0.5rem 0 0.8rem 1.2rem;
-      padding: 0 1rem 0.5rem 1.5rem;
-      list-style: none;
-      color: #cbd5e1; /* Texto de la lista */
-      font-size: 1rem;
-      line-height: 1.6;
-    }
+.command-category-details ul {
+  margin: 0.5rem 0 0.8rem 1.2rem;
+  padding: 0 1rem 0.5rem 1.5rem;
+  list-style: none;
+  color: #cbd5e1;
+  font-size: 1rem;
+  line-height: 1.6;
+}
 
-    .command-category-details ul li {
-      margin-bottom: 0.6rem;
-      padding-left: 0.5rem;
-      position: relative;
-    }
+.command-category-details ul li {
+  margin-bottom: 0.6rem;
+  padding-left: 0.5rem;
+  position: relative;
+}
 
-    .command-category-details ul li::before {
-        content: "➤"; /* Viñeta personalizada */
-        position: absolute;
-        left: -0.8rem;
-        top: 0;
-        color: #7986cb; /* Viñeta morada insanita */
-        font-size: 0.8em;
-    }
+.command-category-details ul li::before {
+    content: "➤";
+    position: absolute;
+    left: -0.8rem;
+    top: 0;
+    color: #7986cb;
+    font-size: 0.8em;
+}
 
-    .command-category-details ul li strong {
-        color: #b3e5fc; 
-    }
+.command-category-details ul li strong {
+    color: #b3e5fc; 
+}
 
-    .command-signature {
-        text-align: right;
-        font-style: italic;
-        margin-top: 1.5rem;
-        color: #94a3b8; 
-    }
+.command-signature {
+    text-align: right;
+    font-style: italic;
+    margin-top: 1.5rem;
+    color: #94a3b8; 
+}
 
-    .footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #64748b; /* Texto del footer 👤*/
-      padding: 1.5rem 1rem;
-      border-top: 1px solid #87CEFA; 
-      max-width: 600px;
-      margin: 2rem auto 1rem;
-    }
+.footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #64748b;
+  padding: 1.5rem 1rem;
+  border-top: 1px solid #87CEFA; 
+  max-width: 600px;
+  margin: 2rem auto 1rem;
+}
 
-    a {
-      color: #38bdf8; /* Enlaces 👻 */
-      text-decoration: none;
-    }
+a {
+  color: #38bdf8;
+  text-decoration: none;
+}
 
-    a:hover {
-      text-decoration: underline;
-    }
+a:hover {
+  text-decoration: underline;
+}
   </style>
 </head>
 <body>
   <header>
-  
-    <img src="https://raw.githubusercontent.com/Ado926/WirksiBoxFiles/main/1749151747186-syqadh-IMG-20250605-WA0116.jpg" alt="Makima Bot" class="profile-img" />
+    <img src="https://files.catbox.moe/b5gs3k.jpg" alt="Makima Bot" class="profile-img" />
     <h1>DEYMOON CLUB TOKENS</h1>
     <div class="subtitle">➩ 𝗛𝗲𝗰𝗵𝗮 𝗰𝗼𝗻 𝗰𝗮𝗿𝗶ñ𝗼 𝗽𝗼𝗿 𝗙𝗲𝗹𝗶𝘅 𝗠𝗮𝗻𝘂𝗲𝗹 ♡</div>
   </header>
@@ -240,20 +231,19 @@
   </nav>
 
   <div class="banner-container">
-    <img src="https://raw.githubusercontent.com/Ado926/WirksiBoxFiles/main/1749154323364-z60cjc-IMG-20250605-WA0115.jpg" alt="Makima Banner" class="banner-img" />
+    <img src="https://files.catbox.moe/cfrbxh.jpg" alt="Makima Banner" class="banner-img" />
   </div>
 
   <div class="content">
-
     <div class="decor">┇✰CLUB DE WHATSAPP✰┇</div>
 
     <div class="card">
       <h2>✰ EDIT By Tosh Team✰</h2>
       <small>💎 DEYMOON CLUB | TOSH TEAM</small>
-      <p>┇Tokens Para Prem-Bots (algunos son usados ya).</p>
+      <p>Tokens Para Prem-Bots (algunos son usados ya).</p>
 
       <details class="command-category-details">
-        <summary>꙳❒ TOKENS ❒꙳</summary>
+        <summary>꙳ TOKENS ꙳</summary>
         <ul>
           <li><strong>KRNN1</strong></li>
           <li><strong>MAK22</strong></li>
@@ -264,23 +254,20 @@
         </ul>
       </details>
 
-      </details>
       <p class="command-signature">— ✨ DEYMOON CLUB ✨</p>
     </div>
 
     <div class="card" id="info-section">
       <h2>✨ INFORMACIÓN ✨</h2>
-      <p>┇✰CANAL : <a href="https://whatsapp.com/channel/0029VbAa5sNCsU9Hlzsn651S" target="_blank" rel="noopener noreferrer">💎 SIGUENOS 💎</a></p>
-      <p>┇✰COMUNIDAD: <a href="https://wa.me/+18293142989?text=🩵+Hola+Félix+vengo+de+la+página+de+MakimaBot" target="_blank" rel="noopener noreferrer">🍫 Dev Felix 🍫</a></p>
-      <p>┇✰AÑO : <strong>0.0.2</strong></p>
+      <p>┇✰CANAL : <a href="https://whatsapp.com/channel/0029Vb6Se5bD8SDzUBHuQ43f" target="_blank" rel="noopener noreferrer">💎 SIGUENOS 💎</a></p>
+      <p>┇✰COMUNIDAD: <a href="https://chat.whatsapp.com/BhafPVUdbSG0UN5pJrNTXh" target="_blank" rel="noopener noreferrer">( Aquí )</a></p>
+      <p>┇✰AÑO : <strong>2025</strong></p>
       <p>┇✰Editado por: <strong>Tosh Team</strong></p>
     </div>
-
   </div>
 
   <div class="footer">
-    Creado con 💙 por Félix Manuel — © 2025 Makima Bot ┇ᴛᴏᴅᴏs ʟᴏs ᴅᴇʀᴇᴄʜᴏs ʀᴇsᴇʀᴠᴀᴅᴏs
+    Web editada por Tosh Team
   </div>
 </body>
-  </html>
-  
+</html>
