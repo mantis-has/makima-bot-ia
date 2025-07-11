@@ -4,91 +4,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maki Panel Host</title>
+    <title>Mantenimiento</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #1c1c1c; /* Fondo oscuro */
-            color: white;
+            background-color: #f0f0f0; /* Fondo claro */
+            color: #333;
             margin: 0;
             padding: 0;
-        }
-        header {
-            background-color: #007bff; /* Azul */
-            padding: 20px;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Altura completa de la pantalla */
         }
         h1 {
-            margin: 0;
+            font-size: 2.5em;
+            margin-bottom: 20px;
         }
-        .container {
-            padding: 20px;
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
         }
         .button {
             background-color: #007bff; /* Azul */
             border: none;
             color: white;
-            padding: 15px 32px;
+            padding: 15px 30px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
             cursor: pointer;
             border-radius: 5px;
-            margin-top: 10px;
         }
         .button:hover {
             background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
         }
-        .status {
-            margin-top: 20px;
-        }
-        .back-button {
-            background-color: #dc3545; /* Rojo */
-        }
-        .back-button:hover {
-            background-color: #c82333; /* Rojo más oscuro al pasar el mouse */
+        #exitButton {
+            display: none; /* Oculto por defecto */
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Maki Panel Host</h1>
-</header>
+<h1>MANTENIMIENTO</h1>
+<p>Estamos dando un mantenimiento para intentar crear un panel único para ti.</p>
 
-<div class="container">
-    <h2>Bienvenido a Maki Panel</h2>
-    <button class="button" onclick="showButtons()">Entrar</button>
-    
-    <div id="buttonsContainer" style="display:none;">
-        <img src="https://tu-url-de-imagen.com/pc.png" alt="PC" style="width:100px; display:block; margin:auto;">
-        
-        <div class="status">
-            <button class="button">Coins</button>
-            <p>0 Coins</p>
-            
-            <button class="button">Coins uso</button>
-            <p>0 Coins</p>
-            
-            <button class="button" onclick="goToSettings()">Configuraciones</button>
-        </div>
+<button class="button" id="enterButton" onclick="showExitButton()">Entrar</button>
 
-        <button class="back-button" onclick="goBack()">Atrás</button>
-    </div>
-</div>
+<button class="button" id="exitButton" onclick="goBack()" style="margin-top: 20px;">Salir</button>
 
 <script>
-    function showButtons() {
-        document.getElementById("buttonsContainer").style.display = "block";
-    }
-
-    function goToSettings() {
-        window.location.href = "https://replit.com"; // Cambia esto por la URL real de la herramienta que prefieras
+    function showExitButton() {
+        document.getElementById("exitButton").style.display = "inline-block"; // Muestra el botón de salir
     }
 
     function goBack() {
-        document.getElementById("buttonsContainer").style.display = "none";
+        document.getElementById("exitButton").style.display = "none"; // Oculta el botón de salir
+        // Aquí puedes agregar lógica para regresar al inicio o a otra sección de tu web
+        alert("Regresando al inicio..."); // Mensaje de ejemplo
     }
 </script>
 
