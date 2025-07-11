@@ -2,180 +2,165 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mini WhatsApp</title>
+  <title>WhatsApp Simulado</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { font-family: Arial, background: #e5ddd5; margin: 0; }
+    body { font-family: Arial, background: #ece5dd; margin: 0; }
+    #login, #app { display: none; }
     .container { display: flex; height: 100vh; }
-    .channels {
-      width: 250px;
-      background: #075e54;
-      color: #fff;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-    }
-    .channels h2, .channels form { margin: 16px; }
-    .channel-list { flex: 1; overflow-y: auto; margin: 0 16px; padding: 0; }
-    .channel-list li {
-      list-style: none;
-      padding: 10px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-bottom: 4px;
-      transition: background 0.2s;
-    }
-    .channel-list li.selected, .channel-list li:hover { background: #128c7e; }
-    .main {
-      flex: 1;
-      background: #ece5dd;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      position: relative;
-    }
-    .messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .msg {
-      max-width: 60%;
-      background: #fff;
-      padding: 10px 14px;
-      border-radius: 8px;
-      align-self: flex-start;
-      box-shadow: 0 1px 1px rgba(0,0,0,0.05);
-    }
-    .msg.me {
-      background: #dcf8c6;
-      align-self: flex-end;
-    }
-    .msg .time { font-size: 10px; color: #666; margin-top: 2px; text-align: right; }
+    .sidebar { width: 260px; background: #075e54; color: #fff; padding: 0; display: flex; flex-direction: column; }
+    .sidebar h2, .sidebar form { margin: 16px; }
+    .chat-list { flex: 1; overflow-y: auto; margin: 0 16px; padding: 0; }
+    .chat-list li { list-style: none; padding: 10px 8px; border-radius: 4px; cursor: pointer; margin-bottom: 4px; transition: background 0.2s; }
+    .chat-list li.selected, .chat-list li:hover { background: #128c7e; }
+    .main { flex: 1; background: #ece5dd; display: flex; flex-direction: column; }
+    .messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+    .msg { max-width: 60%; background: #fff; padding: 10px 14px; border-radius: 8px; align-self: flex-start; box-shadow: 0 1px 1px rgba(0,0,0,0.05);}
+    .msg.me { background: #dcf8c6; align-self: flex-end; }
+    .msg .meta { font-size: 10px; color: #666; margin-top: 2px; text-align: right; }
     .msg .sender { font-size: 11px; color: #075e54; margin-bottom: 2px; }
-    .send-bar {
-      display: flex;
-      padding: 12px;
-      background: #f7f7f7;
-      border-top: 1px solid #ddd;
-    }
-    .send-bar input[type="text"] {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 18px;
-      margin-right: 8px;
-      font-size: 16px;
-    }
-    .send-bar button {
-      background: #25d366;
-      border: none;
-      color: #fff;
-      border-radius: 18px;
-      padding: 10px 18px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
+    .send-bar { display: flex; padding: 12px; background: #f7f7f7; border-top: 1px solid #ddd; }
+    .send-bar input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 18px; margin-right: 8px; font-size: 16px;}
+    .send-bar button { background: #25d366; border: none; color: #fff; border-radius: 18px; padding: 10px 18px; font-size: 16px; cursor: pointer;}
     .send-bar button:hover { background: #128c7e; }
-    @media (max-width: 700px) {
-      .container { flex-direction: column; }
-      .channels { width: 100%; flex-direction: row; height: 60px; }
-      .channels h2, .channels form, .channel-list { margin: 8px 4px; }
-      .channel-list { flex-direction: row; overflow-x: auto; }
-      .main { height: calc(100vh - 60px); }
-    }
+    @media (max-width: 700px) {.container { flex-direction: column; } .sidebar { width: 100%; height: 70px; flex-direction: row; } .main { height: calc(100vh - 70px); } }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="channels">
-      <h2>Canales</h2>
-      <form id="addChannelForm">
-        <input type="text" id="newChannel" placeholder="Nuevo canal" autocomplete="off" required>
-        <button type="submit">+</button>
+  <!-- Login/Register -->
+  <div id="login">
+    <h1>WhatsApp Simulado</h1>
+    <form id="loginForm">
+      <input type="text" id="loginName" placeholder="Tu nombre" required><br><br>
+      <input type="tel" id="loginPhone" placeholder="Tu número de teléfono" required pattern="[0-9]+"><br><br>
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+
+  <!-- App principal -->
+  <div id="app" class="container">
+    <div class="sidebar">
+      <h2 id="userHeader"></h2>
+      <form id="newChatForm">
+        <input type="text" id="newChatName" placeholder="Nuevo chat o grupo" required>
+        <button>+</button>
       </form>
-      <ul class="channel-list" id="channelList"></ul>
+      <ul class="chat-list" id="chatList"></ul>
+      <button onclick="logout()" style="margin:16px;">Cerrar sesión</button>
     </div>
     <div class="main">
       <div class="messages" id="messages"></div>
       <form class="send-bar" id="sendForm" autocomplete="off">
-        <input type="text" id="messageInput" placeholder="Escribe un mensaje..." autocomplete="off" required>
+        <input type="text" id="messageInput" placeholder="Escribe un mensaje..." required>
         <button type="submit">Enviar</button>
       </form>
     </div>
   </div>
-  <script>
-    // Estado de canales y mensajes
-    let channels = [
-      { name: 'General', messages: [] }
-    ];
-    let currentChannel = 0;
-    let myName = prompt("Tu nombre:", "Usuario") || "Yo";
 
-    // Renderiza la lista de canales
-    function renderChannels() {
-      const cl = document.getElementById('channelList');
+  <script>
+    // Utilidades
+    const KEY_USERS = 'wa-users';
+    const KEY_CHATS = 'wa-chats';
+    const KEY_SESSION = 'wa-session';
+
+    // Estado en memoria
+    let users = JSON.parse(localStorage.getItem(KEY_USERS)) || [];
+    let chats = JSON.parse(localStorage.getItem(KEY_CHATS)) || [];
+    let session = JSON.parse(localStorage.getItem(KEY_SESSION));
+    let currentChat = 0;
+
+    // --- Autenticación ---
+    function showLogin() {
+      document.getElementById('login').style.display = '';
+      document.getElementById('app').style.display = 'none';
+    }
+    function showApp() {
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      document.getElementById('userHeader').innerText = '👤 ' + (session?.name || '');
+      renderChats();
+      renderMessages();
+    }
+    document.getElementById('loginForm').onsubmit = function(e){
+      e.preventDefault();
+      let name = document.getElementById('loginName').value.trim();
+      let phone = document.getElementById('loginPhone').value.trim();
+      if(!name || !phone) return;
+      let user = users.find(u=>u.phone===phone);
+      if(!user) {
+        user = {name, phone};
+        users.push(user);
+        localStorage.setItem(KEY_USERS, JSON.stringify(users));
+      }
+      session = user;
+      localStorage.setItem(KEY_SESSION, JSON.stringify(session));
+      showApp();
+    }
+    function logout() {
+      localStorage.removeItem(KEY_SESSION);
+      session = null;
+      showLogin();
+    }
+
+    // --- Chats y mensajes ---
+    function renderChats() {
+      const cl = document.getElementById('chatList');
       cl.innerHTML = '';
-      channels.forEach((c, i) => {
+      chats.forEach((chat, i) => {
         const li = document.createElement('li');
-        li.textContent = c.name;
-        li.className = (i === currentChannel) ? 'selected' : '';
-        li.onclick = () => { currentChannel = i; renderChannels(); renderMessages(); };
+        li.textContent = chat.name + (chat.type==='group' ? ' 👥' : '');
+        li.className = (i === currentChat) ? 'selected' : '';
+        li.onclick = () => { currentChat = i; renderChats(); renderMessages(); };
         cl.appendChild(li);
       });
     }
-
-    // Renderiza los mensajes del canal actual
     function renderMessages() {
       const m = document.getElementById('messages');
       m.innerHTML = '';
-      channels[currentChannel].messages.forEach(msg => {
+      if(!chats[currentChat]) return;
+      chats[currentChat].messages.forEach(msg => {
         const d = document.createElement('div');
-        d.className = 'msg' + (msg.sender === myName ? ' me' : '');
+        d.className = 'msg' + (msg.phone === session.phone ? ' me' : '');
         d.innerHTML = `<div class="sender">${msg.sender}</div>
                        <div>${msg.text}</div>
-                       <div class="time">${msg.time}</div>`;
+                       <div class="meta">${msg.time}</div>`;
         m.appendChild(d);
       });
       m.scrollTop = m.scrollHeight;
     }
-
-    // Añadir canal
-    document.getElementById('addChannelForm').onsubmit = function(e){
+    document.getElementById('newChatForm').onsubmit = function(e){
       e.preventDefault();
-      const n = document.getElementById('newChannel').value.trim();
-      if(n && !channels.find(c=>c.name===n)) {
-        channels.push({ name: n, messages: [] });
-        currentChannel = channels.length-1;
-        renderChannels();
+      const name = document.getElementById('newChatName').value.trim();
+      if(name && !chats.find(c=>c.name===name)) {
+        let type = prompt('¿Es un grupo? Escribe "sí" para grupo o deja vacío para chat uno a uno:', 'sí');
+        chats.push({name, type: (type?.toLowerCase()==='sí' ? 'group':'chat'), messages: []});
+        localStorage.setItem(KEY_CHATS, JSON.stringify(chats));
+        currentChat = chats.length-1;
+        renderChats();
         renderMessages();
       }
-      document.getElementById('newChannel').value = '';
+      document.getElementById('newChatName').value = '';
     };
-
-    // Enviar mensaje
     document.getElementById('sendForm').onsubmit = function(e){
       e.preventDefault();
       const input = document.getElementById('messageInput');
       const text = input.value.trim();
-      if(text) {
-        channels[currentChannel].messages.push({
-          sender: myName,
+      if(text && chats[currentChat]) {
+        chats[currentChat].messages.push({
+          sender: session.name,
+          phone: session.phone,
           text,
           time: new Date().toLocaleTimeString()
         });
+        localStorage.setItem(KEY_CHATS, JSON.stringify(chats));
         renderMessages();
         input.value = '';
       }
     };
 
-    // Inicializa UI
-    renderChannels();
-    renderMessages();
+    // --- Inicialización ---
+    if(session) showApp();
+    else showLogin();
   </script>
 </body>
 </html>
