@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mantenimiento</title>
+    <title>Makima Host</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,31 +41,58 @@
         .button:hover {
             background-color: #004494; /* Azul más oscuro al pasar el mouse */
         }
-        #exitButton {
+        #menu {
             display: none; /* Oculto por defecto */
+        }
+        .menu-button {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-<h1>🛠️
+<h1>MAKIMA HOST</h1>
+<p>Bienvenidos a este host para alojar tus bots de WhatsApp.</p>
 
-MANTENIMIENTO</h1>
-<p>Estamos dando un mantenimiento para intentar crear un panel único para ti.</p>
+<button class="button" id="enterButton" onclick="showDashboard()">Entrar</button>
 
-<button class="button" id="enterButton" onclick="showExitButton()">Entrar</button>
+<div id="menu">
+    <h2>Dashboard</h2>
+    <p>Coins en uso: <strong>0 Coins</strong></p>
+    <p>Coins totales: <strong>0 Coins</strong></p>
 
-<button class="button" id="exitButton" onclick="goBack()" style="margin-top: 20px;">Salir</button>
+    <div class="menu-button">
+        <button class="button" onclick="showServers()">Servers</button>
+        <div id="serverOptions" style="display:none;">
+            <button class="button" onclick="alert('Crear servidor...')">Crear servidor</button>
+        </div>
+    </div>
+
+    <div class="menu-button">
+        <button class="button" onclick="showUsers()">Users</button>
+        <div id="userOptions" style="display:none;">
+            <button class="button">correo1@anonimo.com</button>
+            <button class="button">correo2@anonimo.com</button>
+            <button class="button">correo3@anonimo.com</button>
+            <button class="button">correo4@anonimo.com</button>
+            <button class="button">correo5@anonimo.com</button>
+        </div>
+    </div>
+</div>
 
 <script>
-    function showExitButton() {
-        document.getElementById("exitButton").style.display = "inline-block"; // Muestra el botón de salir
+    function showDashboard() {
+        document.getElementById("menu").style.display = "block"; // Muestra el dashboard
     }
 
-    function goBack() {
-        document.getElementById("exitButton").style.display = "none"; // Oculta el botón de salir
-        // Aquí puedes agregar lógica para regresar al inicio o a otra sección de tu web
-        alert("Regresando al inicio..."); // Mensaje de ejemplo
+    function showServers() {
+        var serverOptions = document.getElementById("serverOptions");
+        serverOptions.style.display = serverOptions.style.display === "none" ? "block" : "none"; // Alterna mostrar/ocultar opciones de servidores
+    }
+
+    function showUsers() {
+        var userOptions = document.getElementById("userOptions");
+        userOptions.style.display = userOptions.style.display === "none" ? "block" : "none"; // Alterna mostrar/ocultar opciones de usuarios
     }
 </script>
 
