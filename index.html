@@ -1,700 +1,181 @@
-"use client";
-import React, { useState, useEffect } from "react";
-
-const LOGO_URL = "https://qu.ax/BjgSt.png";
-const SUPERADMIN = "+18293142989";
-const APK_LINK = "https://github.com/mantis-has/Witsapp-apk/releases/latest/download/witsapp.apk"; // <--- Pon aquí tu link real de APK
-
-function WitsApp() {
-  // "db" simulada en memoria
-  const [users, setUsers] = useState([
-    { number: SUPERADMIN, name: "Superadmin", admin: true },
-  ]);
-  const [chats, setChats] = useState([]); // {id, users: [numbers], messages: [{from, text, ts}]}
-  const [groups, setGroups] = useState([]); // {id, name, users, messages}
-  const [logged, setLogged] = useState(false);
-  const [number, setNumber] = useState("");
-  const [name, setName] = useState("");
-  const [screen, setScreen] = useState("login"); // login, main, group, chat, admin
-  const [activeChat, setActiveChat] = useState(null);
-  const [activeGroup, setActiveGroup] = useState(null);
-  const [chatInput, setChatInput] = useState("");
-  const [groupInput, setGroupInput] = useState("");
-  const [groupName, setGroupName] = useState("");
-  const [adminTab, setAdminTab] = useState("convs");
-
-  // Mantener "login" tras refresh (para demo, NO seguro)
-  useEffect(() => {
-    const n = localStorage.getItem("wits-number");
-    if (n) {
-      setNumber(n);
-      setLogged(true);
-      setScreen(n === SUPERADMIN ? "admin" : "main");
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini WhatsApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial, background: #e5ddd5; margin: 0; }
+    .container { display: flex; height: 100vh; }
+    .channels {
+      width: 250px;
+      background: #075e54;
+      color: #fff;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
     }
-  }, []);
-
-  // "Registro" o login por número
-  function handleLogin(e) {
-    e.preventDefault();
-    if (!number) return;
-    let user = users.find((u) => u.number === number);
-    if (!user) {
-      const newUser = { number, name: name || number, admin: false };
-      setUsers((us) => [...us, newUser]);
+    .channels h2, .channels form { margin: 16px; }
+    .channel-list { flex: 1; overflow-y: auto; margin: 0 16px; padding: 0; }
+    .channel-list li {
+      list-style: none;
+      padding: 10px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 4px;
+      transition: background 0.2s;
     }
-    setLogged(true);
-    localStorage.setItem("wits-number", number);
-    setScreen(number === SUPERADMIN ? "admin" : "main");
-  }
-
-  // Mensaje privado
-  function openChat(num) {
-    let chat = chats.find(
-      (c) =>
-        c.users.length === 2 &&
-        c.users.includes(number) &&
-        c.users.includes(num)
-    );
-    if (!chat) {
-      chat = {
-        id: "chat-" + Date.now(),
-        users: [number, num],
-        messages: [],
-      };
-      setChats((cs) => [...cs, chat]);
+    .channel-list li.selected, .channel-list li:hover { background: #128c7e; }
+    .main {
+      flex: 1;
+      background: #ece5dd;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
     }
-    setActiveChat(chat);
-    setScreen("chat");
-  }
-
-  // Grupo
-  function openGroup(gid) {
-    const group = groups.find((g) => g.id === gid);
-    setActiveGroup(group);
-    setScreen("group");
-  }
-
-  // Enviar mensaje privado
-  function sendChatMsg() {
-    if (!chatInput.trim()) return;
-    const chat = { ...activeChat };
-    chat.messages = chat.messages || [];
-    chat.messages.push({
-      from: number,
-      text: chatInput,
-      ts: new Date().toISOString(),
-    });
-    setChats((cs) =>
-      cs.map((c) => (c.id === chat.id ? chat : c))
-    );
-    setActiveChat(chat);
-    setChatInput("");
-  }
-
-  // Enviar mensaje grupo
-  function sendGroupMsg() {
-    if (!groupInput.trim()) return;
-    const group = { ...activeGroup };
-    group.messages = group.messages || [];
-    group.messages.push({
-      from: number,
-      text: groupInput,
-      ts: new Date().toISOString(),
-    });
-    setGroups((gs) =>
-      gs.map((g) => (g.id === group.id ? group : g))
-    );
-    setActiveGroup(group);
-    setGroupInput("");
-  }
-
-  // Crear grupo
-  function createGroup() {
-    if (!groupName.trim()) return;
-    const g = {
-      id: "group-" + Date.now(),
-      name: groupName,
-      users: [number],
-      messages: [],
-    };
-    setGroups((gs) => [...gs, g]);
-    setGroupName("");
-    setScreen("main");
-  }
-
-  // Unirse a grupo
-  function joinGroup(gid) {
-    setGroups((gs) =>
-      gs.map((g) =>
-        g.id === gid && !g.users.includes(number)
-          ? { ...g, users: [...g.users, number] }
-          : g
-      )
-    );
-    openGroup(gid);
-  }
-
-  // Panel de admin: asignar admin
-  function assignAdmin(num) {
-    setUsers((us) =>
-      us.map((u) =>
-        u.number === num ? { ...u, admin: true } : u
-      )
-    );
-  }
-
-  // Panel de admin: quitar admin
-  function removeAdmin(num) {
-    setUsers((us) =>
-      us.map((u) =>
-        u.number === num ? { ...u, admin: false } : u
-      )
-    );
-  }
-
-  // Logout
-  function logout() {
-    setLogged(false);
-    setNumber("");
-    localStorage.removeItem("wits-number");
-    setScreen("login");
-  }
-
-  // --- UI ---
-  if (!logged || screen === "login")
-    return (
-      <div style={styles.bg}>
-        <div style={styles.centerBox}>
-          <img src={LOGO_URL} alt="logo" style={{ width: 120 }} />
-          <h1 style={{ color: "#25D366" }}>WitsApp</h1>
-          <a
-            href={APK_LINK}
-            style={{
-              background: "#25D366",
-              color: "#fff",
-              padding: 12,
-              borderRadius: 8,
-              textDecoration: "none",
-              display: "inline-block",
-              margin: "10px 0"
-            }}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            📱 Descargar APK
-          </a>
-          <form onSubmit={handleLogin}>
-            <input
-              style={styles.input}
-              placeholder="Número de teléfono (+1...)"
-              value={number}
-              onChange={(e) => setNumber(e.target.value)}
-              required
-            />
-            <input
-              style={styles.input}
-              placeholder="Tu nombre"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <button style={styles.btn}>Entrar</button>
-          </form>
-        </div>
-      </div>
-    );
-
-  if (screen === "main")
-    return (
-      <div style={styles.app}>
-        <Sidebar
-          number={number}
-          users={users}
-          chats={chats}
-          groups={groups}
-          openChat={openChat}
-          openGroup={openGroup}
-          logout={logout}
-          setScreen={setScreen}
-        />
-        <div style={styles.chatWin}>
-          <h2>Bienvenido a WitsApp</h2>
-          <p>Pulsa un chat, grupo, o crea uno nuevo.</p>
-        </div>
-      </div>
-    );
-
-  if (screen === "chat")
-    return (
-      <div style={styles.app}>
-        <Sidebar
-          number={number}
-          users={users}
-          chats={chats}
-          groups={groups}
-          openChat={openChat}
-          openGroup={openGroup}
-          logout={logout}
-          setScreen={setScreen}
-        />
-        <div style={styles.chatWin}>
-          <h3>
-            Chat con{" "}
-            {
-              users.find((u) =>
-                activeChat.users.find(
-                  (n) => n !== number && n === u.number
-                )
-              )?.name
-            }
-          </h3>
-          <div style={styles.msgList}>
-            {(activeChat.messages || []).map((m, i) => (
-              <div
-                key={i}
-                style={{
-                  ...styles.msg,
-                  alignSelf:
-                    m.from === number ? "flex-end" : "flex-start",
-                  background:
-                    m.from === number ? "#DCF8C6" : "#fff",
-                }}
-              >
-                <b>
-                  {
-                    users.find((u) => u.number === m.from)
-                      ?.name || m.from
-                  }
-                </b>
-                <br />
-                {m.text}
-                <div style={{ fontSize: 10, textAlign: "right" }}>
-                  {new Date(m.ts).toLocaleTimeString()}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={styles.inputBar}>
-            <input
-              style={styles.input}
-              placeholder="Escribe un mensaje"
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendChatMsg()}
-            />
-            <button style={styles.btn} onClick={sendChatMsg}>
-              Enviar
-            </button>
-            <button style={styles.btn} onClick={() => setScreen("main")}>
-              Volver
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-
-  if (screen === "group")
-    return (
-      <div style={styles.app}>
-        <Sidebar
-          number={number}
-          users={users}
-          chats={chats}
-          groups={groups}
-          openChat={openChat}
-          openGroup={openGroup}
-          logout={logout}
-          setScreen={setScreen}
-        />
-        <div style={styles.chatWin}>
-          <h3>
-            Grupo: {activeGroup.name}{" "}
-            <span style={{ fontSize: 12 }}>
-              ({activeGroup.users.length} miembros)
-            </span>
-          </h3>
-          <div style={styles.msgList}>
-            {(activeGroup.messages || []).map((m, i) => (
-              <div
-                key={i}
-                style={{
-                  ...styles.msg,
-                  alignSelf:
-                    m.from === number ? "flex-end" : "flex-start",
-                  background:
-                    m.from === number ? "#DCF8C6" : "#fff",
-                }}
-              >
-                <b>
-                  {
-                    users.find((u) => u.number === m.from)
-                      ?.name || m.from
-                  }
-                </b>
-                <br />
-                {m.text}
-                <div style={{ fontSize: 10, textAlign: "right" }}>
-                  {new Date(m.ts).toLocaleTimeString()}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={styles.inputBar}>
-            <input
-              style={styles.input}
-              placeholder="Escribe un mensaje"
-              value={groupInput}
-              onChange={(e) => setGroupInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendGroupMsg()}
-            />
-            <button style={styles.btn} onClick={sendGroupMsg}>
-              Enviar
-            </button>
-            <button style={styles.btn} onClick={() => setScreen("main")}>
-              Volver
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-
-  if (screen === "createGroup")
-    return (
-      <div style={styles.bg}>
-        <div style={styles.centerBox}>
-          <h2>Crear Grupo</h2>
-          <input
-            style={styles.input}
-            placeholder="Nombre del grupo"
-            value={groupName}
-            onChange={(e) => setGroupName(e.target.value)}
-          />
-          <button style={styles.btn} onClick={createGroup}>
-            Crear
-          </button>
-          <button style={styles.btn} onClick={() => setScreen("main")}>
-            Cancelar
-          </button>
-        </div>
-      </div>
-    );
-
-  // Panel de administración
-  if (screen === "admin")
-    return (
-      <div style={styles.app}>
-        <div style={styles.sidebar}>
-          <img src={LOGO_URL} alt="logo" style={{ width: 80 }} />
-          <h2 style={{ color: "#25D366" }}>WitsApp Admin</h2>
-          <a
-            href={APK_LINK}
-            style={{
-              background: "#25D366",
-              color: "#fff",
-              padding: 12,
-              borderRadius: 8,
-              textDecoration: "none",
-              display: "inline-block",
-              margin: "10px 0"
-            }}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            📱 Descargar APK
-          </a>
-          <button style={styles.btn} onClick={logout}>
-            Salir
-          </button>
-          <button
-            style={styles.btn}
-            onClick={() => setAdminTab("convs")}
-          >
-            Conversaciones
-          </button>
-          <button
-            style={styles.btn}
-            onClick={() => setAdminTab("users")}
-          >
-            Usuarios & Admins
-          </button>
-        </div>
-        <div style={styles.chatWin}>
-          {adminTab === "convs" && (
-            <>
-              <h2>Todas las conversaciones</h2>
-              <h3>Chats privados</h3>
-              {chats.map((c) => (
-                <div key={c.id} style={styles.admConv}>
-                  <b>
-                    {c.users
-                      .map(
-                        (n) =>
-                          users.find((u) => u.number === n)?.name ||
-                          n
-                      )
-                      .join(" & ")}
-                  </b>
-                  <div style={{ fontSize: 13 }}>
-                    {(c.messages || []).map((m, i) => (
-                      <div key={i}>
-                        <b>
-                          {users.find((u) => u.number === m.from)?.name ||
-                            m.from}
-                          :
-                        </b>{" "}
-                        {m.text} <span>({new Date(m.ts).toLocaleTimeString()})</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-              <h3>Grupos</h3>
-              {groups.map((g) => (
-                <div key={g.id} style={styles.admConv}>
-                  <b>{g.name}</b> (
-                  {g.users.map(
-                    (n) =>
-                      users.find((u) => u.number === n)?.name ||
-                      n
-                  ).join(", ")}
-                  )
-                  <div style={{ fontSize: 13 }}>
-                    {(g.messages || []).map((m, i) => (
-                      <div key={i}>
-                        <b>
-                          {users.find((u) => u.number === m.from)?.name ||
-                            m.from}
-                          :
-                        </b>{" "}
-                        {m.text} <span>({new Date(m.ts).toLocaleTimeString()})</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </>
-          )}
-          {adminTab === "users" && (
-            <>
-              <h2>Usuarios</h2>
-              <ul>
-                {users.map((u) => (
-                  <li key={u.number}>
-                    <b>
-                      {u.name} ({u.number})
-                    </b>{" "}
-                    {u.admin && <span style={{ color: "orange" }}>ADMIN</span>}
-                    {u.number !== SUPERADMIN && (
-                      u.admin ? (
-                        <button
-                          style={styles.btn2}
-                          onClick={() => removeAdmin(u.number)}
-                        >
-                          Quitar Admin
-                        </button>
-                      ) : (
-                        <button
-                          style={styles.btn2}
-                          onClick={() => assignAdmin(u.number)}
-                        >
-                          Asignar Admin
-                        </button>
-                      )
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-      </div>
-    );
-
-  return null;
-}
-
-// --- Sidebar ---
-function Sidebar({
-  number,
-  users,
-  chats,
-  groups,
-  openChat,
-  openGroup,
-  logout,
-  setScreen,
-}) {
-  return (
-    <div style={styles.sidebar}>
-      <img src={LOGO_URL} alt="logo" style={{ width: 60 }} />
-      <h2 style={{ color: "#25D366" }}>WitsApp</h2>
-      <div style={{ fontSize: 13 }}>Tu número: {number}</div>
-      <a
-        href={APK_LINK}
-        style={{
-          background: "#25D366",
-          color: "#fff",
-          padding: 8,
-          borderRadius: 6,
-          textDecoration: "none",
-          display: "inline-block",
-          margin: "10px 0"
-        }}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        📱 Descargar APK
-      </a>
-      <button style={styles.btn} onClick={logout}>
-        Salir
-      </button>
-      <button style={styles.btn} onClick={() => setScreen("createGroup")}>
-        Crear Grupo
-      </button>
-      <h3>Chats</h3>
-      <ul>
-        {users
-          .filter((u) => u.number !== number)
-          .map((u) => (
-            <li key={u.number}>
-              <button
-                style={styles.btn2}
-                onClick={() => openChat(u.number)}
-              >
-                {u.name} ({u.number})
-              </button>
-            </li>
-          ))}
-      </ul>
-      <h3>Grupos</h3>
-      <ul>
-        {groups.map((g) =>
-          g.users.includes(number) ? (
-            <li key={g.id}>
-              <button
-                style={styles.btn2}
-                onClick={() => openGroup(g.id)}
-              >
-                {g.name}
-              </button>
-            </li>
-          ) : (
-            <li key={g.id}>
-              <button
-                style={styles.btn2}
-                onClick={() => joinGroup(g.id)}
-              >
-                Unirse a {g.name}
-              </button>
-            </li>
-          )
-        )}
-      </ul>
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .msg {
+      max-width: 60%;
+      background: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      align-self: flex-start;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+    }
+    .msg.me {
+      background: #dcf8c6;
+      align-self: flex-end;
+    }
+    .msg .time { font-size: 10px; color: #666; margin-top: 2px; text-align: right; }
+    .msg .sender { font-size: 11px; color: #075e54; margin-bottom: 2px; }
+    .send-bar {
+      display: flex;
+      padding: 12px;
+      background: #f7f7f7;
+      border-top: 1px solid #ddd;
+    }
+    .send-bar input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 18px;
+      margin-right: 8px;
+      font-size: 16px;
+    }
+    .send-bar button {
+      background: #25d366;
+      border: none;
+      color: #fff;
+      border-radius: 18px;
+      padding: 10px 18px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .send-bar button:hover { background: #128c7e; }
+    @media (max-width: 700px) {
+      .container { flex-direction: column; }
+      .channels { width: 100%; flex-direction: row; height: 60px; }
+      .channels h2, .channels form, .channel-list { margin: 8px 4px; }
+      .channel-list { flex-direction: row; overflow-x: auto; }
+      .main { height: calc(100vh - 60px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="channels">
+      <h2>Canales</h2>
+      <form id="addChannelForm">
+        <input type="text" id="newChannel" placeholder="Nuevo canal" autocomplete="off" required>
+        <button type="submit">+</button>
+      </form>
+      <ul class="channel-list" id="channelList"></ul>
     </div>
-  );
-}
+    <div class="main">
+      <div class="messages" id="messages"></div>
+      <form class="send-bar" id="sendForm" autocomplete="off">
+        <input type="text" id="messageInput" placeholder="Escribe un mensaje..." autocomplete="off" required>
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    // Estado de canales y mensajes
+    let channels = [
+      { name: 'General', messages: [] }
+    ];
+    let currentChannel = 0;
+    let myName = prompt("Tu nombre:", "Usuario") || "Yo";
 
-// --- Estilos básicos ---
-const styles = {
-  bg: {
-    minHeight: "100vh",
-    background: "#ece5dd",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  app: {
-    display: "flex",
-    minHeight: "100vh",
-    background: "#ece5dd",
-  },
-  sidebar: {
-    width: 260,
-    background: "#075E54",
-    color: "#fff",
-    padding: 20,
-    minHeight: "100vh",
-    borderRight: "2px solid #25D366",
-  },
-  chatWin: {
-    flex: 1,
-    padding: 30,
-    background: "#ece5dd",
-    height: "100vh",
-    overflowY: "auto",
-  },
-  centerBox: {
-    background: "#fff",
-    borderRadius: 8,
-    padding: 32,
-    boxShadow: "0 0 20px #0002",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  input: {
-    padding: 10,
-    margin: 7,
-    border: "1px solid #ccc",
-    borderRadius: 5,
-    width: 180,
-    fontSize: 15,
-  },
-  btn: {
-    background: "#25D366",
-    color: "#fff",
-    border: 0,
-    borderRadius: 5,
-    padding: "9px 18px",
-    margin: "8px 0",
-    cursor: "pointer",
-    fontWeight: 600,
-  },
-  btn2: {
-    background: "#fff",
-    color: "#075E54",
-    border: "1px solid #075E54",
-    borderRadius: 5,
-    padding: "5px 12px",
-    margin: "4px 0",
-    cursor: "pointer",
-    fontWeight: 600,
-    fontSize: 14,
-  },
-  msgList: {
-    minHeight: 200,
-    maxHeight: "70vh",
-    overflowY: "auto",
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-    background: "#f7f7f7",
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 20,
-    marginTop: 10,
-  },
-  msg: {
-    padding: 10,
-    borderRadius: 8,
-    background: "#fff",
-    minWidth: 70,
-    maxWidth: "55%",
-    marginBottom: 2,
-    fontSize: 15,
-    boxShadow: "0 1px 1px #0001",
-  },
-  inputBar: {
-    display: "flex",
-    gap: 8,
-    marginTop: 12,
-  },
-  admConv: {
-    background: "#fff",
-    padding: 11,
-    borderRadius: 7,
-    margin: "10px 0",
-    boxShadow: "0 0 7px #0001",
-  },
-};
+    // Renderiza la lista de canales
+    function renderChannels() {
+      const cl = document.getElementById('channelList');
+      cl.innerHTML = '';
+      channels.forEach((c, i) => {
+        const li = document.createElement('li');
+        li.textContent = c.name;
+        li.className = (i === currentChannel) ? 'selected' : '';
+        li.onclick = () => { currentChannel = i; renderChannels(); renderMessages(); };
+        cl.appendChild(li);
+      });
+    }
 
-export default WitsApp;
+    // Renderiza los mensajes del canal actual
+    function renderMessages() {
+      const m = document.getElementById('messages');
+      m.innerHTML = '';
+      channels[currentChannel].messages.forEach(msg => {
+        const d = document.createElement('div');
+        d.className = 'msg' + (msg.sender === myName ? ' me' : '');
+        d.innerHTML = `<div class="sender">${msg.sender}</div>
+                       <div>${msg.text}</div>
+                       <div class="time">${msg.time}</div>`;
+        m.appendChild(d);
+      });
+      m.scrollTop = m.scrollHeight;
+    }
+
+    // Añadir canal
+    document.getElementById('addChannelForm').onsubmit = function(e){
+      e.preventDefault();
+      const n = document.getElementById('newChannel').value.trim();
+      if(n && !channels.find(c=>c.name===n)) {
+        channels.push({ name: n, messages: [] });
+        currentChannel = channels.length-1;
+        renderChannels();
+        renderMessages();
+      }
+      document.getElementById('newChannel').value = '';
+    };
+
+    // Enviar mensaje
+    document.getElementById('sendForm').onsubmit = function(e){
+      e.preventDefault();
+      const input = document.getElementById('messageInput');
+      const text = input.value.trim();
+      if(text) {
+        channels[currentChannel].messages.push({
+          sender: myName,
+          text,
+          time: new Date().toLocaleTimeString()
+        });
+        renderMessages();
+        input.value = '';
+      }
+    };
+
+    // Inicializa UI
+    renderChannels();
+    renderMessages();
+  </script>
+</body>
+</html>
