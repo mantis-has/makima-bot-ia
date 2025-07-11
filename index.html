@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -34,9 +35,19 @@
             font-size: 16px;
             cursor: pointer;
             border-radius: 5px;
+            margin-top: 10px;
         }
         .button:hover {
             background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+        }
+        .status {
+            margin-top: 20px;
+        }
+        .back-button {
+            background-color: #dc3545; /* Rojo */
+        }
+        .back-button:hover {
+            background-color: #c82333; /* Rojo más oscuro al pasar el mouse */
         }
     </style>
 </head>
@@ -48,14 +59,36 @@
 
 <div class="container">
     <h2>Bienvenido a Maki Panel</h2>
-    <p>Accede a tus configuraciones y herramientas de gestión.</p>
+    <button class="button" onclick="showButtons()">Entrar</button>
     
-    <button class="button" onclick="entrar()">Entrar</button>
+    <div id="buttonsContainer" style="display:none;">
+        <img src="https://tu-url-de-imagen.com/pc.png" alt="PC" style="width:100px; display:block; margin:auto;">
+        
+        <div class="status">
+            <button class="button">Coins</button>
+            <p>0 Coins</p>
+            
+            <button class="button">Coins uso</button>
+            <p>0 Coins</p>
+            
+            <button class="button" onclick="goToSettings()">Configuraciones</button>
+        </div>
+
+        <button class="back-button" onclick="goBack()">Atrás</button>
+    </div>
 </div>
 
 <script>
-    function entrar() {
-        window.location.href = "https://tu-url-del-panel.com"; // Cambia esto por la URL real de tu panel
+    function showButtons() {
+        document.getElementById("buttonsContainer").style.display = "block";
+    }
+
+    function goToSettings() {
+        window.location.href = "https://github.com"; // Cambia esto por la URL real de configuraciones
+    }
+
+    function goBack() {
+        document.getElementById("buttonsContainer").style.display = "none";
     }
 </script>
 
