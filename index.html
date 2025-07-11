@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Inicio</title>
+    <title>Videos Good</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,18 +11,46 @@
             margin: 0;
             padding: 20px;
         }
-        .button {
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
+        video {
+            width: 80%;
+            margin: 20px 0;
+        }
+        #videoSection {
+            display: none; /* Ocultar la sección de videos inicialmente */
         }
     </style>
+    <script>
+        function showVideos() {
+            document.getElementById('welcomeSection').style.display = 'none'; // Oculta la sección de bienvenida
+            document.getElementById('videoSection').style.display = 'block'; // Muestra la sección de videos
+        }
+    </script>
 </head>
 <body>
 
-    <h1>Hola, Bienvenido a Videos Good</h1>
+    <div id="welcomeSection">
+        <h1>Hola, Bienvenido a Videos Good</h1>
+        <button class="button" onclick="showVideos()">Entrar</button>
+    </div>
 
-    <button class="button" onclick="location.href='videos.html'">Entrar</button>
+    <div id="videoSection">
+        <h1>Videos Good</h1>
+
+        <video controls>
+            <source src="https://files.catbox.moe/2i0w86.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+
+        <video controls>
+            <source src="https://files.catbox.moe/41b5ux.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+
+        <video controls>
+            <source src="https://files.catbox.moe/j36r26.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+    </div>
 
 </body>
 </html>
