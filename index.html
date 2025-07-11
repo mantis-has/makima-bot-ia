@@ -8,13 +8,14 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: #f0f0f0;
         }
-        .container {
-            text-align: center;
+        h1 {
+            margin-bottom: 20px;
         }
         .button {
             background-color: #4CAF50; /* Verde */
@@ -25,21 +26,19 @@
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            margin: 4px 2px;
             cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Maki Host</h1>
-    <button class="button" onclick="entrar()">Entrar</button>
-</div>
+<h1>Bienvenido a Maki Host</h1>
+
+<button class="button" onclick="entrar()">Entrar</button>
 
 <script>
     function entrar() {
-        window.location.href = "tu_panel.html"; // Cambia esto por la URL de tu panel
+        window.location.href = "https://tu-url-del-panel.com"; // Cambia esto por la URL de tu Maki Panel
     }
 </script>
 
