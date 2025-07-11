@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maki Host</title>
+    <title>Maki Panel Host</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
+            background-color: #1c1c1c; /* Fondo oscuro */
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007bff; /* Azul */
+            padding: 20px;
+            text-align: center;
         }
         h1 {
-            margin-bottom: 20px;
+            margin: 0;
+        }
+        .container {
+            padding: 20px;
         }
         .button {
-            background-color: #4CAF50; /* Verde */
+            background-color: #007bff; /* Azul */
             border: none;
             color: white;
             padding: 15px 32px;
@@ -27,18 +33,29 @@
             display: inline-block;
             font-size: 16px;
             cursor: pointer;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
         }
     </style>
 </head>
 <body>
 
-<h1>Bienvenido a Maki Host</h1>
+<header>
+    <h1>Maki Panel Host</h1>
+</header>
 
-<button class="button" onclick="entrar()">Entrar</button>
+<div class="container">
+    <h2>Bienvenido a Maki Panel</h2>
+    <p>Accede a tus configuraciones y herramientas de gestión.</p>
+    
+    <button class="button" onclick="entrar()">Entrar</button>
+</div>
 
 <script>
     function entrar() {
-        window.location.href = "https://tu-url-del-panel.com"; // Cambia esto por la URL de tu Maki Panel
+        window.location.href = "https://tu-url-del-panel.com"; // Cambia esto por la URL real de tu panel
     }
 </script>
 
