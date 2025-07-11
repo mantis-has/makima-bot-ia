@@ -1,100 +1,92 @@
+Para crear una web similar a un panel de control como el de ctrl.panel, necesitarás un diseño que incluya varias secciones y funcionalidades. Aquí tienes un ejemplo básico de una página web que imita un panel de control:
 
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Makima Host</title>
+    <title>Panel de Control</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #4CAF50; /* Fondo verde */
-            color: #000; /* Letras en negro */
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh; /* Altura completa de la pantalla */
+            justify-content: space-around;
+            padding: 20px;
         }
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 30%;
+            text-align: center;
         }
-        p {
-            font-size: 1.2em;
-            margin-bottom: 30px;
+        .card h3 {
+            margin-bottom: 15px;
         }
         .button {
             background-color: #0056b3; /* Azul para el botón */
-            border: none;
             color: white;
-            padding: 15px 30px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
+            padding: 10px 15px;
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
         }
         .button:hover {
             background-color: #004494; /* Azul más oscuro al pasar el mouse */
-        }
-        #menu {
-            display: none; /* Oculto por defecto */
-        }
-        .menu-button {
-            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-<h1>MAKIMA HOST</h1>
-<p>Bienvenidos a este host para alojar tus bots de WhatsApp.</p>
+<header>
+    <h1>Panel de Control</h1>
+</header>
 
-<button class="button" id="enterButton" onclick="showDashboard()">Entrar</button>
-
-<div id="menu">
-    <h2>Dashboard</h2>
-    <p>Coins en uso: <strong>0 Coins</strong></p>
-    <p>Coins totales: <strong>0 Coins</strong></p>
-
-    <div class="menu-button">
-        <button class="button" onclick="showServers()">Servers</button>
-        <div id="serverOptions" style="display:none;">
-            <button class="button" onclick="alert('Crear servidor...')">Crear servidor</button>
-        </div>
+<div class="container">
+    <div class="card">
+        <h3>Información General</h3>
+        <p>Coins en uso: <strong>0 Coins</strong></p>
+        <p>Coins totales: <strong>100 Coins</strong></p>
+        <button class="button" onclick="alert('Ver detalles')">Ver Detalles</button>
     </div>
 
-    <div class="menu-button">
-        <button class="button" onclick="showUsers()">Users</button>
-        <div id="userOptions" style="display:none;">
-            <button class="button">correo1@anonimo.com</button>
-            <button class="button">correo2@anonimo.com</button>
-            <button class="button">correo3@anonimo.com</button>
-            <button class="button">correo4@anonimo.com</button>
-            <button class="button">correo5@anonimo.com</button>
-        </div>
+    <div class="card">
+        <h3>Servidores</h3>
+        <button class="button" onclick="alert('Crear servidor...')">Crear Servidor</button>
+    </div>
+
+    <div class="card">
+        <h3>Usuarios</h3>
+        <button class="button" onclick="alert('Ver usuarios')">Ver Usuarios</button>
     </div>
 </div>
 
-<script>
-    function showDashboard() {
-        document.getElementById("menu").style.display = "block"; // Muestra el dashboard
-    }
-
-    function showServers() {
-        var serverOptions = document.getElementById("serverOptions");
-        serverOptions.style.display = serverOptions.style.display === "none" ? "block" : "none"; // Alterna mostrar/ocultar opciones de servidores
-    }
-
-    function showUsers() {
-        var userOptions = document.getElementById("userOptions");
-        userOptions.style.display = userOptions.style.display === "none" ? "block" : "none"; // Alterna mostrar/ocultar opciones de usuarios
-    }
-</script>
+<footer style="text-align:center; padding:20px; background-color:#333; color:white;">
+    © 2025 Panel de Control
+</footer>
 
 </body>
 </html>
+```
+
+### Descripción del Código:
+- **Estructura Básica:** Incluye un encabezado, una sección principal con tarjetas (cards) para diferentes funciones y un pie de página.
+  
+- **Estilo:** Utiliza CSS básico para dar formato a la página, con un diseño limpio y moderno.
+
+- **Funcionalidades:** Cada tarjeta tiene botones que pueden ser utilizados para acciones específicas como ver detalles, crear servidores o ver usuarios.
+
+Puedes copiar este código en un archivo HTML y abrirlo en tu navegador para ver cómo funciona. Si necesitas más características o personalizaciones específicas, ¡dímelo! 😊
