@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Videos Good</title>
+    <title>Maki Host</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,13 +12,6 @@
             padding: 20px;
             background-color: #ADD8E6; /* Azul claro */
             color: black; /* Texto en negro */
-        }
-        video {
-            width: 80%;
-            margin: 20px 0;
-        }
-        #videoSection, #ageWarningSection {
-            display: none; /* Ocultar secciones inicialmente */
         }
         .button {
             padding: 15px 30px; /* Botón más grande */
@@ -29,7 +22,7 @@
             border: none;
             border-radius: 5px;
             transition: background-color 0.3s;
-            margin: 10px; /* Espacio entre botones */
+            margin-top: 20px; /* Espacio arriba del botón */
         }
         .button:hover {
             background-color: #0056b3; /* Color del botón al pasar el mouse */
@@ -37,24 +30,28 @@
         footer {
             margin-top: 20px;
         }
+        #maintenanceSection {
+            display: none; /* Ocultar sección de mantenimiento inicialmente */
+        }
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px;
+            background-color: #007BFF; /* Color del botón de atrás */
+            color: white; /* Texto del botón en blanco */
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
     <script>
-        function showVideos() {
+        function showMaintenance() {
             document.getElementById('welcomeSection').style.display = 'none'; // Oculta la sección de bienvenida
-            document.getElementById('ageWarningSection').style.display = 'block'; // Muestra la advertencia de edad
-        }
-
-        function showVideosContent() {
-            document.getElementById('ageWarningSection').style.display = 'none'; // Oculta la advertencia de edad
-            document.getElementById('videoSection').style.display = 'block'; // Muestra la sección de videos
-        }
-
-        function showMinorMessage() {
-            alert("Eres menor, este contenido no está acto para ti."); // Mensaje para menores
+            document.getElementById('maintenanceSection').style.display = 'block'; // Muestra la sección de mantenimiento
         }
 
         function goBack() {
-            document.getElementById('ageWarningSection').style.display = 'none'; // Oculta la advertencia de edad
+            document.getElementById('maintenanceSection').style.display = 'none'; // Oculta la sección de mantenimiento
             document.getElementById('welcomeSection').style.display = 'block'; // Muestra la sección de bienvenida
         }
     </script>
@@ -62,47 +59,26 @@
 <body>
 
     <div id="welcomeSection">
-        <h1>Hola, Bienvenido a Videos Good</h1>
-        <button class="button" onclick="showVideos()">Entrar</button>
+        <h1>Hola, Bienvenido a Maki Host</h1>
+        <p>El host confiable para tus proyectos de WhatsApp.</p>
+        
+        <button class="button" onclick="showMaintenance()">Entrar</button>
     </div>
 
-    <div id="ageWarningSection">
-        <h1>Advertencia de Edad</h1>
-        <p>Estos vídeos solo pueden ser vistos por mayores de 18 años.</p>
-        
-        <button class="button" onclick="showMinorMessage()">Soy menor de 18</button>
-        
-        <button class="button" onclick="showVideosContent()">Tengo 18</button>
-        
-        <button class="button" onclick="showVideosContent()">Tengo más de 18</button>
+    <div id="maintenanceSection">
+        <h1>Mantenimiento</h1>
+        <p>Estamos dando mantenimiento, pronto lo terminaremos para que puedas usar al host y añadiremos el inicio de sesión.</p>
 
-        <br><br>
+        <br>
 
         <button class="button" onclick="goBack()">Atrás</button>
     </div>
 
-    <div id="videoSection">
-        <h1>Videos Good</h1>
-
-        <video controls>
-            <source src="https://files.catbox.moe/2i0w86.mp4" type="video/mp4">
-            Tu navegador no soporta el elemento de video.
-        </video>
-
-        <video controls>
-            <source src="https://files.catbox.moe/41b5ux.mp4" type="video/mp4">
-            Tu navegador no soporta el elemento de video.
-        </video>
-
-        <video controls>
-            <source src="https://files.catbox.moe/j36r26.mp4" type="video/mp4">
-            Tu navegador no soporta el elemento de video.
-        </video>
-    </div>
-
     <footer>
-         © 2025 Videos Good
+         © 2025 Maki Host. Todos los derechos reservados.
     </footer>
+
+    <div class="back-button" onclick="goBack()">Atrás</div>
 
 </body>
 </html>
