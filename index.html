@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Videos Para ti en un segundo</title>
+    <title>Videos Good</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,35 +17,68 @@
             width: 80%;
             margin: 20px 0;
         }
-        #videoSection {
-            display: none; /* Ocultar la sección de videos inicialmente */
+        #videoSection, #ageWarningSection {
+            display: none; /* Ocultar secciones inicialmente */
         }
         .button {
-            padding: 10px 20px;
-            font-size: 18px;
+            padding: 15px 30px; /* Botón más grande */
+            font-size: 20px; /* Texto más grande */
             cursor: pointer;
             background-color: #007BFF; /* Color del botón */
             color: white; /* Texto del botón en blanco */
             border: none;
             border-radius: 5px;
             transition: background-color 0.3s;
+            margin: 10px; /* Espacio entre botones */
         }
         .button:hover {
             background-color: #0056b3; /* Color del botón al pasar el mouse */
+        }
+        footer {
+            margin-top: 20px;
         }
     </style>
     <script>
         function showVideos() {
             document.getElementById('welcomeSection').style.display = 'none'; // Oculta la sección de bienvenida
+            document.getElementById('ageWarningSection').style.display = 'block'; // Muestra la advertencia de edad
+        }
+
+        function showVideosContent() {
+            document.getElementById('ageWarningSection').style.display = 'none'; // Oculta la advertencia de edad
             document.getElementById('videoSection').style.display = 'block'; // Muestra la sección de videos
+        }
+
+        function showMinorMessage() {
+            alert("Eres menor, este contenido no está acto para ti."); // Mensaje para menores
+        }
+
+        function goBack() {
+            document.getElementById('ageWarningSection').style.display = 'none'; // Oculta la advertencia de edad
+            document.getElementById('welcomeSection').style.display = 'block'; // Muestra la sección de bienvenida
         }
     </script>
 </head>
 <body>
 
     <div id="welcomeSection">
-        <h1>Hola, Bienvenido a esta pequeña página porno.</h1>
+        <h1>Hola, Bienvenido a Videos Good</h1>
         <button class="button" onclick="showVideos()">Entrar</button>
+    </div>
+
+    <div id="ageWarningSection">
+        <h1>Advertencia de Edad</h1>
+        <p>Estos vídeos solo pueden ser vistos por mayores de 18 años.</p>
+        
+        <button class="button" onclick="showMinorMessage()">Soy menor de 18</button>
+        
+        <button class="button" onclick="showVideosContent()">Tengo 18</button>
+        
+        <button class="button" onclick="showVideosContent()">Tengo más de 18</button>
+
+        <br><br>
+
+        <button class="button" onclick="goBack()">Atrás</button>
     </div>
 
     <div id="videoSection">
@@ -66,6 +99,10 @@
             Tu navegador no soporta el elemento de video.
         </video>
     </div>
+
+    <footer>
+         © 2025 Videos Good
+    </footer>
 
 </body>
 </html>
