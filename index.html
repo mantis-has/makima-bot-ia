@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maki Host</title>
+    <title>Maki Host - Panel de Control</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,11 +27,12 @@
         .button:hover {
             background-color: #0056b3; /* Color del botón al pasar el mouse */
         }
-        footer {
+        .panel {
+            display: none; /* Ocultar panel inicialmente */
             margin-top: 20px;
         }
-        #maintenanceSection {
-            display: none; /* Ocultar sección de mantenimiento inicialmente */
+        footer {
+            margin-top: 20px;
         }
         .back-button {
             position: absolute;
@@ -45,13 +46,13 @@
         }
     </style>
     <script>
-        function showMaintenance() {
+        function showPanel() {
             document.getElementById('welcomeSection').style.display = 'none'; // Oculta la sección de bienvenida
-            document.getElementById('maintenanceSection').style.display = 'block'; // Muestra la sección de mantenimiento
+            document.getElementById('controlPanel').style.display = 'block'; // Muestra el panel de control
         }
 
         function goBack() {
-            document.getElementById('maintenanceSection').style.display = 'none'; // Oculta la sección de mantenimiento
+            document.getElementById('controlPanel').style.display = 'none'; // Oculta el panel de control
             document.getElementById('welcomeSection').style.display = 'block'; // Muestra la sección de bienvenida
         }
     </script>
@@ -62,12 +63,20 @@
         <h1>Hola, Bienvenido a Maki Host</h1>
         <p>El host confiable para tus proyectos de WhatsApp.</p>
         
-        <button class="button" onclick="showMaintenance()">Entrar</button>
+        <button class="button" onclick="showPanel()">Entrar</button>
     </div>
 
-    <div id="maintenanceSection">
-        <h1>Mantenimiento</h1>
-        <p>Estamos dando mantenimiento, pronto lo terminaremos para que puedas usar al host y añadiremos el inicio de sesión.</p>
+    <div id="controlPanel" class="panel">
+        <h1>Panel de Control</h1>
+        
+        <p>Aquí podrás gestionar tus proyectos y configuraciones.</p>
+
+        <!-- Ejemplo de botones o secciones dentro del panel -->
+        <div>
+            <button class="button">Ver Proyectos</button>
+            <button class="button">Agregar Proyecto</button>
+            <button class="button">Configuraciones</button>
+        </div>
 
         <br>
 
