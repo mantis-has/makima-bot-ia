@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hosting Simulado</title>
+  <title>SkyUltra Hosting Panel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     :root {
-      --bg: #1c1c2e;
+      --bg: #121212;
       --fg: #fff;
-      --panel: #2e2e44;
-      --accent: #3a3a5f;
+      --panel: #1f1f2e;
+      --accent: #2a2a3f;
     }
     body.light {
       --bg: #f2f2f2;
@@ -55,6 +56,10 @@
     .sidebar button {
       width: 100%;
       margin-bottom: 10px;
+      text-align: left;
+    }
+    .sidebar i {
+      margin-right: 10px;
     }
     .content {
       flex: 1;
@@ -103,99 +108,4 @@
 </div>
 
 <div id="panel">
-  <div class="sidebar">
-    <button onclick="show('inicio')">🏠 Inicio</button>
-    <button onclick="show('usuarios')">👥 Usuarios</button>
-    <button onclick="show('terminal')">💻 Terminal</button>
-    <button onclick="show('bd')">📦 Base de Datos</button>
-    <button onclick="toggleModo()">🌗 Modo</button>
-  </div>
-  <div class="content">
-    <div class="topbar">
-      <strong>Hosting Simulado</strong>
-      <span id="usuarioActivo"></span>
-    </div>
-    <div id="inicio" class="section active">
-      <h3>Bienvenido</h3>
-      <p>Este panel simula un sistema de hosting completo.</p>
-    </div>
-    <div id="usuarios" class="section">
-      <h3>👥 Usuarios</h3>
-      <input id="nuevoUsuario" placeholder="Correo nuevo" />
-      <button onclick="agregarUsuario()">Agregar</button>
-      <ul class="user-list" id="listaUsuarios"></ul>
-    </div>
-    <div id="terminal" class="section">
-      <h3>💻 Terminal</h3>
-      <div class="terminal" id="consola"></div>
-      <button onclick="simularComando()">Ejecutar comando</button>
-    </div>
-    <div id="bd" class="section">
-      <h3>📦 Base de Datos</h3>
-      <p>Tablas simuladas:</p>
-      <ul>
-        <li>usuarios (3 registros)</li>
-        <li>productos (6 registros)</li>
-        <li>ventas (24 registros)</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<script>
-  const usuariosSimulados = [
-    { correo: "admin@web.com", pass: "admin123" },
-    { correo: "soporte@web.com", pass: "soporte123" },
-  ];
-
-  function login() {
-    const email = document.getElementById("email").value.trim();
-    const pass = document.getElementById("pass").value.trim();
-    const error = document.getElementById("loginError");
-
-    const valido = usuariosSimulados.find(u => u.correo === email && u.pass === pass);
-    if (valido) {
-      document.getElementById("usuarioActivo").innerText = email;
-      document.getElementById("login").style.display = "none";
-      document.getElementById("panel").style.display = "flex";
-      cargarUsuarios();
-      error.innerText = "";
-    } else {
-      error.innerText = "Credenciales inválidas.";
-    }
-  }
-
-  function show(id) {
-    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-  }
-
-  function toggleModo() {
-    document.body.classList.toggle("light");
-    localStorage.setItem("modo", document.body.classList.contains("light") ? "light" : "dark");
-  }
-
-  if (localStorage.getItem("modo") === "light") document.body.classList.add("light");
-
-  function agregarUsuario() {
-    const correo = document.getElementById("nuevoUsuario").value.trim();
-    if (!correo) return;
-    let lista = JSON.parse(localStorage.getItem("usuariosExtra") || "[]");
-    lista.push(correo);
-    localStorage.setItem("usuariosExtra", JSON.stringify(lista));
-    document.getElementById("nuevoUsuario").value = "";
-    cargarUsuarios();
-  }
-
-  function cargarUsuarios() {
-    let lista = JSON.parse(localStorage.getItem("usuariosExtra") || "[]");
-    const ul = document.getElementById("listaUsuarios");
-    ul.innerHTML = "";
-    lista.forEach(correo => {
-      let li = document.createElement("li");
-      li.innerText = correo;
-      ul.appendChild(li);
-    });
-  }
-
-  function simularComando() {
+  <
