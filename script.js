@@ -28,3 +28,27 @@ document.getElementById("guardar-contenido").addEventListener("click", () => {
  // Aquí se puede agregar la lógica para guardar el contenido
  alert("Contenido guardado");
 });
+
+// Simulación de datos de monitoreo
+const monitoreoData = {
+ estadoSistema: "Activo",
+ usoCpu: "50%",
+ usoMemoria: "75%",
+};
+
+// Mostrar datos de monitoreo
+document.getElementById("estado-sistema").textContent = monitoreoData.estadoSistema;
+document.getElementById("uso-cpu").textContent = monitoreoData.usoCpu;
+document.getElementById("uso-memoria").textContent = monitoreoData.usoMemoria;
+
+// Agregar evento para reiniciar sistema
+document.getElementById("reiniciar-sistema").addEventListener("click", () => {
+ // Aquí se puede agregar la lógica para reiniciar el sistema
+ alert("Reiniciando sistema...");
+});
+
+// Agregar evento para apagar sistema
+document.getElementById("apagar-sistema").addEventListener("click", () => {
+ // Aquí se puede agregar la lógica para apagar el sistema
+ alert("Apagando sistema...");
+});
