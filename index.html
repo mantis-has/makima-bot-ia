@@ -8,17 +8,78 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #87CEEB; /* Azul cielo */
+            color: #000; /* Letras negras */
             text-align: center;
             margin-top: 20vh;
         }
         
+        .contenedor {
+            width: 80%;
+            margin: 0 auto;
+        }
+        
         h1 {
-            color: #333;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #444;
+        }
+        
+        #funciones {
+            margin-top: 20px;
+        }
+        
+        #funciones ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        #funciones li {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Bienvenido a Ruby Hoshino Bot</h1>
+    <div class="contenedor">
+        <h1>Hola, bienvenido a Ruby Hoshino Bot</h1>
+        <button id="descubrir-btn">Descubrir funciones</button>
+        <div id="funciones" style="display: none;">
+            <h2>Funciones de Ruby Hoshino Bot</h2>
+            <ul>
+                <li>Descargas de juegos</li>
+                <li>Videos</li>
+                <li>Música</li>
+                <li>Imágenes</li>
+                <li>Generador de memes</li>
+                <li>Traductor de idiomas</li>
+                <li>Calculadora</li>
+                <li>Y mucho más...</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('descubrir-btn').addEventListener('click', () => {
+            const funciones = document.getElementById('funciones');
+            if (funciones.style.display === 'none') {
+                funciones.style.display = 'block';
+            } else {
+                funciones.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
