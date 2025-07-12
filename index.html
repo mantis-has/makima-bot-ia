@@ -8,26 +8,32 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #007bff; /* Fondo azul */
-            color: white; /* Letras en blanco */
+            background-color: #1e1e2f; /* Fondo oscuro */
+            color: #ffffff; /* Texto blanco */
+            font-family: Arial, sans-serif;
         }
         .card {
-            margin: 20px;
+            background-color: #2a2a3b; /* Fondo de tarjeta oscuro */
             border: none;
-            background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente para las tarjetas */
+            margin-bottom: 20px;
         }
         .card-header {
-            background-color: #0056b3; /* Color azul más oscuro */
-            color: white; /* Letras en blanco */
+            background-color: #3b3b5c; /* Color de encabezado */
+            color: #ffffff; /* Texto blanco */
+            font-weight: bold;
         }
         .footer {
-            background-color: #0056b3; /* Color azul más oscuro */
-            color: white; /* Letras en blanco */
+            background-color: #3b3b5c; /* Color del pie de página */
+            color: white;
             padding: 10px 0;
             text-align: center;
         }
         .btn-primary {
-            background-color: #28a745; /* Botón verde */
+            background-color: #4caf50; /* Botón verde */
+            border-color: #4caf50; /* Borde del botón */
+        }
+        .btn:hover {
+            opacity: 0.8; /* Efecto hover en botones */
         }
     </style>
 </head>
@@ -58,7 +64,7 @@
                     Servidores
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-success" onclick="alert('Crear servidor...')">Crear Servidor</button>
+                    <button class="btn btn-primary" onclick="alert('Crear servidor...')">Crear Servidor</button>
                 </div>
             </div>
         </div>
@@ -69,7 +75,7 @@
                     Usuarios
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-info" onclick="alert('Ver usuarios')">Ver Usuarios</button>
+                    <button class="btn btn-primary" onclick="alert('Ver usuarios')">Ver Usuarios</button>
                 </div>
             </div>
         </div>
