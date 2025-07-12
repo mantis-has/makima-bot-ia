@@ -1,137 +1,24 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hosting</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    .registro {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .registro input {
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      width: 100%;
-    }
-
-    .registro button {
-      padding: 10px;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .panel {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .terminal {
-      display: none;
-      background-color: #000;
-      color: #fff;
-      padding: 10px;
-      font-family: monospace;
-    }
-
-    .terminal .input {
-      background-color: #000;
-      color: #fff;
-      border: none;
-      padding: 5px;
-      font-family: monospace;
-    }
-
-    .terminal .output {
-      padding: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruby Hoshino Bot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin-top: 20vh;
+        }
+        
+        h1 {
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-  <div class="registro" id="registro">
-    <h1>Registra Un miembro</h1>
-    <input type="email" id="correo" placeholder="Correo electrónico">
-    <input type="password" id="contraseña" placeholder="Contraseña">
-    <button id="registrar">Registrar</button>
-  </div>
-
-  <div class="panel" id="panel">
-    <h1>Panel de control</h1>
-    <button id="abrir-terminal">Abrir terminal</button>
-  </div>
-
-  <div class="terminal" id="terminal">
-    <div class="output">Bienvenido al terminal</div>
-    <input type="text" class="input" id="terminal-input" placeholder="Escribe un comando...">
-    <div class="output" id="terminal-output"></div>
-  </div>
-
-  <script>
-    const registro = document.getElementById('registro');
-    const panel = document.getElementById('panel');
-    const terminal = document.getElementById('terminal');
-    const registrar = document.getElementById('registrar');
-    const abrirTerminal = document.getElementById('abrir-terminal');
-    const terminalInput = document.getElementById('terminal-input');
-    const terminalOutput = document.getElementById('terminal-output');
-
-    registrar.addEventListener('click', () => {
-      const correo = document.getElementById('correo').value;
-      const contraseña = document.getElementById('contraseña').value;
-      if (correo && contraseña) {
-        registro.style.display = 'none';
-        panel.style.display = 'flex';
-      } else {
-        alert('Debes ingresar un correo electrónico y una contraseña');
-      }
-    });
-
-    abrirTerminal.addEventListener('click', () => {
-      panel.style.display = 'none';
-      terminal.style.display = 'block';
-    });
-
-    terminalInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        const comando = terminalInput.value.trim();
-        terminalInput.value = '';
-        ejecutarComando(comando);
-      }
-    });
-
-    function ejecutarComando(comando) {
-      switch (comando) {
-        case 'ls':
-          terminalOutput.innerHTML += 'archivos.txt<br>';
-          terminalOutput.innerHTML += 'imagenes.jpg<br>';
-          terminalOutput.innerHTML += 'videos.mp4<br>';
-          break;
-        case 'mkdir':
-          terminalOutput.innerHTML += 'Directorio creado con éxito<br>';
-          break;
-        case 'rm':
-          terminalOutput.innerHTML += 'Archivo eliminado con éxito<br>';
-          break;
-        default:
-          terminalOutput.innerHTML += `Comando "${comando}" no reconocido<br>`;
-      }
-    }
-  </script>
+    <h1>Bienvenido a Ruby Hoshino Bot</h1>
 </body>
 </html>
