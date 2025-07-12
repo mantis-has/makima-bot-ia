@@ -2,62 +2,131 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Panel de Ventas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hosting Panel Simulado</title>
   <style>
-    body { font-family: sans-serif; text-align: center; background: #f2f2f2; margin: 0; }
-    .pantalla { display: none; padding: 20px; }
-    .activo { display: block; }
-    button { padding: 10px 20px; margin: 10px; border: none; background: #0077cc; color: white; cursor: pointer; border-radius: 5px; }
-    .volver { position: absolute; top: 10px; left: 10px; background: #555; }
-    .producto { margin: 20px; }
-    img { max-width: 200px; height: auto; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #1e1e2f;
+      color: white;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      background: #23233a;
+      width: 250px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .sidebar h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+
+    .sidebar button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #3a3a5f;
+      color: white;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .sidebar button:hover {
+      background: #44446f;
+    }
+
+    .content {
+      flex: 1;
+      padding: 30px;
+      box-sizing: border-box;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+    }
+
+    .box {
+      background: #2e2e44;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .box h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .box p {
+      margin-top: 5px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Inicio -->
-  <div id="inicio" class="pantalla activo">
-    <h1>¡Hola! Bienvenido a este panel de ventas.</h1>
-    <p>Nos complace brindarte nuestros productos para que los disfrutes con provecho.</p>
-    <button onclick="mostrar('menu')">Entrar</button>
+  <div class="sidebar">
+    <h2>⚙️ Hosting Panel</h2>
+    <button onclick="showSection('inicio')">Inicio</button>
+    <button onclick="showSection('archivos')">Archivos</button>
+    <button onclick="showSection('config')">Configuración</button>
+    <button onclick="showSection('estadisticas')">Estadísticas</button>
   </div>
 
-  <!-- Menú -->
-  <div id="menu" class="pantalla">
-    <button class="volver" onclick="mostrar('inicio')">Volver</button>
-    <h2>Menú</h2>
-    <button onclick="mostrar('productos')">Productos</button>
-    <button onclick="mostrar('precios')">Precios</button>
-  </div>
-
-  <!-- Productos -->
-  <div id="productos" class="pantalla">
-    <button class="volver" onclick="mostrar('menu')">Volver</button>
-    <h2>Productos</h2>
-    <div class="producto">
-      <img src="https://qu.ax/bXinP.jpg" alt="Denji Bot MD">
-      <p>Denji Bot MD</p>
+  <div class="content">
+    <div id="inicio" class="section active">
+      <h2>Bienvenido al panel de hosting</h2>
+      <p>Este es un panel simulado que te muestra cómo se vería un sistema real.</p>
     </div>
-    <div class="producto">
-      <img src="https://qu.ax/caXVr.jpg" alt="Makima MD">
-      <p>Makima MD</p>
-    </div>
-  </div>
 
-  <!-- Precios -->
-  <div id="precios" class="pantalla">
-    <button class="volver" onclick="mostrar('menu')">Volver</button>
-    <h2>Precios</h2>
-    <p>Producto #1: 1 dólar por semana</p>
-    <p>Producto #2: 3 dólares por semana</p>
-    <p>Producto #1 Prox: 20 dólares</p>
-    <p>Producto #2 Prox: 30 dólares</p>
+    <div id="archivos" class="section">
+      <h2>📂 Archivos</h2>
+      <p>/index.html</p>
+      <p>/style.css</p>
+      <p>/main.js</p>
+    </div>
+
+    <div id="config" class="section">
+      <h2>🔧 Configuración</h2>
+      <p>IP del servidor: <strong>192.168.1.100</strong></p>
+      <p>Dominio activo: <strong>tuweb.com</strong></p>
+    </div>
+
+    <div id="estadisticas" class="section">
+      <h2>📊 Estadísticas (simuladas)</h2>
+      <div class="stats">
+        <div class="box"><h3>CPU</h3><p>32%</p></div>
+        <div class="box"><h3>RAM</h3><p>1.2 GB / 4 GB</p></div>
+        <div class="box"><h3>Disco</h3><p>10 GB usados</p></div>
+        <div class="box"><h3>Visitas</h3><p>280 / mes</p></div>
+      </div>
+    </div>
   </div>
 
   <script>
-    function mostrar(id) {
-      document.querySelectorAll('.pantalla').forEach(div => div.classList.remove('activo'));
-      document.getElementById(id).classList.add('activo');
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
     }
   </script>
 
