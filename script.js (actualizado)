@@ -1,0 +1,11 @@
+document.getElementById("productos-btn").addEventListener("click", () => {
+ window.location.href = "productos.html";
+});
+
+document.getElementById("precios-btn").addEventListener("click", () => {
+ window.location.href = "precios.html";
+});
+
+document.getElementById("volver-btn").addEventListener("click", () => {
+ window.location.href = "menu.html";
+});
