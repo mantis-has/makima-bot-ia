@@ -9,27 +9,6 @@ header {
  text-align: center;
 }
 
-nav {
- background-color: #444;
- padding: 1em;
-}
-
-nav ul {
- list-style: none;
- margin: 0;
- padding: 0;
-}
-
-nav li {
- display: inline-block;
- margin-right: 20px;
-}
-
-nav a {
- color: #fff;
- text-decoration: none;
-}
-
 main {
  display: flex;
  flex-direction: column;
@@ -48,51 +27,7 @@ h2 {
  margin-top: 0;
 }
 
-table {
- border-collapse: collapse;
- width: 100%;
-}
-
-th, td {
- border: 1px solid #ddd;
- padding: 10px;
- text-align: left;
-}
-
-th {
- background-color: #f0f0f0;
-}
-
-body {
- font-family: Arial, sans-serif;
-}
-
-header {
- background-color: #333;
- color: #fff;
- padding: 1em;
- text-align: center;
-}
-
-main {
- display: flex;
- flex-direction: column;
- align-items: center;
- padding: 2em;
-}
-
-section {
- background-color: #f7f7f7;
- padding: 1em;
- margin-bottom: 20px;
- box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
- margin-top: 0;
-}
-
-#monitoreo-data {
+#perfil-data, #configuracion-data {
  padding: 1em;
 }
 
@@ -108,4 +43,3 @@ button {
 button:hover {
  background-color: #3e8e41;
 }
-
