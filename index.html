@@ -1,85 +1,42 @@
-
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ruby Hoshino Bot</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #87CEEB; /* Azul cielo */
-            color: #000; /* Letras negras */
-            text-align: center;
-            margin-top: 20vh;
-        }
-        
-        .contenedor {
-            width: 80%;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-        
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #333;
-            color: #fff;
-            cursor: pointer;
-        }
-        
-        button:hover {
-            background-color: #444;
-        }
-        
-        #funciones {
-            margin-top: 20px;
-        }
-        
-        #funciones ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        #funciones li {
-            margin-bottom: 10px;
-        }
-    </style>
+ <title>Panel de Administración</title>
+ <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="contenedor">
-        <h1>Hola, bienvenido a Ruby Hoshino Bot</h1>
-        <button id="descubrir-btn">Descubrir funciones</button>
-        <div id="funciones" style="display: none;">
-            <h2>Funciones de Ruby Hoshino Bot</h2>
-            <ul>
-                <li>Descargas de juegos</li>
-                <li>Videos</li>
-                <li>Música</li>
-                <li>Imágenes</li>
-                <li>Generador de memes</li>
-                <li>Traductor de idiomas</li>
-                <li>Calculadora</li>
-                <li>Y mucho más...</li>
-            </ul>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById('descubrir-btn').addEventListener('click', () => {
-            const funciones = document.getElementById('funciones');
-            if (funciones.style.display === 'none') {
-                funciones.style.display = 'block';
-            } else {
-                funciones.style.display = 'none';
-            }
-        });
-    </script>
+ <header>
+ <h1>Panel de Administración</h1>
+ </header>
+ <nav>
+ <ul>
+ <li><a href="                            
+ <li><a href="#contenido">Contenido</a></li>
+ </ul>
+ </nav>
+ <main>
+ <section id="usuarios">
+ <h2>Gestión de Usuarios</h2>
+ <table>
+ <thead>
+ <tr>
+ <th>Nombre</th>
+ <th>Email</th>
+ <th>Acciones</th>
+ </tr>
+ </thead>
+ <tbody id="usuarios-table">
+ <!-- Aquí se mostrarán los usuarios -->
+ </tbody>
+ </table>
+ <button id="agregar-usuario">Agregar Usuario</button>
+ </section>
+ <section id="contenido">
+ <h2>Gestión de Contenido</h2>
+ <textarea id="contenido-textarea"></textarea>
+ <button id="guardar-contenido">Guardar Contenido</button>
+ </section>
+ </main>
+ <script src="script.js"></script>
 </body>
 </html>
