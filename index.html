@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Ventas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+
+    #volver {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #007bff;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .container {
+      padding: 40px 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    img {
+      width: 200px;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .product {
+      margin-bottom: 30px;
+    }
+
+    .product-name {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .products-grid {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .prices {
+      font-size: 18px;
+      line-height: 2;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="volver" onclick="goTo('inicio')">Volver</button>
+
+  <div id="inicio" class="container">
+    <h1>¡Hola! Bienvenido a este panel de ventas.</h1>
+    <p>Nos complace brindarte nuestros productos para que los disfrutes con provecho.</p>
+    <button onclick="goTo('menu')">Entrar</button>
+  </div>
+
+  <div id="menu" class="container hidden">
+    <h2>Menú Principal</h2>
+    <button onclick="goTo('productos')">Productos</button>
+    <button onclick="goTo('precios')">Precios</button>
+  </div>
+
+  <div id="productos" class="container hidden">
+    <h2>Nuestros Productos</h2>
+    <div class="products-grid">
+      <div class="product">
+        <img src="https://qu.ax/bXinP.jpg" alt="Denji Bot MD">
+        <div class="product-name">Denji Bot MD</div>
+      </div>
+      <div class="product">
+        <img src="https://qu.ax/caXVr.jpg" alt="Makima MD">
+        <div class="product-name">Makima MD</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="precios" class="container hidden">
+    <h2>Precios</h2>
+    <div class="prices">
+      Producto #1: 1 dólar por semana<br>
+      Producto #2: 3 dólares por semana<br><br>
+      Producto #1 Prox: 20 dólares<br>
+      Producto #2 Prox: 30 dólares
+    </div>
+  </div>
+
+  <script>
+    function goTo(sectionId) {
+      const sections = ['inicio', 'menu', 'productos', 'precios'];
+      sections.forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+
+      document.getElementById(sectionId).classList.remove('hidden');
+
+      // Mostrar el botón de volver si no estamos en la pantalla de inicio
+      document.getElementById('volver').style.display = sectionId === 'inicio' ? 'none' : 'inline-block';
+    }
+  </script>
+
+</body>
+</html>
