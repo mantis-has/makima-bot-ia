@@ -4,132 +4,60 @@
   <meta charset="UTF-8">
   <title>Panel de Ventas</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-    }
-
-    #volver {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background-color: #007bff;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      display: none;
-      z-index: 1000;
-    }
-
-    .container {
-      padding: 60px 20px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    button {
-      background-color: #28a745;
-      color: white;
-      padding: 12px 24px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin: 10px;
-    }
-
-    img {
-      width: 200px;
-      height: auto;
-      border-radius: 10px;
-    }
-
-    .product {
-      margin-bottom: 30px;
-    }
-
-    .product-name {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-    .products-grid {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 40px;
-    }
-
-    .prices {
-      font-size: 18px;
-      line-height: 2;
-    }
+    body { font-family: sans-serif; text-align: center; background: #f2f2f2; margin: 0; }
+    .pantalla { display: none; padding: 20px; }
+    .activo { display: block; }
+    button { padding: 10px 20px; margin: 10px; border: none; background: #0077cc; color: white; cursor: pointer; border-radius: 5px; }
+    .volver { position: absolute; top: 10px; left: 10px; background: #555; }
+    .producto { margin: 20px; }
+    img { max-width: 200px; height: auto; }
   </style>
 </head>
 <body>
 
-  <!-- Botón de volver -->
-  <button id="volver" onclick="goTo('inicio')">Volver</button>
-
-  <!-- Pantalla de inicio -->
-  <div id="inicio" class="container">
+  <!-- Inicio -->
+  <div id="inicio" class="pantalla activo">
     <h1>¡Hola! Bienvenido a este panel de ventas.</h1>
     <p>Nos complace brindarte nuestros productos para que los disfrutes con provecho.</p>
-    <button onclick="goTo('menu')">Entrar</button>
+    <button onclick="mostrar('menu')">Entrar</button>
   </div>
 
-  <!-- Menú principal -->
-  <div id="menu" class="container hidden">
-    <h2>Menú Principal</h2>
-    <button onclick="goTo('productos')">Productos</button>
-    <button onclick="goTo('precios')">Precios</button>
+  <!-- Menú -->
+  <div id="menu" class="pantalla">
+    <button class="volver" onclick="mostrar('inicio')">Volver</button>
+    <h2>Menú</h2>
+    <button onclick="mostrar('productos')">Productos</button>
+    <button onclick="mostrar('precios')">Precios</button>
   </div>
 
-  <!-- Página de productos -->
-  <div id="productos" class="container hidden">
+  <!-- Productos -->
+  <div id="productos" class="pantalla">
+    <button class="volver" onclick="mostrar('menu')">Volver</button>
     <h2>Productos</h2>
-    <div class="products-grid">
-      <div class="product">
-        <img src="https://qu.ax/bXinP.jpg" alt="Denji Bot MD">
-        <div class="product-name">Denji Bot MD</div>
-      </div>
-      <div class="product">
-        <img src="https://qu.ax/caXVr.jpg" alt="Makima MD">
-        <div class="product-name">Makima MD</div>
-      </div>
+    <div class="producto">
+      <img src="https://qu.ax/bXinP.jpg" alt="Denji Bot MD">
+      <p>Denji Bot MD</p>
+    </div>
+    <div class="producto">
+      <img src="https://qu.ax/caXVr.jpg" alt="Makima MD">
+      <p>Makima MD</p>
     </div>
   </div>
 
-  <!-- Página de precios -->
-  <div id="precios" class="container hidden">
+  <!-- Precios -->
+  <div id="precios" class="pantalla">
+    <button class="volver" onclick="mostrar('menu')">Volver</button>
     <h2>Precios</h2>
-    <div class="prices">
-      Producto #1: 1 dólar por semana<br>
-      Producto #2: 3 dólares por semana<br><br>
-      Producto #1 Prox: 20 dólares<br>
-      Producto #2 Prox: 30 dólares
-    </div>
+    <p>Producto #1: 1 dólar por semana</p>
+    <p>Producto #2: 3 dólares por semana</p>
+    <p>Producto #1 Prox: 20 dólares</p>
+    <p>Producto #2 Prox: 30 dólares</p>
   </div>
 
-  <!-- Script para navegación -->
   <script>
-    function goTo(sectionId) {
-      const secciones = ['inicio', 'menu', 'productos', 'precios'];
-      secciones.forEach(id => {
-        document.getElementById(id).classList.add('hidden');
-      });
-
-      document.getElementById(sectionId).classList.remove('hidden');
-
-      // Mostrar el botón de volver en todas excepto "inicio"
-      document.getElementById('volver').style.display = (sectionId !== 'inicio') ? 'inline-block' : 'none';
+    function mostrar(id) {
+      document.querySelectorAll('.pantalla').forEach(div => div.classList.remove('activo'));
+      document.getElementById(id).classList.add('activo');
     }
   </script>
 
