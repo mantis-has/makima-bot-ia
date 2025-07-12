@@ -1,69 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>Panel de Administración</title>
+ <title>Panel de Usuario</title>
  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
  <header>
- <h1>Panel de Administración</h1>
- </header>
- <nav>
- <ul>
- <li><a href="                            
- <li><a href="#contenido">Contenido</a></li>
- </ul>
- </nav>
- <main>
- <section id="usuarios">
- <h2>Gestión de Usuarios</h2>
- <table>
- <thead>
- <tr>
- <th>Nombre</th>
- <th>Email</th>
- <th>Acciones</th>
- </tr>
- </thead>
- <tbody id="usuarios-table">
- <!-- Aquí se mostrarán los usuarios -->
- </tbody>
- </table>
- <button id="agregar-usuario">Agregar Usuario</button>
- </section>
- <section id="contenido">
- <h2>Gestión de Contenido</h2>
- <textarea id="contenido-textarea"></textarea>
- <button id="guardar-contenido">Guardar Contenido</button>
- </section>
- </main>
- <script src="script.js"></script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html>
-<head>
- <title>Panel de Control</title>
- <link rel="stylesheet" href="styles.css">
-</head>
-<body>
- <header>
- <h1>Panel de Control</h1>
+ <h1>Panel de Usuario</h1>
  </header>
  <main>
- <section id="monitoreo">
- <h2>Monitoreo del Sistema</h2>
- <div id="monitoreo-data">
- <p>Estado del sistema: <span id="estado-sistema">Activo</span></p>
- <p>Uso de CPU: <span id="uso-cpu">50%</span></p>
- <p>Uso de memoria: <span id="uso-memoria">75%</span></p>
+ <section id="perfil">
+ <h2>Perfil de Usuario</h2>
+ <div id="perfil-data">
+ <p>Nombre: <span id="nombre-usuario">Juan Pérez</span></p>
+ <p>Email: <span id="email-usuario">juan@example.com</span></p>
  </div>
+ <button id="editar-perfil">Editar Perfil</button>
  </section>
- <section id="control">
- <h2>Control del Sistema</h2>
- <button id="reiniciar-sistema">Reiniciar Sistema</button>
- <button id="apagar-sistema">Apagar Sistema</button>
+ <section id="configuracion">
+ <h2>Configuración</h2>
+ <div id="configuracion-data">
+ <p>Idioma: <span id="idioma-usuario">Español</span></p>
+ <p>Notificaciones: <span id="notificaciones-usuario">Activadas</span></p>
+ </div>
+ <button id="editar-configuracion">Editar Configuración</button>
  </section>
  </main>
  <script src="script.js"></script>
