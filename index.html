@@ -5,53 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hosting Panel Simulado</title>
   <style>
+    :root {
+      --bg: #1e1e2f;
+      --fg: white;
+      --panel: #23233a;
+      --accent: #3a3a5f;
+    }
+
+    body.dark {
+      --bg: #ffffff;
+      --fg: #222;
+      --panel: #ccc;
+      --accent: #ddd;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #1e1e2f;
-      color: white;
-      display: flex;
+      background: var(--bg);
+      color: var(--fg);
       height: 100vh;
       overflow: hidden;
     }
 
+    #login {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    #panel {
+      display: none;
+      height: 100%;
+      display: flex;
+    }
+
     .sidebar {
-      background: #23233a;
-      width: 250px;
+      background: var(--panel);
+      width: 220px;
       padding: 20px;
       box-sizing: border-box;
     }
 
     .sidebar h2 {
       margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 22px;
     }
 
     .sidebar button {
-      display: block;
       width: 100%;
       padding: 10px;
       margin-bottom: 10px;
-      background: #3a3a5f;
-      color: white;
+      background: var(--accent);
       border: none;
-      text-align: left;
-      cursor: pointer;
+      color: var(--fg);
       border-radius: 5px;
+      cursor: pointer;
     }
 
     .sidebar button:hover {
-      background: #44446f;
+      background: #4a4a7f;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      background: var(--panel);
     }
 
     .content {
       flex: 1;
-      padding: 30px;
-      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
     }
 
     .section {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
       display: none;
     }
 
@@ -59,76 +93,105 @@
       display: block;
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
+    .input {
+      margin: 10px 0;
     }
 
-    .box {
-      background: #2e2e44;
-      padding: 15px;
-      border-radius: 8px;
-      text-align: center;
+    input {
+      padding: 10px;
+      width: 250px;
+      border-radius: 5px;
+      border: none;
     }
 
-    .box h3 {
-      margin: 0;
-      font-size: 18px;
+    .terminal {
+      background: black;
+      color: lime;
+      font-family: monospace;
+      padding: 20px;
+      border-radius: 5px;
     }
 
-    .box p {
-      margin-top: 5px;
-      font-size: 14px;
+    .user-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .user-list li {
+      background: var(--accent);
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
 
+<div id="login">
+  <h2>Inicia sesión</h2>
+  <div class="input"><input type="email" placeholder="Correo"></div>
+  <div class="input"><input type="password" placeholder="Contraseña"></div>
+  <button onclick="entrar()">Entrar</button>
+</div>
+
+<div id="panel">
   <div class="sidebar">
-    <h2>⚙️ Hosting Panel</h2>
-    <button onclick="showSection('inicio')">Inicio</button>
-    <button onclick="showSection('archivos')">Archivos</button>
-    <button onclick="showSection('config')">Configuración</button>
-    <button onclick="showSection('estadisticas')">Estadísticas</button>
+    <h2>Panel</h2>
+    <button onclick="mostrar('usuarios')">Usuarios</button>
+    <button onclick="mostrar('terminal')">Terminal</button>
+    <button onclick="mostrar('inicio')">Inicio</button>
+    <button onclick="toggleModo()">🌗 Cambiar modo</button>
   </div>
 
   <div class="content">
+    <div class="topbar">
+      <h2>Hosting Simulado</h2>
+      <span>🧑 Usuario activo</span>
+    </div>
+
     <div id="inicio" class="section active">
-      <h2>Bienvenido al panel de hosting</h2>
-      <p>Este es un panel simulado que te muestra cómo se vería un sistema real.</p>
+      <h3>Bienvenido al panel</h3>
+      <p>Este panel simula funciones reales de hosting, acceso y configuración.</p>
     </div>
 
-    <div id="archivos" class="section">
-      <h2>📂 Archivos</h2>
-      <p>/index.html</p>
-      <p>/style.css</p>
-      <p>/main.js</p>
+    <div id="usuarios" class="section">
+      <h3>👥 Panel de Usuarios</h3>
+      <ul class="user-list">
+        <li>admin@tuweb.com</li>
+        <li>soporte@tuweb.com</li>
+        <li>ventas@tuweb.com</li>
+      </ul>
     </div>
 
-    <div id="config" class="section">
-      <h2>🔧 Configuración</h2>
-      <p>IP del servidor: <strong>192.168.1.100</strong></p>
-      <p>Dominio activo: <strong>tuweb.com</strong></p>
-    </div>
-
-    <div id="estadisticas" class="section">
-      <h2>📊 Estadísticas (simuladas)</h2>
-      <div class="stats">
-        <div class="box"><h3>CPU</h3><p>32%</p></div>
-        <div class="box"><h3>RAM</h3><p>1.2 GB / 4 GB</p></div>
-        <div class="box"><h3>Disco</h3><p>10 GB usados</p></div>
-        <div class="box"><h3>Visitas</h3><p>280 / mes</p></div>
+    <div id="terminal" class="section">
+      <h3>💻 Terminal del servidor</h3>
+      <div class="terminal">
+        > Uptime: 10 días 4 hrs<br>
+        > CPU Usage: 25%<br>
+        > RAM Usage: 1.5 GB / 4 GB<br>
+        > Active Services: nginx, mysql, sshd<br>
+        > Traffic: 8.4GB this month<br>
+        > Logs updated ✔
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-  </script>
+<script>
+  function entrar() {
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('panel').style.display = 'flex';
+  }
+
+  function mostrar(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function toggleModo() {
+    document.body.classList.toggle('dark');
+  }
+</script>
 
 </body>
 </html>
