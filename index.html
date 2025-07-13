@@ -35,7 +35,6 @@
     .list-ul li .del-btn { background:#00fff7; color:#101820; border:none; border-radius:5px; padding:2px 8px; margin-left:10px; font-size:0.95em; cursor:pointer; transition:background 0.15s, color 0.2s;}
     .list-ul li .del-btn:hover { background:#101820; color:#00fff7; border:1px solid #00fff7;}
     .footer { width:100%; background:#101820; color:#00fff7; padding:18px 0 10px 0; text-align:center; font-size:1.05em; position:fixed; left:0; bottom:0; z-index:99; letter-spacing:1px;}
-    /* Panel de administración */
     .admin-modal-bg, .modal-bg { position:fixed; top:0; left:0; right:0; bottom:0; background:#101820cc; z-index:999; display:flex; align-items:center; justify-content:center;}
     .admin-panel, .modal-content { min-width:320px; max-width:450px; position:relative; box-shadow:0 4px 36px #00fff722; padding:36px 32px; border:2px solid #00fff7;}
     .admin-panel h2, .modal-content h2 { margin-top:0; margin-bottom:22px; color:#00fff7; font-size:1.14em; font-weight:bold; text-align:center;}
@@ -45,18 +44,15 @@
     .admin-user-row button, .modal-content button { background:#00fff7; color:#101820; border:none; border-radius:5px; padding:3px 12px; cursor:pointer; font-weight:500; transition:background 0.15s, color 0.2s;}
     .admin-user-row button:hover, .modal-content button:hover { background:#101820; color:#00fff7; border:1px solid #00fff7;}
     .admin-close-btn, .modal-close-btn { background:#101820; color:#00fff7; border:2px solid #00fff7; margin-top:2em; padding:0.8em 2em; border-radius:7px; font-weight:bold; font-size:1em; margin-left:auto; margin-right:auto; cursor:pointer; display:block;}
-    /* Menú hamburguesa */
     .hamburger { position:absolute; top:14px; left:20px; font-size:2em; color:#00fff7; background:none; border:none; cursor:pointer; z-index:99;}
     .user-menu { position:fixed; top:0; left:0; width:210px; height:100vh; background:#101820f0; box-shadow:2px 0 14px #00fff77a; padding-top:70px; z-index:1001; display:none; flex-direction:column; }
     .user-menu button { background:none; border:none; color:#00fff7; font-size:1.15em; text-align:left; padding:16px 24px; cursor:pointer; width:100%; transition:background 0.15s, color 0.2s;}
     .user-menu button:hover { background:#00fff71a; color:#fff;}
     .user-menu .close-menu { font-size:1.4em; position:absolute; top:12px; right:16px; background:none; border:none; color:#00fff7; cursor:pointer;}
-    /* Consola servidor */
     .console-area { background:#101820; color:#00fff7; border-radius:8px; padding:12px; font-size:1em; height:160px; overflow-y:auto; margin-bottom:10px;}
     .console-input-row { display:flex; gap:8px;}
     .console-input { flex:1; background:#1c232b; color:#00fff7; border:1px solid #00fff7; border-radius:5px; padding:4px;}
     .console-send-btn { background:#00fff7; color:#101820; border:none; border-radius:5px; padding:4px 15px; cursor:pointer; font-weight:500;}
-    /* Responsive */
     @media (max-width:650px){ .card-grid{grid-template-columns:1fr;} .sidebar{width:56px;min-width:56px;} .sidebar .logo{font-size:1.2em;} .main{margin-bottom:54px;} .topbar{height:54px;} .topbar .title{font-size:1.1em;} }
   </style>
 </head>
@@ -66,7 +62,6 @@
   <div class="sidebar" id="sidebar">
     <div class="logo">Maki</div>
     <button class="side-btn" id="btn-dashboard" title="Dashboard"><i class="ri-dashboard-3-line"></i></button>
-    <!-- Panel de administración solo para admin -->
     <button class="admin-btn" id="btn-admin" title="Panel Administrativo" onclick="showAdminCodeModal()"><i class="ri-shield-user-line"></i></button>
   </div>
   <div class="main">
@@ -80,7 +75,6 @@
     <div id="serversPanel" class="card-grid" style="display:none"></div>
     <div id="ticketsPanel" class="card-grid" style="display:none"></div>
     <div id="storePanel" class="card-grid" style="display:none"></div>
-    <!-- Panel de administración oculto -->
     <div id="adminModal" class="admin-modal-bg" style="display:none">
       <div class="admin-panel">
         <h2>Panel de Administración</h2>
@@ -89,7 +83,6 @@
         <button onclick="closeAdminModal()" class="admin-close-btn">Cerrar</button>
       </div>
     </div>
-    <!-- Modal código admin -->
     <div id="adminCodeModal" class="modal-bg" style="display:none">
       <div class="modal-content">
         <h2>Ingresa el código de administrador</h2>
@@ -99,7 +92,6 @@
         <button onclick="closeAdminCodeModal()" class="modal-close-btn">Cancelar</button>
       </div>
     </div>
-    <!-- Modal anuncio -->
     <div id="announcementModal" class="modal-bg" style="display:none;">
       <div class="modal-content">
         <h2>🛠️ Crear anuncio</h2>
@@ -108,7 +100,6 @@
         <button onclick="closeAnnouncementModal()" class="modal-close-btn">Cancelar</button>
       </div>
     </div>
-    <!-- Modal editar usuario -->
     <div id="editUserModal" class="modal-bg" style="display:none;">
       <div class="modal-content">
         <h2>Editar usuario</h2>
@@ -227,7 +218,6 @@ function logout() {
   showLogin();
 }
 
-// Paneles principales
 function renderAll() {
   renderDashboard();
   renderServers();
@@ -240,7 +230,6 @@ function updateSidebarState() {
   document.getElementById("btn-admin").style.display = "block";
 }
 
-// Menú hamburguesa usuario
 function openUserMenu() {
   renderUserMenu();
   document.getElementById("userMenu").style.display = "flex";
@@ -257,7 +246,6 @@ function renderUserMenu() {
   document.getElementById("userMenu").innerHTML = html;
 }
 
-// Dashboard usuario
 function renderDashboard() {
   let anuncio = panelData.announcement ? `<div style="background:#101820;color:#00fff7;border-radius:7px;padding:8px 12px;font-weight:bold;margin-bottom:10px;">
     🛠️Anuncio de admins<br>${panelData.announcement}</div>` : "";
@@ -280,7 +268,6 @@ function renderDashboard() {
   `;
 }
 
-// Panel servidores
 function renderServers() {
   let html = `<div class="card">
     <h3><i class="ri-server-line"></i> Servidores</h3>`;
@@ -294,7 +281,6 @@ function renderServers() {
   document.getElementById("serversPanel").innerHTML = html;
 }
 
-// Modal servidor (consola, files, startup)
 function openServerModal(idx) {
   let srv = currentUser.servidores[idx];
   let html = `<button onclick="closeServerModal()" class="close-menu" style="position:absolute;top:16px;right:20px;">✖</button>
@@ -356,7 +342,7 @@ function sendServerCmd(idx) {
 function addServerFile(idx) {
   let f = document.getElementById("newServerFile").value.trim();
   if (!f) return;
-  let[idx];
+  let srv = currentUser.servidores[idx];
   if (!srv.files) srv.files = [];
   srv.files.push(f);
   saveData();
@@ -390,7 +376,6 @@ function renderTickets() {
   </div>`;
 }
 
-// Tienda y planes
 function renderStore() {
   let html = `<div class="card">
     <h3><i class="ri-shopping-cart-line"></i> Tienda</h3>
@@ -414,7 +399,6 @@ function buyPlan(coins, token) {
   renderDashboard();
 }
 
-// Panel de administración
 function showAdminCodeModal() {
   document.getElementById("adminCodeModal").style.display = "flex";
   document.getElementById("adminCodeInput").value = "";
@@ -445,12 +429,10 @@ function renderAdminUsers() {
   panelData.users.forEach((u, idx) => {
     const row = document.createElement("div");
     row.className = "admin-user-row";
-    // Correo
     const correo = document.createElement("span");
     correo.className = "admin-user-label";
     correo.textContent = u.correo;
     row.appendChild(correo);
-    // Lapiz editar
     const editBtn = document.createElement("button");
     editBtn.innerHTML = '<i class="ri-pencil-line"></i>';
     editBtn.onclick = ()=>openEditUserModal(idx);
@@ -491,7 +473,6 @@ function saveEditedUser() {
   }
 }
 
-// Modal anuncio
 function showAnnouncementModal() {
   document.getElementById("announcementInput").value = panelData.announcement;
   document.getElementById("announcementModal").style.display = "flex";
@@ -506,7 +487,6 @@ function saveAnnouncement() {
   closeAnnouncementModal();
 }
 
-// Modal genérico
 function showModal(html, titulo) {
   let div = document.createElement("div");
   div.className = "modal-bg";
@@ -519,10 +499,8 @@ function closeModal() {
   window.currentModal = null;
 }
 
-// Helpers
 function now() { return new Date().toLocaleString(); }
 
-// Init
 renderAuthPanels();
 showLogin();
 </script>
