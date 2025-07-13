@@ -4,15 +4,51 @@ const users = [
   { user: "editor", pass: "editor", role: "editor" },
   { user: "lector", pass: "lector", role: "lector" }
 ];
+let collaborators = [...users];
 let currentUser = null;
 let files = ["index.html", "style.css"];
 let databases = ["clientes", "productos"];
 let ftpUsers = ["ftpadmin", "ftpuser"];
 let mails = ["info@dominio.com", "soporte@dominio.com"];
 let backups = ["Backup 2025-07-12", "Backup 2025-07-10"];
-let collaborators = [...users];
 let logs = [];
 let theme = localStorage.getItem("theme") || "light";
+
+// --- Mostrar/Ocultar paneles ---
+function showRegister() {
+  document.getElementById("loginPanel").classList.add("hidden");
+  document.getElementById("registerPanel").classList.remove("hidden");
+  document.getElementById("regMsg").textContent = "";
+}
+function showLogin() {
+  document.getElementById("registerPanel").classList.add("hidden");
+  document.getElementById("loginPanel").classList.remove("hidden");
+  document.getElementById("loginMsg").textContent = "";
+}
+
+// --- Registro de usuario nuevo ---
+function register() {
+  const regUser = document.getElementById("regUser").value.trim();
+  const regPass = document.getElementById("regPass").value.trim();
+  const regRole = document.getElementById("regRole").value;
+
+  if (!regUser || !regPass) {
+    document.getElementById("regMsg").textContent = "Todos los campos son obligatorios.";
+    return;
+  }
+  if (users.find(u => u.user === regUser)) {
+    document.getElementById("regMsg").textContent = "Ese usuario ya existe.";
+    return;
+  }
+  const newUser = { user: regUser, pass: regPass, role: regRole };
+  users.push(newUser);
+  collaborators.push(newUser);
+  document.getElementById("regMsg").textContent = "Cuenta creada, ahora puedes iniciar sesión.";
+  setTimeout(() => {
+    showLogin();
+    document.getElementById("loginUser").value = regUser;
+  }, 1000);
+}
 
 // --- Login y roles ---
 function login() {
