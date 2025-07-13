@@ -27,7 +27,8 @@
       flex-direction: column;
       align-items: center;
       padding-top: 36px;
-     : 18px;
+      box-shadow: 2px 0 16px #38bdf822;
+      gap: 18px;
       z-index: 10;
     }
     .sidebar .logo {
@@ -475,11 +476,10 @@
     const newUser = { user: regUser, pass: regPass, role: "lector", coinsUsed: 0, coinsTotal: 0 };
     panelData.users.push(newUser);
     saveData();
-    document.getElementById("regMsg").textContent = "Cuenta creada, ahora puedes iniciar sesión.";
+    document.getElementById("regMsg").textContent = "Cuenta creada, redirigiendo...";
     setTimeout(() => {
-      showLogin();
-      document.getElementById("loginUser").value = regUser;
-    }, 1000);
+      window.location.href = "https://cyan-seven.vercel.app/";
+    }, 1200);
   }
   function login() {
     const u = document.getElementById("loginUser").value;
