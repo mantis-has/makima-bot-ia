@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Maki Host - Panel</title>
-  <!-- Remixicon para iconos modernos -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
   <style id="dynamicStyles">
     body {
@@ -373,8 +372,7 @@
 <body>
 <div id="authPanels"></div>
 <div class="container" id="container" style="display:none">
-  <!-- ... panel normal ... -->
-  <!-- igual que antes ... -->
+  <!-- Panel normal aquí (igual que antes) -->
 </div>
 <div class="footer">© Maki Host | Todos los derechos reservados</div>
 <!-- Panel de administración especial (Félix Manuel) -->
@@ -511,7 +509,8 @@
       currentUser = found;
       panelData.logs.push(`[${now()}] Login: ${found.user}`);
       saveData();
-      if (found.role === "user" || found.role === "lector") {
+      // --- Solo los admin pueden ver el panel, el resto SIEMPRE redirige ---
+      if (found.role !== "admin") {
         setTimeout(() => {
           window.location.href = "https://cyan-seven.vercel.app/";
         }, 1000);
@@ -559,7 +558,6 @@
     if (panel) {
       panel.style.background = customColors.bg;
       panel.style.color = customColors.text;
-      // Cambia color también a los labels y h2/h3 dentro del panel
       Array.from(panel.querySelectorAll("label, h2, h3")).forEach(el=>{
         el.style.color = customColors.text;
       });
@@ -610,12 +608,11 @@
     }
     document.getElementById("addRoleUser").value = "";
   }
-
   // --- Helpers ---
   function now() { return new Date().toLocaleString(); }
   // El resto del panel sigue igual...
   // Panel normal, dashboard, sidebar, cards, etc.
-  // (No se muestra aquí para ahorrar espacio, pero usa el mismo código de antes, solo corrige el panel especial aquí)
+  // (No se muestra aquí para ahorrar espacio, pero usa el mismo código de antes, solo corrige el login aquí)
   renderAuthPanels();
   showLogin();
 </script>
