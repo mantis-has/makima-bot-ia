@@ -63,3 +63,37 @@ body.dark nav button { background: #333; color: #eee; }
 body.dark .tab { background: #1a1a22; color: #eee; }
 body.dark ul { background: #222; color: #eee; }
 body.dark pre { background: #222; color: #fff; }
+.login-extra {
+  margin-top: 16px;
+  font-size: 1em;
+  color: #555;
+}
+.secondary {
+  background: #eee !important;
+  color: #2066d1 !important;
+  border: 1px solid #2066d1 !important;
+  margin-left: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.secondary:hover {
+  background: #d6e3fa !important;
+}
+#registerPanel {
+  max-width: 350px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 32px 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px #aaa3;
+}
+#loginPanel {
+  max-width: 350px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 32px 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px #aaa3;
+}
