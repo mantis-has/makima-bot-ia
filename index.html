@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Maki Host - Panel</title>
+  <!-- Remixicon para iconos modernos -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
   <style>
     body {
@@ -15,32 +16,118 @@
       display: flex;
       flex-direction: column;
     }
-    .centered-panel {
-      min-height: 100vh;
+    .container {
       display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      background: rgba(15,23,42,0.95);
+      width: 92px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 36px;
+      box-shadow: 2px 0 16px #38bdf822;
+      gap: 18px;
+      z-index: 10;
+    }
+    .sidebar .logo {
+      font-size: 2.1em;
+      font-weight: bold;
+      color: #38bdf8;
+      margin-bottom: 25px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px #0ea5e966;
+    }
+    .sidebar .side-btn {
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      width: 62px;
+      height: 62px;
+      border-radius: 12px;
+      background: transparent;
+      border: none;
+      color: #38bdf8;
+      font-size: 1.6em;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .sidebar .side-btn.active,
+    .sidebar .side-btn:hover {
+      background: #38bdf81c;
+      color: #fff;
+    }
+    .main {
+      flex: 1;
+      display: flex;
       flex-direction: column;
+      align-items: stretch;
       background: none;
+      min-height: 100vh;
+      margin-bottom: 54px;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 72px;
+      background: rgba(56,189,248,0.09);
+      box-shadow: 0 4px 24px #38bdf822;
+      z-index: 8;
+      position: relative;
+    }
+    .topbar .title {
+      font-size: 1.4em;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-right: auto;
+    }
+    .topbar .admin-btn {
+      background: none;
+      border: none;
+      color: #38bdf8;
+      font-size: 1em;
+      font-weight: 500;
+      margin-right: 24px;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .topbar .admin-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+      color: #fff;
+    }
+    .topbar .logout-btn {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      border-radius: 7px;
+      padding: 8px 16px;
+      font-weight: bold;
+      font-size: 1em;
+      margin-left: 16px;
+      cursor: pointer;
     }
     .auth-panel {
       max-width: 370px;
+      margin: 80px auto;
       background: rgba(15,23,42,0.97);
       box-shadow: 0 2px 24px #38bdf822;
       border-radius: 16px;
       padding: 36px 32px;
       text-align: center;
       color: #e2e8f0;
-      margin: 12px;
-      position: relative;
-      transition: box-shadow 0.2s;
     }
     .auth-panel h2 {
       margin-bottom: 18px;
       color: #38bdf8;
       font-weight: 600;
       font-size: 1.5em;
-      text-shadow: 0 2px 8px #0ea5e966;
     }
     .auth-panel input {
       width: 90%;
@@ -68,7 +155,6 @@
       margin-top: 4px;
       cursor: pointer;
       margin-bottom: 8px;
-      box-shadow: 0 2px 10px #38bdf822;
     }
     .auth-panel .secondary {
       background: #334155;
@@ -80,14 +166,82 @@
       margin-top: 16px;
       font-size: 0.98em;
     }
-    .auth-panel .logo {
-      font-size: 2em;
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px,1fr));
+      gap: 24px;
+      margin: 36px 30px 0 30px;
+    }
+    .card {
+      background: rgba(15,23,42,0.98);
+      border-radius: 14px;
+      box-shadow: 0 2px 14px #38bdf822;
+      padding: 28px 22px 22px 22px;
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      min-height: 120px;
+      position: relative;
+    }
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #38bdf8;
+      font-size: 1.15em;
+      font-weight: 600;
+    }
+    .card .coin-value {
+      font-size: 2.3em;
       font-weight: bold;
       color: #38bdf8;
-      margin-bottom: 18px;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 8px #0ea5e966;
-      display: block;
+      margin-top: 10px;
+    }
+    .card .card-btn {
+      margin-top: 16px;
+      padding: 8px 14px;
+      background: #0ea5e9;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 1em;
+      box-shadow: 0 2px 10px #38bdf822;
+    }
+    .card .card-btn:disabled {
+      background: #334155;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+    .list-ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 8px 0;
+    }
+    .list-ul li {
+      background: #334155;
+      color: #cbd5e1;
+      margin-bottom: 9px;
+      padding: 8px 16px;
+      border-radius: 7px;
+      font-size: 1.06em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .list-ul li .del-btn {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      border-radius: 5px;
+      padding: 2px 8px;
+      margin-left: 10px;
+      font-size: 0.95em;
+      cursor: pointer;
+    }
+    .list-ul li .del-btn:hover {
+      background: #0ea5e9;
+      color: #fff;
     }
     .footer {
       width: 100%;
@@ -102,16 +256,17 @@
       z-index: 99;
       letter-spacing: 1px;
     }
-    .admin-modal-bg2 {
+    /* Panel de administración */
+    .admin-modal-bg {
       position: fixed;
       top: 0; left: 0; right:0; bottom:0;
-      background: #0f172acc 0.93;
-      z-index: 9999;
+      background: #0f172acc 0.9;
+      z-index: 999;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .admin-panel2 {
+    .admin-panel {
       background: #1e293b;
       color: #e2e8f0;
       border-radius: 18px;
@@ -120,54 +275,113 @@
       min-width: 320px;
       max-width: 400px;
       position: relative;
-      transition: background 0.3s, color 0.3s;
     }
-    .color-row { display: flex; gap:18px; align-items:center; margin-bottom:20px; }
-    .add-role-row { margin-top:18px; display:flex; gap:8px; align-items:center; }
-    .add-role-row input { background:#334155; color:#38bdf8; border:none; border-radius:5px; padding:4px 8px; font-size:1em; }
-    .add-role-row button { background:#38bdf8; color:#0f172a; border:none; border-radius:5px; padding:6px 12px; font-weight:bold; font-size:1em; cursor:pointer; }
-    .admin-close-btn { background: #334155; color: #38bdf8; border: none; border-radius: 7px; padding: 8px 14px; font-weight: bold; font-size: 1em; margin-top: 24px; cursor: pointer; display: block; margin-left: auto; margin-right: auto;}
+    .admin-panel h2 {
+      margin-top: 0; margin-bottom: 22px;
+      color: #38bdf8;
+      font-size: 1.24em;
+      font-weight: bold;
+      text-align: center;
+    }
+    .admin-user-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 13px;
+    }
+    .admin-user-label {
+      flex: 1.2;
+      font-weight: 600;
+      color: #fff;
+      font-size: 1.07em;
+    }
+    .admin-user-row select, .admin-user-row input {
+      background: #334155;
+      color: #38bdf8;
+      border: none;
+      padding: 4px 6px;
+      border-radius: 5px;
+      font-size: 1em;
+      outline: none;
+    }
+    .admin-user-row button {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      border-radius: 5px;
+      padding: 3px 12px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .admin-close-btn {
+      background: #334155;
+      color: #38bdf8;
+      border: none;
+      border-radius: 7px;
+      padding: 8px 14px;
+      font-weight: bold;
+      font-size: 1em;
+      margin-top: 24px;
+      cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    /* Responsive */
     @media (max-width: 650px) {
-      .auth-panel {padding: 20px 8px;}
-      .centered-panel {padding: 12px;}
-      .admin-panel2 {padding:20px;}
+      .card-grid {grid-template-columns: 1fr;}
+      .sidebar {width: 66px;}
+      .sidebar .logo {font-size: 1.3em;}
+      .main {margin-bottom: 54px;}
+      .topbar {height: 54px;}
+      .topbar .title {font-size: 1.1em;}
     }
   </style>
 </head>
 <body>
-<div class="centered-panel">
-  <div id="authPanels"></div>
-</div>
-<div class="footer">© Maki Host | Todos los derechos reservados</div>
-<!-- Panel de administración especial (Félix Manuel) -->
-<div id="adminModal2" class="admin-modal-bg2" style="display:none">
-  <div class="admin-panel2" id="specialPanel2">
-    <h2>Administración avanzada</h2>
-    <div class="color-row">
-      <label>Texto: <input type="color" id="colorText"></label>
-      <label>Fondo: <input type="color" id="colorBg"></label>
+<div id="authPanels"></div>
+<div class="container" id="container" style="display:none">
+  <div class="sidebar" id="sidebar">
+    <div class="logo">Maki</div>
+    <button class="side-btn" id="btn-dashboard" title="Dashboard"><i class="ri-dashboard-3-line"></i></button>
+    <button class="side-btn" id="btn-files" title="Archivos"><i class="ri-file-2-line"></i></button>
+    <button class="side-btn" id="btn-databases" title="Bases de Datos"><i class="ri-database-2-line"></i></button>
+    <button class="side-btn" id="btn-ftp" title="FTP"><i class="ri-cloud-line"></i></button>
+    <button class="side-btn" id="btn-mail" title="Correos"><i class="ri-mail-send-line"></i></button>
+    <button class="side-btn" id="btn-backups" title="Backups"><i class="ri-save-line"></i></button>
+    <button class="side-btn" id="btn-users" title="Usuarios"><i class="ri-team-line"></i></button>
+    <button class="side-btn" id="btn-logs" title="Logs"><i class="ri-list-check-2"></i></button>
+    <button class="side-btn" id="btn-settings" title="Temas"><i class="ri-palette-line"></i></button>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <span class="title" id="topbar-title">Panel de Hosting</span>
+      <button class="admin-btn" id="adminBtn" onclick="toggleAdminPanel()">Disfruta de tus proyectos</button>
+      <button class="logout-btn" onclick="logout()">Salir</button>
     </div>
-    <div style="margin-top:16px;">
-      <h3 style="color:#38bdf8;">Editar roles de usuario</h3>
-      <div id="specialAdminUsers"></div>
-      <div class="add-role-row">
-        <input id="addRoleUser" placeholder="Usuario" />
-        <select id="addRoleSelect">
-          <option value="admin">admin</option>
-          <option value="editor">editor</option>
-          <option value="lector">lector</option>
-          <option value="user">user</option>
-        </select>
-        <button onclick="addSpecialRole()">Añadir rol</button>
+    <div id="dashboardPanel" class="card-grid"></div>
+    <div id="filesPanel" class="card-grid" style="display:none"></div>
+    <div id="databasesPanel" class="card-grid" style="display:none"></div>
+    <div id="ftpPanel" class="card-grid" style="display:none"></div>
+    <div id="mailPanel" class="card-grid" style="display:none"></div>
+    <div id="backupsPanel" class="card-grid" style="display:none"></div>
+    <div id="usersPanel" class="card-grid" style="display:none"></div>
+    <div id="logsPanel" class="card-grid" style="display:none"></div>
+    <div id="settingsPanel" class="card-grid" style="display:none"></div>
+    <!-- Panel de administración oculto -->
+    <div id="adminModal" class="admin-modal-bg" style="display:none">
+      <div class="admin-panel">
+        <h2>Panel de Administración</h2>
+        <div id="adminUsers"></div>
+        <button onclick="toggleAdminPanel()" class="admin-close-btn">Cerrar</button>
       </div>
     </div>
-    <button class="admin-close-btn" onclick="logout()">Cerrar</button>
   </div>
 </div>
+<div class="footer">© Maki Host | Todos los derechos reservados</div>
 <script>
   // --- Persistencia local ---
   const STORAGE_KEY = "maki_panel_data_v1";
-  const COLOR_KEY = "maki_panel_colors";
   function getInitialData() {
     return {
       users: [
@@ -181,8 +395,7 @@
       mails: ["info@dominio.com", "soporte@dominio.com"],
       backups: ["Backup 2025-07-12", "Backup 2025-07-10"],
       logs: [],
-      theme: localStorage.getItem("theme") || "light",
-      roles: ["admin","editor","lector","user"]
+      theme: localStorage.getItem("theme") || "light"
     };
   }
   function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(panelData)); }
@@ -191,22 +404,34 @@
     if (d) return JSON.parse(d);
     return getInitialData();
   }
-  function saveColors(colors) { localStorage.setItem(COLOR_KEY, JSON.stringify(colors)); }
-  function loadColors() {
-    let c = localStorage.getItem(COLOR_KEY);
-    if (c) return JSON.parse(c);
-    return {text:"#e2e8f0",bg:"#1e293b"};
-  }
   let panelData = loadData();
-  let customColors = loadColors();
   let currentUser = null;
-  let isSpecialAdmin = false;
+
+  // --- Paneles y navegación ---
+  const panels = [
+    "dashboardPanel","filesPanel","databasesPanel","ftpPanel",
+    "mailPanel","backupsPanel","usersPanel","logsPanel","settingsPanel"
+  ];
+  const sideBtns = [
+    "btn-dashboard","btn-files","btn-databases","btn-ftp",
+    "btn-mail","btn-backups","btn-users","btn-logs","btn-settings"
+  ];
+
+  function showPanel(idx) {
+    panels.forEach((id,i)=>{
+      document.getElementById(id).style.display = (i===idx)?"grid":"none";
+      document.getElementById(sideBtns[i]).classList.toggle("active",i===idx);
+    });
+    renderAll();
+  }
+  sideBtns.forEach((id,i)=>{
+    document.getElementById(id).onclick = ()=>showPanel(i);
+  });
 
   // --- Login y registro ---
   function renderAuthPanels() {
     let html = '';
     html += `<div class="auth-panel" id="loginPanel">
-      <span class="logo">Maki Host</span>
       <h2>Iniciar Sesión</h2>
       <input id="loginUser" placeholder="Usuario" autocomplete="username" />
       <input id="loginPass" placeholder="Contraseña" type="password" autocomplete="current-password" />
@@ -217,7 +442,6 @@
       </div>
     </div>
     <div class="auth-panel" id="registerPanel" style="display:none">
-      <span class="logo">Maki Host</span>
       <h2>Crear Cuenta Nueva</h2>
       <input id="regUser" placeholder="Usuario" autocomplete="username" />
       <input id="regPass" placeholder="Contraseña" type="password" autocomplete="new-password" />
@@ -258,82 +482,273 @@
     }, 1200);
   }
   function login() {
-    const u = document.getElementById("loginUser").value.trim();
-    const p = document.getElementById("loginPass").value.trim();
-    // Acceso especial
-    if (u === "Félix Manuel" && p === "MANTIS MD") {
-      isSpecialAdmin = true;
-      document.getElementById("authPanels").style.display = "none";
-      document.getElementById("adminModal2").style.display = "flex";
-      renderAdminPanel2();
-      setTimeout(applyCustomColorsPanel2, 50);
-      return;
-    }
+    const u = document.getElementById("loginUser").value;
+    const p = document.getElementById("loginPass").value;
     const found = panelData.users.find(x => x.user === u && x.pass === p);
     if (found) {
       currentUser = found;
       panelData.logs.push(`[${now()}] Login: ${found.user}`);
       saveData();
-      // SIEMPRE redirige si existe la cuenta (excepto Félix Manuel)
-      setTimeout(() => {
-        window.location.href = "https://cyan-seven.vercel.app/";
-      }, 1000);
-      document.getElementById("loginMsg").textContent = "Redirigiendo...";
-      return;
+      document.getElementById("authPanels").style.display = "none";
+      document.getElementById("container").style.display = "flex";
+      showPanel(0);
     } else {
       document.getElementById("loginMsg").textContent = "Usuario o contraseña incorrectos";
     }
   }
   function logout() {
-    panelData.logs.push(`[${now()}] Logout: ${currentUser?.user}`);
+    panelData.logs.push(`[${now()}] Logout: ${currentUser.user}`);
     saveData();
     currentUser = null;
-    isSpecialAdmin = false;
     document.getElementById("authPanels").style.display = "block";
-    document.getElementById("adminModal2").style.display = "none";
+    document.getElementById("container").style.display = "none";
     renderAuthPanels();
     showLogin();
   }
 
-  // --- Panel especial (solo cambia colores del panel, no del body) ---
-  function renderAdminPanel2() {
-    document.getElementById("colorText").value = customColors.text;
-    document.getElementById("colorBg").value = customColors.bg;
-    document.getElementById("colorText").oninput = function() {
-      customColors.text = this.value;
-      saveColors(customColors);
-      applyCustomColorsPanel2();
-    }
-    document.getElementById("colorBg").oninput = function() {
-      customColors.bg = this.value;
-      saveColors(customColors);
-      applyCustomColorsPanel2();
-    }
-    renderSpecialAdminUsers();
-    applyCustomColorsPanel2();
+  // --- Paneles: Render Cards ---
+  function renderAll() {
+    renderDashboard();
+    renderFiles();
+    renderDatabases();
+    renderFTP();
+    renderMail();
+    renderBackups();
+    renderUsers();
+    renderLogs();
+    renderSettings();
+    updateSidebarState();
   }
-  function applyCustomColorsPanel2() {
-    const panel = document.getElementById("specialPanel2");
-    if (panel) {
-      panel.style.background = customColors.bg;
-      panel.style.color = customColors.text;
-      Array.from(panel.querySelectorAll("label, h2, h3")).forEach(el=>{
-        el.style.color = customColors.text;
-      });
+  function updateSidebarState() {
+    document.getElementById("adminBtn").style.display = isAdmin() ? "inline" : "none";
+  }
+  // Dashboard
+  function renderDashboard() {
+    let stats = `
+      <b>Archivos:</b> ${panelData.files.length} | 
+      <b>Bases de datos:</b> ${panelData.databases.length} |
+      <b>FTP:</b> ${panelData.ftpUsers.length} |
+      <b>Correos:</b> ${panelData.mails.length} |
+      <b>Backups:</b> ${panelData.backups.length} |
+      <b>Usuarios:</b> ${panelData.users.length}
+    `;
+    document.getElementById("dashboardPanel").innerHTML = `
+      <div class="card">
+        <h3><i class="ri-coins-line"></i> Coins en uso</h3>
+        <div class="coin-value" id="coinsUsed">${currentUser?.coinsUsed?.toFixed(2) ?? "0,00"}</div>
+      </div>
+      <div class="card">
+        <h3><i class="ri-copper-coin-line"></i> Coins totales</h3>
+        <div class="coin-value" id="coinsTotal">${currentUser?.coinsTotal?.toFixed(2) ?? "0,00"}</div>
+      </div>
+      <div class="card" style="grid-column: span 2;">
+        <h3><i class="ri-home-line"></i> Bienvenido al panel de hosting</h3>
+        <span style="font-size:1.08em; color:#38bdf8;">${stats}</span>
+      </div>
+    `;
+  }
+  // Archivos
+  function renderFiles() {
+    let html = `<div class="card">
+      <h3><i class="ri-file-2-line"></i> Archivos Web</h3>
+      <ul class="list-ul" id="fileList">
+        ${panelData.files.map(f=>`<li>${f}</li>`).join("")}
+      </ul>
+      <input id="newFile" placeholder="Nuevo archivo" />
+      <button class="card-btn" onclick="addFile()" ${!canEdit()?"disabled":""}>Agregar</button>
+    </div>`;
+    document.getElementById("filesPanel").innerHTML = html;
+  }
+  function addFile() {
+    if (!canEdit()) return alert("No tienes permiso");
+    const nf = document.getElementById("newFile").value.trim();
+    if (nf && !panelData.files.includes(nf)) {
+      panelData.files.push(nf);
+      panelData.logs.push(`[${now()}] Archivo creado: ${nf}`);
+      saveData();
+      renderFiles();
+    }
+    document.getElementById("newFile").value = "";
+  }
+  // Bases de datos
+  function renderDatabases() {
+    let html = `<div class="card">
+      <h3><i class="ri-database-2-line"></i> Bases de Datos</h3>
+      <ul class="list-ul" id="dbList">
+        ${panelData.databases.map(db=>`<li>${db}</li>`).join("")}
+      </ul>
+      <input id="newDB" placeholder="Nueva BD" />
+      <button class="card-btn" onclick="addDB()" ${!isAdmin()?"disabled":""}>Crear</button>
+    </div>`;
+    document.getElementById("databasesPanel").innerHTML = html;
+  }
+  function addDB() {
+    if (!isAdmin()) return alert("Solo admin puede crear BD");
+    const ndb = document.getElementById("newDB").value.trim();
+    if (ndb && !panelData.databases.includes(ndb)) {
+      panelData.databases.push(ndb);
+      panelData.logs.push(`[${now()}] BD creada: ${ndb}`);
+      saveData();
+      renderDatabases();
+    }
+    document.getElementById("newDB").value = "";
+  }
+  // FTP
+  function renderFTP() {
+    let html = `<div class="card">
+      <h3><i class="ri-cloud-line"></i> Usuarios FTP</h3>
+      <ul class="list-ul" id="ftpList">
+        ${panelData.ftpUsers.map(u=>`<li>${u}</li>`).join("")}
+      </ul>
+      <input id="newFTP" placeholder="Nuevo usuario FTP" />
+      <button class="card-btn" onclick="addFTP()" ${!canEdit()?"disabled":""}>Agregar</button>
+    </div>`;
+    document.getElementById("ftpPanel").innerHTML = html;
+  }
+  function addFTP() {
+    if (!canEdit()) return alert("No tienes permiso");
+    const nf = document.getElementById("newFTP").value.trim();
+    if (nf && !panelData.ftpUsers.includes(nf)) {
+      panelData.ftpUsers.push(nf);
+      panelData.logs.push(`[${now()}] Usuario FTP creado: ${nf}`);
+      saveData();
+      renderFTP();
+    }
+    document.getElementById("newFTP").value = "";
+  }
+  // Correos
+  function renderMail() {
+    let html = `<div class="card">
+      <h3><i class="ri-mail-send-line"></i> Cuentas de Correo</h3>
+      <ul class="list-ul" id="mailList">
+        ${panelData.mails.map(m=>`<li>${m}</li>`).join("")}
+      </ul>
+      <input id="newMail" placeholder="Nueva cuenta" />
+      <button class="card-btn" onclick="addMail()" ${!canEdit()?"disabled":""}>Crear</button>
+    </div>`;
+    document.getElementById("mailPanel").innerHTML = html;
+  }
+  function addMail() {
+    if (!canEdit()) return alert("No tienes permiso");
+    const nm = document.getElementById("newMail").value.trim();
+    if (nm && !panelData.mails.includes(nm)) {
+      panelData.mails.push(nm);
+      panelData.logs.push(`[${now()}] Cuenta correo creada: ${nm}`);
+      saveData();
+      renderMail();
+    }
+    document.getElementById("newMail").value = "";
+  }
+  // Backups
+  function renderBackups() {
+    let html = `<div class="card">
+      <h3><i class="ri-save-line"></i> Backups</h3>
+      <ul class="list-ul" id="backupList">
+        ${panelData.backups.map(b=>`<li>${b}</li>`).join("")}
+      </ul>
+      <button class="card-btn" onclick="makeBackup()" ${!isAdmin()?"disabled":""}>Crear Backup</button>
+    </div>`;
+    document.getElementById("backupsPanel").innerHTML = html;
+  }
+  function makeBackup() {
+    if (!isAdmin()) return alert("Solo admin puede crear backups");
+    const nb = "Backup " + now();
+    panelData.backups.unshift(nb);
+    panelData.logs.push(`[${now()}] Backup creado: ${nb}`);
+    saveData();
+    renderBackups();
+  }
+  // Usuarios y permisos
+  function renderUsers() {
+    let html = `<div class="card">
+      <h3><i class="ri-team-line"></i> Usuarios y Permisos</h3>
+      <ul class="list-ul" id="userList">
+        ${panelData.users.map(u=>`<li>${u.user} (${u.role})</li>`).join("")}
+      </ul>
+      <input id="newUser" placeholder="Usuario" />
+      <select id="newRole">
+        <option value="admin">Admin</option>
+        <option value="editor">Editor</option>
+        <option value="lector">Lector</option>
+      </select>
+      <button class="card-btn" onclick="addUser()" ${!isAdmin()?"disabled":""}>Agregar usuario</button>
+    </div>`;
+    document.getElementById("usersPanel").innerHTML = html;
+  }
+  function addUser() {
+    if (!isAdmin()) return alert("Solo admin puede añadir usuarios");
+    const nu = document.getElementById("newUser").value.trim();
+    const nr = document.getElementById("newRole").value;
+    if (nu && !panelData.users.find(x => x.user === nu)) {
+      panelData.users.push({ user: nu, pass: "1234", role: nr, coinsUsed: 0, coinsTotal: 0 });
+      panelData.logs.push(`[${now()}] Usuario añadido: ${nu}/${nr}`);
+      saveData();
+      renderUsers();
+    }
+    document.getElementById("newUser").value = "";
+  }
+  // Logs
+  function renderLogs() {
+    let html = `<div class="card">
+      <h3><i class="ri-list-check-2"></i> Logs</h3>
+      <pre style="background:#334155;color:#38bdf8;padding:12px;border-radius:8px;max-height:220px;overflow:auto;font-size:0.96em;">${panelData.logs.slice(-20).join("\n")}</pre>
+    </div>`;
+    document.getElementById("logsPanel").innerHTML = html;
+  }
+  // Temas
+  function renderSettings() {
+    let html = `<div class="card">
+      <h3><i class="ri-palette-line"></i> Personalización</h3>
+      <label>Tema:
+        <select id="themeSelect" onchange="setTheme(event)">
+          <option value="light">Claro</option>
+          <option value="dark">Oscuro</option>
+        </select>
+      </label>
+    </div>`;
+    document.getElementById("settingsPanel").innerHTML = html;
+    document.getElementById("themeSelect").value = panelData.theme;
+    applyTheme();
+  }
+  function setTheme(e) {
+    panelData.theme = e.target.value;
+    localStorage.setItem("theme", panelData.theme);
+    saveData();
+    applyTheme();
+  }
+  function applyTheme() {
+    if (panelData.theme === "dark") {
+      document.body.style.background = "linear-gradient(135deg, #0f172a 0%, #38bdf8 100%)";
+    } else {
+      document.body.style.background = "linear-gradient(135deg, #38bdf8 0%, #0f172a 100%)";
     }
   }
-  function renderSpecialAdminUsers() {
-    const container = document.getElementById("specialAdminUsers");
+  // --- Panel de administración ---
+  function toggleAdminPanel() {
+    if (!isAdmin()) return;
+    const modal = document.getElementById("adminModal");
+    if (modal.style.display === "none") {
+      renderAdminUsers();
+      modal.style.display = "flex";
+    } else {
+      modal.style.display = "none";
+    }
+  }
+  function renderAdminUsers() {
+    const container = document.getElementById("adminUsers");
     container.innerHTML = "";
     panelData.users.forEach((u, idx) => {
+      if (u.user === currentUser.user) return; // no editarse a sí mismo
       const row = document.createElement("div");
       row.className = "admin-user-row";
+      // Usuario
       const label = document.createElement("span");
       label.className = "admin-user-label";
       label.textContent = u.user;
       row.appendChild(label);
+      // Rol
       const roleSel = document.createElement("select");
-      panelData.roles.forEach(r => {
+      ["admin", "editor", "lector"].forEach(r => {
         const opt = document.createElement("option");
         opt.value = r;
         opt.textContent = r;
@@ -342,32 +757,62 @@
       });
       roleSel.onchange = () => {
         panelData.users[idx].role = roleSel.value;
-        panelData.logs.push(`[${now()}] Cambiado rol de ${u.user} a ${roleSel.value} (especial)`);
+        panelData.logs.push(`[${now()}] Cambiado rol de ${u.user} a ${roleSel.value}`);
         saveData();
-        renderSpecialAdminUsers();
+        renderUsers();
+        renderAdminUsers();
       };
       row.appendChild(roleSel);
+      // Coins usados/totales
+      const coinsUsedInput = document.createElement("input");
+      coinsUsedInput.type = "number";
+      coinsUsedInput.value = u.coinsUsed ?? 0;
+      coinsUsedInput.style.width = "55px";
+      coinsUsedInput.title = "Coins en uso";
+      coinsUsedInput.onchange = () => {
+        panelData.users[idx].coinsUsed = parseFloat(coinsUsedInput.value) || 0;
+        panelData.logs.push(`[${now()}] Cambiado coins en uso de ${u.user} a ${coinsUsedInput.value}`);
+        saveData();
+        renderAdminUsers();
+        renderDashboard();
+      };
+      row.appendChild(coinsUsedInput);
+      const coinsTotalInput = document.createElement("input");
+      coinsTotalInput.type = "number";
+      coinsTotalInput.value = u.coinsTotal ?? 0;
+      coinsTotalInput.style.width = "55px";
+      coinsTotalInput.title = "Coins totales";
+      coinsTotalInput.onchange = () => {
+        panelData.users[idx].coinsTotal = parseFloat(coinsTotalInput.value) || 0;
+        panelData.logs.push(`[${now()}] Cambiado coins totales de ${u.user} a ${coinsTotalInput.value}`);
+        saveData();
+        renderAdminUsers();
+        renderDashboard();
+      };
+      row.appendChild(coinsTotalInput);
+      // Eliminar usuario
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "Eliminar";
+      delBtn.onclick = () => {
+        if (confirm("¿Eliminar este usuario?")) {
+          panelData.users.splice(idx, 1);
+          panelData.logs.push(`[${now()}] Usuario eliminado: ${u.user}`);
+          saveData();
+          renderUsers();
+          renderAdminUsers();
+        }
+      };
+      row.appendChild(delBtn);
       container.appendChild(row);
     });
   }
-  function addSpecialRole() {
-    const nu = document.getElementById("addRoleUser").value.trim();
-    const nr = document.getElementById("addRoleSelect").value;
-    if (!nu) return;
-    if (!panelData.users.find(x=>x.user===nu)) {
-      panelData.users.push({user:nu,pass:"1234",role:nr,coinsUsed:0,coinsTotal:0});
-      panelData.logs.push(`[${now()}] Usuario añadido: ${nu}/${nr} (especial)`);
-      saveData();
-      renderSpecialAdminUsers();
-    } else {
-      panelData.users.forEach(u=>{if(u.user===nu)u.role=nr;});
-      panelData.logs.push(`[${now()}] Rol cambiado: ${nu} a ${nr} (especial)`);
-      saveData();
-      renderSpecialAdminUsers();
-    }
-    document.getElementById("addRoleUser").value = "";
-  }
+
+  // --- Helpers ---
   function now() { return new Date().toLocaleString(); }
+  function isAdmin() { return currentUser && currentUser.role === "admin"; }
+  function canEdit() { return currentUser && (currentUser.role === "admin" || currentUser.role === "editor"); }
+
+  // --- Init ---
   renderAuthPanels();
   showLogin();
 </script>
