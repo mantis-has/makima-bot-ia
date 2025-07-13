@@ -1,90 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Terminal Web</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Editor Colaborativo en Tiempo Real</title>
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      background: #222;
-      color: #fff;
-      font-family: monospace;
-      width: 100vw;
-      overflow: hidden;
-    }
-    body {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      width: 100vw;
-    }
-    #terminal {
-      flex: 1 1 auto;
-      width: 100vw;
-      height: 100vh;
-      min-height: 0;
-    }
-    .input-area {
-      width: 100vw;
-      box-sizing: border-box;
-      padding: 12px;
-      font-size: 1rem;
-      background: #111;
-      color: #fff;
-      border: none;
-      outline: none;
-    }
-    @media (max-width: 600px) {
-      .input-area { font-size: 1.2rem; padding: 18px; }
-    }
+    html, body { height: 100%; margin:0; padding:0; }
+    body { display: flex; flex-direction: column; height: 100vh; }
+    #topbar { padding: 10px; background: #333; color: #fff; }
+    #editor { flex: 1; }
+    button { background: #555; color: #fff; border: none; padding: 8px 16px; margin-left: 16px; cursor:pointer; }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 </head>
 <body>
-  <div id="terminal"></div>
-  <input id="input" class="input-area" autofocus autocomplete="off" placeholder="Escribe un comando y presiona Enter..." />
-  <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+  <div id="topbar">
+    <span>Editor colaborativo: <b>archivo_colaborativo.js</b></span>
+    <button onclick="saveFile()">Guardar en servidor</button>
+    <span id="status"></span>
+  </div>
+  <div id="editor"></div>
   <script>
-    const term = new Terminal({ theme: { background: '#222', foreground: '#fff' } });
-    term.open(document.getElementById('terminal'));
-    term.write('Bienvenido a la terminal web\r\n$ ');
+    let editor;
+    let isRemote = false;
+    let lastContent = "";
 
-    const input = document.getElementById('input');
-    function scrollToBottom() {
-      term.element.scrollTop = term.element.scrollHeight;
-    }
-    input.addEventListener('keydown', async (e) => {
-      if (e.key === 'Enter') {
-        const command = input.value;
-        if(command.trim() === '') return;
-        term.write(command + '\r\n');
-        input.value = '';
-        try {
-          const res = await fetch('http://localhost:3001/command', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ command })
-          });
-          const output = await res.text();
-          term.write(output + '\r\n$ ');
-          scrollToBottom();
-        } catch (err) {
-          term.write('Error de conexión\r\n$ ');
+    // Inicializa Monaco
+    require.config({ paths: { vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs" } });
+    require(["vs/editor/editor.main"], function () {
+      editor = monaco.editor.create(document.getElementById("editor"), {
+        value: "",
+        language: "javascript",
+        theme: "vs-dark",
+        automaticLayout: true
+      });
+
+      const socket = io('http://localhost:3001');
+
+      // Recibe contenido inicial
+      socket.on('init', content => {
+        editor.setValue(content);
+        lastContent = content;
+      });
+
+      // Recibe cambios de otros usuarios
+      socket.on('update', content => {
+        isRemote = true;
+        editor.setValue(content);
+        lastContent = content;
+        isRemote = false;
+        document.getElementById('status').textContent = "Actualizado por colaborador";
+        setTimeout(()=>document.getElementById('status').textContent="",1500);
+      });
+
+      // Detecta cambio local y envía a los demás
+      editor.onDidChangeModelContent(() => {
+        if (isRemote) return; // Evita bucle
+        const content = editor.getValue();
+        if (content !== lastContent) {
+          socket.emit('edit', content);
+          lastContent = content;
         }
-      }
+      });
     });
 
-    // Haz que el input siempre esté visible cuando se usa el teclado en móvil
-    window.addEventListener('touchstart', () => input.focus());
-    window.addEventListener('click', () => input.focus());
-
-    // Para que el terminal ocupe toda la pantalla incluso al cambiar tamaño
-    window.addEventListener('resize', () => {
-      term.fit && term.fit();
-    });
+    // Guardar manualmente en el servidor
+    function saveFile() {
+      fetch('http://localhost:3001/file', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: editor.getValue() })
+      })
+      .then(res => res.text())
+      .then(msg => {
+        document.getElementById('status').textContent = msg;
+        setTimeout(()=>document.getElementById('status').textContent="",1500);
+      });
+    }
   </script>
 </body>
 </html>
