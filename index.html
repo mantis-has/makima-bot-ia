@@ -3,81 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Editor Colaborativo en Tiempo Real</title>
-  <style>
-    html, body { height: 100%; margin:0; padding:0; }
-    body { display: flex; flex-direction: column; height: 100vh; }
-    #topbar { padding: 10px; background: #333; color: #fff; }
-    #editor { flex: 1; }
-    button { background: #555; color: #fff; border: none; padding: 8px 16px; margin-left: 16px; cursor:pointer; }
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <title>Mi Panel</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div id="topbar">
-    <span>Editor colaborativo: <b>archivo_colaborativo.js</b></span>
-    <button onclick="saveFile()">Guardar en servidor</button>
-    <span id="status"></span>
+  <div id="loginPanel">
+    <h2>Iniciar Sesión</h2>
+    <input id="loginUser" placeholder="Usuario" />
+    <input id="loginPass" placeholder="Contraseña" type="password" />
+    <button onclick="login()">Entrar</button>
+    <div id="loginMsg"></div>
   </div>
-  <div id="editor"></div>
-  <script>
-    let editor;
-    let isRemote = false;
-    let lastContent = "";
-
-    // Inicializa Monaco
-    require.config({ paths: { vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs" } });
-    require(["vs/editor/editor.main"], function () {
-      editor = monaco.editor.create(document.getElementById("editor"), {
-        value: "",
-        language: "javascript",
-        theme: "vs-dark",
-        automaticLayout: true
-      });
-
-      const socket = io('http://localhost:3001');
-
-      // Recibe contenido inicial
-      socket.on('init', content => {
-        editor.setValue(content);
-        lastContent = content;
-      });
-
-      // Recibe cambios de otros usuarios
-      socket.on('update', content => {
-        isRemote = true;
-        editor.setValue(content);
-        lastContent = content;
-        isRemote = false;
-        document.getElementById('status').textContent = "Actualizado por colaborador";
-        setTimeout(()=>document.getElementById('status').textContent="",1500);
-      });
-
-      // Detecta cambio local y envía a los demás
-      editor.onDidChangeModelContent(() => {
-        if (isRemote) return; // Evita bucle
-        const content = editor.getValue();
-        if (content !== lastContent) {
-          socket.emit('edit', content);
-          lastContent = content;
-        }
-      });
-    });
-
-    // Guardar manualmente en el servidor
-    function saveFile() {
-      fetch('http://localhost:3001/file', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: editor.getValue() })
-      })
-      .then(res => res.text())
-      .then(msg => {
-        document.getElementById('status').textContent = msg;
-        setTimeout(()=>document.getElementById('status').textContent="",1500);
-      });
-    }
-  </script>
+  <div id="mainPanel" class="hidden">
+    <nav>
+      <button onclick="showTab('dashboard')">Dashboard</button>
+      <button onclick="showTab('files')">Archivos</button>
+      <button onclick="showTab('databases')">Bases de Datos</button>
+      <button onclick="showTab('ftp')">FTP</button>
+      <button onclick="showTab('mail')">Correos</button>
+      <button onclick="showTab('backups')">Backups</button>
+      <button onclick="showTab('users')">Usuarios</button>
+      <button onclick="showTab('logs')">Logs</button>
+      <button onclick="showTab('settings')">Temas/Personalización</button>
+      <button onclick="logout()" style="float:right;background:#c33">Salir</button>
+    </nav>
+    <div id="dashboard" class="tab">Bienvenido al panel de hosting.<br><span id="stats"></span></div>
+    <div id="files" class="tab hidden">
+      <h3>Gestión de Archivos</h3>
+      <ul id="fileList"></ul>
+      <input id="newFile" placeholder="Nuevo archivo" />
+      <button onclick="addFile()">Agregar</button>
+    </div>
+    <div id="databases" class="tab hidden">
+      <h3>Bases de Datos</h3>
+      <ul id="dbList"></ul>
+      <input id="newDB" placeholder="Nueva BD" />
+      <button onclick="addDB()">Crear</button>
+    </div>
+    <div id="ftp" class="tab hidden">
+      <h3>Usuarios FTP</h3>
+      <ul id="ftpList"></ul>
+      <input id="newFTP" placeholder="Nuevo usuario FTP" />
+      <button onclick="addFTP()">Agregar</button>
+    </div>
+    <div id="mail" class="tab hidden">
+      <h3>Cuentas de Correo</h3>
+      <ul id="mailList"></ul>
+      <input id="newMail" placeholder="Nueva cuenta" />
+      <button onclick="addMail()">Crear</button>
+    </div>
+    <div id="backups" class="tab hidden">
+      <h3>Backups</h3>
+      <ul id="backupList"></ul>
+      <button onclick="makeBackup()">Crear Backup</button>
+    </div>
+    <div id="users" class="tab hidden">
+      <h3>Usuarios y Permisos</h3>
+      <ul id="userList"></ul>
+      <input id="newUser" placeholder="Usuario" />
+      <select id="newRole">
+        <option value="admin">Admin</option>
+        <option value="editor">Editor</option>
+        <option value="lector">Lector</option>
+      </select>
+      <button onclick="addUser()">Agregar usuario</button>
+    </div>
+    <div id="logs" class="tab hidden">
+      <h3>Logs</h3>
+      <pre id="logBox"></pre>
+    </div>
+    <div id="settings" class="tab hidden">
+      <h3>Personalización</h3>
+      <label>Tema:
+        <select id="themeSelect" onchange="setTheme(event)">
+          <option value="light">Claro</option>
+          <option value="dark">Oscuro</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
