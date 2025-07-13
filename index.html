@@ -10,7 +10,7 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
-      background: linear-gradient(135deg, #38bdf8 0%, #0f172a 100%);
+      background: linear-gradient(135deg, #101820 0%, #38bdf8 100%);
       min-height: 100vh;
       color: #e2e8f0;
       display: flex;
@@ -21,44 +21,48 @@
       min-height: 100vh;
     }
     .sidebar {
-      background: rgba(15,23,42,0.95);
-      width: 92px;
+      background: #101820;
+      width: 70px;
+      min-width: 70px;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding-top: 36px;
-      box-shadow: 2px 0 16px #38bdf822;
-      gap: 18px;
+      box-shadow: 2px 0 14px #00fff77a;
+      gap: 0.3em;
       z-index: 10;
     }
     .sidebar .logo {
-      font-size: 2.1em;
+      font-size: 2em;
       font-weight: bold;
-      color: #38bdf8;
-      margin-bottom: 25px;
+      color: #00fff7;
+      margin-bottom: 22px;
       letter-spacing: 2px;
-      text-shadow: 0 2px 8px #0ea5e966;
+      text-shadow: 0 2px 8px #00fff766;
     }
-    .sidebar .side-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 62px;
-      height: 62px;
-      border-radius: 12px;
+    .sidebar .side-btn, .sidebar .admin-btn {
       background: transparent;
       border: none;
-      color: #38bdf8;
+      color: #00fff7;
       font-size: 1.6em;
-      margin-bottom: 8px;
+      margin: 0.3em 0;
+      border-radius: 12px;
+      transition: background 0.15s, color 0.2s;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      transition: background 0.15s;
     }
-    .sidebar .side-btn.active,
-    .sidebar .side-btn:hover {
-      background: #38bdf81c;
+    .sidebar .side-btn.active, .sidebar .side-btn:hover, .sidebar .admin-btn.active, .sidebar .admin-btn:hover {
+      background: #00fff71a;
       color: #fff;
+    }
+    .sidebar .admin-btn {
+      margin-top: 1.5em;
+      font-size: 1.7em;
+      display: none;
     }
     .main {
       flex: 1;
@@ -67,6 +71,7 @@
       align-items: stretch;
       background: none;
       min-height: 100vh;
+      padding: 0 0.5em;
       margin-bottom: 54px;
     }
     .topbar {
@@ -75,7 +80,7 @@
       padding: 0 28px;
       height: 72px;
       background: rgba(56,189,248,0.09);
-      box-shadow: 0 4px 24px #38bdf822;
+      box-shadow: 0 4px 24px #00fff722;
       z-index: 8;
       position: relative;
     }
@@ -86,25 +91,9 @@
       letter-spacing: 1px;
       margin-right: auto;
     }
-    .topbar .admin-btn {
-      background: none;
-      border: none;
-      color: #38bdf8;
-      font-size: 1em;
-      font-weight: 500;
-      margin-right: 24px;
-      cursor: pointer;
-      opacity: 0.6;
-      transition: opacity 0.2s;
-    }
-    .topbar .admin-btn:hover {
-      opacity: 1;
-      text-decoration: underline;
-      color: #fff;
-    }
     .topbar .logout-btn {
-      background: #38bdf8;
-      color: #0f172a;
+      background: #00fff7;
+      color: #101820;
       border: none;
       border-radius: 7px;
       padding: 8px 16px;
@@ -112,12 +101,14 @@
       font-size: 1em;
       margin-left: 16px;
       cursor: pointer;
+      box-shadow: 0 2px 14px #00fff74a;
+      transition: background 0.15s, color 0.2s;
     }
     .auth-panel {
       max-width: 370px;
       margin: 80px auto;
-      background: rgba(15,23,42,0.97);
-      box-shadow: 0 2px 24px #38bdf822;
+      background: #101820e8;
+      box-shadow: 0 2px 24px #00fff72a;
       border-radius: 16px;
       padding: 36px 32px;
       text-align: center;
@@ -125,7 +116,7 @@
     }
     .auth-panel h2 {
       margin-bottom: 18px;
-      color: #38bdf8;
+      color: #00fff7;
       font-weight: 600;
       font-size: 1.5em;
     }
@@ -134,19 +125,19 @@
       padding: 8px 12px;
       border: none;
       border-radius: 7px;
-      background: #334155;
-      color: #cbd5e1;
+      background: #1c232b;
+      color: #00fff7;
       margin-bottom: 14px;
       font-size: 1.07em;
       outline: none;
       transition: box-shadow 0.15s;
     }
     .auth-panel input:focus {
-      box-shadow: 0 0 0 2px #38bdf8;
+      box-shadow: 0 0 0 2px #00fff7;
     }
     .auth-panel button {
-      background: #38bdf8;
-      color: #0f172a;
+      background: #00fff7;
+      color: #101820;
       border-radius: 7px;
       border: none;
       font-weight: bold;
@@ -155,11 +146,12 @@
       margin-top: 4px;
       cursor: pointer;
       margin-bottom: 8px;
+      box-shadow: 0 2px 10px #00fff74a;
     }
     .auth-panel .secondary {
-      background: #334155;
-      color: #38bdf8;
-      border: 1px solid #38bdf8;
+      background: #1c232b;
+      color: #00fff7;
+      border: 1px solid #00fff7;
       margin-left: 8px;
     }
     .auth-panel .extra {
@@ -172,46 +164,49 @@
       gap: 24px;
       margin: 36px 30px 0 30px;
     }
-    .card {
-      background: rgba(15,23,42,0.98);
-      border-radius: 14px;
-      box-shadow: 0 2px 14px #38bdf822;
-      padding: 28px 22px 22px 22px;
+    .card, .admin-panel {
+      background: #1c232b;
+      border-radius: 16px;
+      box-shadow: 0 2px 18px #00fff72c;
       color: #e2e8f0;
       display: flex;
       flex-direction: column;
       min-height: 120px;
       position: relative;
+      padding: 28px 22px 22px 22px;
+      border: 2px solid #00fff7;
     }
     .card h3 {
       margin-top: 0;
       margin-bottom: 10px;
-      color: #38bdf8;
+      color: #00fff7;
       font-size: 1.15em;
       font-weight: 600;
     }
     .card .coin-value {
       font-size: 2.3em;
       font-weight: bold;
-      color: #38bdf8;
+      color: #00fff7;
       margin-top: 10px;
     }
     .card .card-btn {
       margin-top: 16px;
       padding: 8px 14px;
-      background: #0ea5e9;
-      color: #fff;
+      background: #00fff7;
+      color: #101820;
       border: none;
       border-radius: 7px;
       font-weight: 500;
       cursor: pointer;
       font-size: 1em;
-      box-shadow: 0 2px 10px #38bdf822;
+      box-shadow: 0 2px 10px #00fff74a;
+      transition: background 0.15s, color 0.2s;
     }
     .card .card-btn:disabled {
-      background: #334155;
+      background: #1c232b;
       color: #94a3b8;
       cursor: not-allowed;
+      border: 1px solid #00fff7;
     }
     .list-ul {
       list-style: none;
@@ -219,8 +214,8 @@
       margin: 0 0 8px 0;
     }
     .list-ul li {
-      background: #334155;
-      color: #cbd5e1;
+      background: #101820;
+      color: #00fff7;
       margin-bottom: 9px;
       padding: 8px 16px;
       border-radius: 7px;
@@ -230,23 +225,25 @@
       justify-content: space-between;
     }
     .list-ul li .del-btn {
-      background: #38bdf8;
-      color: #0f172a;
+      background: #00fff7;
+      color: #101820;
       border: none;
       border-radius: 5px;
       padding: 2px 8px;
       margin-left: 10px;
       font-size: 0.95em;
       cursor: pointer;
+      transition: background 0.15s, color 0.2s;
     }
     .list-ul li .del-btn:hover {
-      background: #0ea5e9;
-      color: #fff;
+      background: #101820;
+      color: #00fff7;
+      border: 1px solid #00fff7;
     }
     .footer {
       width: 100%;
-      background: rgba(15,23,42,0.96);
-      color: #38bdf8;
+      background: #101820;
+      color: #00fff7;
       padding: 18px 0 10px 0;
       text-align: center;
       font-size: 1.05em;
@@ -260,25 +257,23 @@
     .admin-modal-bg {
       position: fixed;
       top: 0; left: 0; right:0; bottom:0;
-      background: #0f172acc 0.9;
+      background: #101820cc;
       z-index: 999;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .admin-panel {
-      background: #1e293b;
-      color: #e2e8f0;
-      border-radius: 18px;
-      box-shadow: 0 4px 36px #38bdf822;
-      padding: 36px 32px;
       min-width: 320px;
       max-width: 400px;
       position: relative;
+      box-shadow: 0 4px 36px #00fff722;
+      padding: 36px 32px;
+      border: 2px solid #00fff7;
     }
     .admin-panel h2 {
       margin-top: 0; margin-bottom: 22px;
-      color: #38bdf8;
+      color: #00fff7;
       font-size: 1.24em;
       font-weight: bold;
       text-align: center;
@@ -296,42 +291,49 @@
       font-size: 1.07em;
     }
     .admin-user-row select, .admin-user-row input {
-      background: #334155;
-      color: #38bdf8;
-      border: none;
+      background: #1c232b;
+      color: #00fff7;
+      border: 1px solid #00fff7;
       padding: 4px 6px;
       border-radius: 5px;
       font-size: 1em;
       outline: none;
+      margin-right: 2px;
     }
     .admin-user-row button {
-      background: #38bdf8;
-      color: #0f172a;
+      background: #00fff7;
+      color: #101820;
       border: none;
       border-radius: 5px;
       padding: 3px 12px;
       cursor: pointer;
       font-weight: 500;
+      transition: background 0.15s, color 0.2s;
+    }
+    .admin-user-row button:hover {
+      background: #101820;
+      color: #00fff7;
+      border: 1px solid #00fff7;
     }
     .admin-close-btn {
-      background: #334155;
-      color: #38bdf8;
-      border: none;
+      background: #101820;
+      color: #00fff7;
+      border: 2px solid #00fff7;
+      margin-top: 2em;
+      padding: 0.8em 2em;
       border-radius: 7px;
-      padding: 8px 14px;
       font-weight: bold;
       font-size: 1em;
-      margin-top: 24px;
-      cursor: pointer;
-      display: block;
       margin-left: auto;
       margin-right: auto;
+      cursor: pointer;
+      display: block;
     }
     /* Responsive */
     @media (max-width: 650px) {
       .card-grid {grid-template-columns: 1fr;}
-      .sidebar {width: 66px;}
-      .sidebar .logo {font-size: 1.3em;}
+      .sidebar {width: 56px; min-width: 56px;}
+      .sidebar .logo {font-size: 1.2em;}
       .main {margin-bottom: 54px;}
       .topbar {height: 54px;}
       .topbar .title {font-size: 1.1em;}
@@ -352,11 +354,13 @@
     <button class="side-btn" id="btn-users" title="Usuarios"><i class="ri-team-line"></i></button>
     <button class="side-btn" id="btn-logs" title="Logs"><i class="ri-list-check-2"></i></button>
     <button class="side-btn" id="btn-settings" title="Temas"><i class="ri-palette-line"></i></button>
+    <button class="admin-btn" id="btn-admin" title="Administración" onclick="toggleAdminPanel()">
+      <i class="ri-shield-user-line"></i>
+    </button>
   </div>
   <div class="main">
     <div class="topbar">
       <span class="title" id="topbar-title">Panel de Hosting</span>
-      <button class="admin-btn" id="adminBtn" onclick="toggleAdminPanel()">Disfruta de tus proyectos</button>
       <button class="logout-btn" onclick="logout()">Salir</button>
     </div>
     <div id="dashboardPanel" class="card-grid"></div>
@@ -371,7 +375,7 @@
     <!-- Panel de administración oculto -->
     <div id="adminModal" class="admin-modal-bg" style="display:none">
       <div class="admin-panel">
-        <h2>Panel de Administración</h2>
+        <h2>Administración de usuarios</h2>
         <div id="adminUsers"></div>
         <button onclick="toggleAdminPanel()" class="admin-close-btn">Cerrar</button>
       </div>
@@ -476,10 +480,11 @@
     const newUser = { user: regUser, pass: regPass, role: "lector", coinsUsed: 0, coinsTotal: 0 };
     panelData.users.push(newUser);
     saveData();
-    document.getElementById("regMsg").textContent = "Cuenta creada, redirigiendo...";
+    document.getElementById("regMsg").textContent = "Cuenta creada, ahora puedes iniciar sesión.";
     setTimeout(() => {
-      window.location.href = "https://cyan-seven.vercel.app/";
-    }, 1200);
+      showLogin();
+      document.getElementById("loginUser").value = regUser;
+    }, 1000);
   }
   function login() {
     const u = document.getElementById("loginUser").value;
@@ -520,30 +525,25 @@
     updateSidebarState();
   }
   function updateSidebarState() {
-    document.getElementById("adminBtn").style.display = isAdmin() ? "inline" : "none";
+    document.getElementById("btn-admin").style.display = isAdmin() ? "block" : "none";
   }
   // Dashboard
   function renderDashboard() {
     let stats = `
-      <b>Archivos:</b> ${panelData.files.length} | 
-      <b>Bases de datos:</b> ${panelData.databases.length} |
-      <b>FTP:</b> ${panelData.ftpUsers.length} |
-      <b>Correos:</b> ${panelData.mails.length} |
-      <b>Backups:</b> ${panelData.backups.length} |
-      <b>Usuarios:</b> ${panelData.users.length}
+      <span style="color:#00fff7">Archivos: ${panelData.files.length} | BD: ${panelData.databases.length} | FTP: ${panelData.ftpUsers.length} | Correos: ${panelData.mails.length} | Backups: ${panelData.backups.length} | Usuarios: ${panelData.users.length}</span>
     `;
     document.getElementById("dashboardPanel").innerHTML = `
-      <div class="card">
+      <div class="card" style="box-shadow:0 0 24px #00fff7;">
         <h3><i class="ri-coins-line"></i> Coins en uso</h3>
         <div class="coin-value" id="coinsUsed">${currentUser?.coinsUsed?.toFixed(2) ?? "0,00"}</div>
       </div>
-      <div class="card">
+      <div class="card" style="box-shadow:0 0 24px #00fff7;">
         <h3><i class="ri-copper-coin-line"></i> Coins totales</h3>
         <div class="coin-value" id="coinsTotal">${currentUser?.coinsTotal?.toFixed(2) ?? "0,00"}</div>
       </div>
-      <div class="card" style="grid-column: span 2;">
-        <h3><i class="ri-home-line"></i> Bienvenido al panel de hosting</h3>
-        <span style="font-size:1.08em; color:#38bdf8;">${stats}</span>
+      <div class="card" style="grid-column: span 2;box-shadow:0 0 24px #00fff7;">
+        <h3><i class="ri-home-line"></i> Bienvenido al panel Maki Host</h3>
+        <span style="font-size:1.08em;">${stats}</span>
       </div>
     `;
   }
@@ -691,7 +691,7 @@
   function renderLogs() {
     let html = `<div class="card">
       <h3><i class="ri-list-check-2"></i> Logs</h3>
-      <pre style="background:#334155;color:#38bdf8;padding:12px;border-radius:8px;max-height:220px;overflow:auto;font-size:0.96em;">${panelData.logs.slice(-20).join("\n")}</pre>
+      <pre style="background:#101820;color:#00fff7;padding:12px;border-radius:8px;max-height:220px;overflow:auto;font-size:0.96em;">${panelData.logs.slice(-20).join("\n")}</pre>
     </div>`;
     document.getElementById("logsPanel").innerHTML = html;
   }
@@ -718,9 +718,9 @@
   }
   function applyTheme() {
     if (panelData.theme === "dark") {
-      document.body.style.background = "linear-gradient(135deg, #0f172a 0%, #38bdf8 100%)";
+      document.body.style.background = "linear-gradient(135deg, #101820 0%, #38bdf8 100%)";
     } else {
-      document.body.style.background = "linear-gradient(135deg, #38bdf8 0%, #0f172a 100%)";
+      document.body.style.background = "linear-gradient(135deg, #38bdf8 0%, #101820 100%)";
     }
   }
   // --- Panel de administración ---
@@ -755,66 +755,4 @@
         if (u.role === r) opt.selected = true;
         roleSel.appendChild(opt);
       });
-      roleSel.onchange = () => {
-        panelData.users[idx].role = roleSel.value;
-        panelData.logs.push(`[${now()}] Cambiado rol de ${u.user} a ${roleSel.value}`);
-        saveData();
-        renderUsers();
-        renderAdminUsers();
-      };
-      row.appendChild(roleSel);
-      // Coins usados/totales
-      const coinsUsedInput = document.createElement("input");
-      coinsUsedInput.type = "number";
-      coinsUsedInput.value = u.coinsUsed ?? 0;
-      coinsUsedInput.style.width = "55px";
-      coinsUsedInput.title = "Coins en uso";
-      coinsUsedInput.onchange = () => {
-        panelData.users[idx].coinsUsed = parseFloat(coinsUsedInput.value) || 0;
-        panelData.logs.push(`[${now()}] Cambiado coins en uso de ${u.user} a ${coinsUsedInput.value}`);
-        saveData();
-        renderAdminUsers();
-        renderDashboard();
-      };
-      row.appendChild(coinsUsedInput);
-      const coinsTotalInput = document.createElement("input");
-      coinsTotalInput.type = "number";
-      coinsTotalInput.value = u.coinsTotal ?? 0;
-      coinsTotalInput.style.width = "55px";
-      coinsTotalInput.title = "Coins totales";
-      coinsTotalInput.onchange = () => {
-        panelData.users[idx].coinsTotal = parseFloat(coinsTotalInput.value) || 0;
-        panelData.logs.push(`[${now()}] Cambiado coins totales de ${u.user} a ${coinsTotalInput.value}`);
-        saveData();
-        renderAdminUsers();
-        renderDashboard();
-      };
-      row.appendChild(coinsTotalInput);
-      // Eliminar usuario
-      const delBtn = document.createElement("button");
-      delBtn.textContent = "Eliminar";
-      delBtn.onclick = () => {
-        if (confirm("¿Eliminar este usuario?")) {
-          panelData.users.splice(idx, 1);
-          panelData.logs.push(`[${now()}] Usuario eliminado: ${u.user}`);
-          saveData();
-          renderUsers();
-          renderAdminUsers();
-        }
-      };
-      row.appendChild(delBtn);
-      container.appendChild(row);
-    });
-  }
-
-  // --- Helpers ---
-  function now() { return new Date().toLocaleString(); }
-  function isAdmin() { return currentUser && currentUser.role === "admin"; }
-  function canEdit() { return currentUser && (currentUser.role === "admin" || currentUser.role === "editor"); }
-
-  // --- Init ---
-  renderAuthPanels();
-  showLogin();
-</script>
-</body>
-</html>
+      roleSel.onchange =
