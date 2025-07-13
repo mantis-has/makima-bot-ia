@@ -22,17 +22,14 @@
     <h2>Crear Cuenta Nueva</h2>
     <input id="regUser" placeholder="Usuario" />
     <input id="regPass" placeholder="Contraseña" type="password" />
-    <select id="regRole">
-      <option value="admin">Admin</option>
-      <option value="editor">Editor</option>
-      <option value="lector">Lector</option>
-    </select>
     <button onclick="register()">Registrar</button>
     <button onclick="showLogin()" class="secondary">Volver</button>
     <div id="regMsg"></div>
   </div>
   <div id="mainPanel" class="hidden">
     <nav>
+      <span id="navTitle">Panel de Hosting</span>
+      <button id="enjoyBtn" class="enjoy-btn" onclick="toggleAdminPanel()">Disfruta de tus proyectos</button>
       <button onclick="showTab('dashboard')">Dashboard</button>
       <button onclick="showTab('files')">Archivos</button>
       <button onclick="showTab('databases')">Bases de Datos</button>
@@ -44,7 +41,19 @@
       <button onclick="showTab('settings')">Temas/Personalización</button>
       <button onclick="logout()" style="float:right;background:#c33">Salir</button>
     </nav>
-    <div id="dashboard" class="tab">Bienvenido al panel de hosting.<br><span id="stats"></span></div>
+    <div id="dashboard" class="tab">
+      <div class="coins-panel">
+        <div class="coin-btn">
+          Coins en uso<br>
+          <span id="coinsUsed">0,00</span>
+        </div>
+        <div class="coin-btn">
+          Coins totales:<br>
+          <span id="coinsTotal">0,00</span>
+        </div>
+      </div>
+      Bienvenido al panel de hosting.<br><span id="stats"></span>
+    </div>
     <div id="files" class="tab hidden">
       <h3>Gestión de Archivos</h3>
       <ul id="fileList"></ul>
@@ -98,7 +107,16 @@
         </select>
       </label>
     </div>
+    <!-- Panel de Administración oculto -->
+    <div id="adminPanel" class="admin-panel hidden">
+      <h2>Panel de Administración</h2>
+      <div id="adminUsers"></div>
+      <button onclick="toggleAdminPanel()" class="secondary">Cerrar</button>
+    </div>
   </div>
+  <footer>
+    <div class="footer-text">© Maki Host | Todos los derechos reservados</div>
+  </footer>
   <script src="script.js"></script>
 </body>
 </html>
