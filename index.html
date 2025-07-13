@@ -6,68 +6,50 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
   <style>
-    body { margin:0; font-family:sans-serif; background:linear-gradient(135deg,#101820 0%,#38bdf8 100%); min-height:100vh; color:#e2e8f0; }
-    .container { display:flex; min-height:100vh; }
-    .sidebar { background:#101820; width:70px; min-width:70px; display:flex; flex-direction:column; align-items:center; padding-top:36px; box-shadow:2px 0 14px #00fff77a; gap:0.3em; z-index:10; }
-    .logo { font-size:2em; font-weight:bold; color:#00fff7; margin-bottom:22px; letter-spacing:2px; text-shadow:0 2px 8px #00fff766; }
-    .side-btn, .admin-btn { background:transparent; border:none; color:#00fff7; font-size:1.6em; margin:0.3em 0; border-radius:12px; transition:background 0.15s, color 0.2s; width:52px; height:52px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
-    .side-btn.active, .side-btn:hover, .admin-btn.active, .admin-btn:hover { background:#00fff71a; color:#fff; }
-    .admin-btn { margin-top:1.5em; font-size:1.7em; display:none; }
-    .main { flex:1; display:flex; flex-direction:column; align-items:stretch; min-height:100vh; padding:0 0.5em; margin-bottom:54px; }
-    .topbar { display:flex; align-items:center; padding:0 28px; height:72px; background:rgba(56,189,248,0.09); box-shadow:0 4px 24px #00fff722; z-index:8; position:relative; }
+    body { margin:0; font-family:sans-serif; background:#181818; color:#fff; min-height:100vh;}
+    .container { display:flex; min-height:100vh;}
+    .sidebar { background:#101820; width:70px; min-width:70px; display:flex; flex-direction:column; align-items:center; padding-top:36px; gap:0.3em; z-index:10;}
+    .logo { font-size:2em; font-weight:bold; color:#ff8800; margin-bottom:22px; letter-spacing:2px;}
+    .side-btn, .admin-btn { background:transparent; border:none; color:#ff8800; font-size:1.6em; margin:0.3em 0; border-radius:12px; width:52px; height:52px; display:flex; align-items:center; justify-content:center; cursor:pointer;}
+    .side-btn.active, .side-btn:hover, .admin-btn.active, .admin-btn:hover { background:#ff88001a; color:#fff;}
+    .admin-btn { margin-top:1.5em; font-size:1.7em; display:none;}
+    .main { flex:1; display:flex; flex-direction:column; align-items:stretch; min-height:100vh; padding:0 0.5em; margin-bottom:54px;}
+    .topbar { display:flex; align-items:center; padding:0 28px; height:72px; background:#232323;}
     .topbar .title { font-size:1.4em; font-weight:600; color:#fff; letter-spacing:1px; margin-right:auto;}
-    .topbar .logout-btn { background:#00fff7; color:#101820; border:none; border-radius:7px; padding:8px 16px; font-weight:bold; font-size:1em; margin-left:16px; cursor:pointer; box-shadow:0 2px 14px #00fff74a; transition:background 0.15s, color 0.2s;}
+    .topbar .logout-btn { background:#ff8800; color:#fff; border:none; border-radius:7px; padding:8px 16px; font-weight:bold; font-size:1em; margin-left:16px; cursor:pointer;}
+    /* LOGIN Y REGISTRO: colores originales */
     .auth-panel { max-width:370px; margin:80px auto; background:#101820e8; box-shadow:0 2px 24px #00fff72a; border-radius:16px; padding:36px 32px; text-align:center; color:#e2e8f0;}
     .auth-panel h2 { margin-bottom:18px; color:#00fff7; font-weight:600; font-size:1.5em;}
-    .auth-panel input { width:90%; padding:8px 12px; border:none; border-radius:7px; background:#1c232b; color:#00fff7; margin-bottom:14px; font-size:1.07em; outline:none; transition:box-shadow 0.15s;}
+    .auth-panel input { width:90%; padding:8px 12px; border:none; border-radius:7px; background:#1c232b; color:#00fff7; margin-bottom:14px; font-size:1.07em; outline:none;}
     .auth-panel input:focus { box-shadow:0 0 0 2px #00fff7;}
     .auth-panel button { background:#00fff7; color:#101820; border-radius:7px; border:none; font-weight:bold; font-size:1em; padding:9px 22px; margin-top:4px; cursor:pointer; margin-bottom:8px; box-shadow:0 2px 10px #00fff74a;}
     .auth-panel .secondary { background:#1c232b; color:#00fff7; border:1px solid #00fff7; margin-left:8px;}
     .auth-panel .extra { margin-top:16px; font-size:0.98em;}
+    /* PANEL INTERNO: fondo negro, letras blancas, botones naranja */
+    .panel-bg, .main, .panel-main, .dashboardPanel, .card, .admin-panel, .modal-content, .user-menu, .console-area { background:#181818 !important; color:#fff !important;}
+    .card, .admin-panel, .modal-content { border-radius:16px; box-shadow:none; border:none;}
+    .card h3, .panel-card h3, .admin-panel h2, .modal-content h2, .topbar .title { color:#ff8800 !important;}
+    .panel-btn, .admin-close-btn, .modal-close-btn, .card-btn, .console-send-btn, .user-menu button, .card .card-btn { background:#ff8800 !important; color:#fff !important; border:none !important; border-radius:7px; font-weight:bold; font-size:1em; cursor:pointer;}
+    .panel-input, .panel-select, .console-input { background:#181818; color:#fff; border:1px solid #ff8800; border-radius:7px; padding:8px 12px; margin-bottom:8px;}
     .card-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(270px,1fr)); gap:24px; margin:36px 30px 0 30px;}
-    .card, .admin-panel, .modal-content { background:#1c232b; border-radius:16px; box-shadow:0 2px 18px #00fff72c; color:#e2e8f0; display:flex; flex-direction:column; min-height:120px; position:relative; padding:28px 22px 22px 22px; border:2px solid #00fff7;}
-    .card h3 { margin-top:0; margin-bottom:10px; color:#00fff7; font-size:1.15em; font-weight:600;}
-    .card .coin-value { font-size:2.3em; font-weight:bold; color:#00fff7; margin-top:10px;}
-    .card .card-btn { margin-top:16px; padding:8px 14px; background:#00fff7; color:#101820; border:none; border-radius:7px; font-weight:500; cursor:pointer; font-size:1em; box-shadow:0 2px 10px #00fff74a; transition:background 0.15s, color 0.2s;}
-    .card .card-btn:disabled { background:#1c232b; color:#94a3b8; cursor:not-allowed; border:1px solid #00fff7;}
-    .list-ul { list-style:none; padding:0; margin:0 0 8px 0;}
-    .list-ul li { background:#101820; color:#00fff7; margin-bottom:9px; padding:8px 16px; border-radius:7px; font-size:1.06em; display:flex; align-items:center; justify-content:space-between;}
-    .list-ul li .del-btn { background:#00fff7; color:#101820; border:none; border-radius:5px; padding:2px 8px; margin-left:10px; font-size:0.95em; cursor:pointer; transition:background 0.15s, color 0.2s;}
-    .list-ul li .del-btn:hover { background:#101820; color:#00fff7; border:1px solid #00fff7;}
-    .footer { width:100%; background:#101820; color:#00fff7; padding:18px 0 10px 0; text-align:center; font-size:1.05em; position:fixed; left:0; bottom:0; z-index:99; letter-spacing:1px;}
-    .admin-modal-bg, .modal-bg { position:fixed; top:0; left:0; right:0; bottom:0; background:#101820cc; z-index:999; display:flex; align-items:center; justify-content:center;}
-    .admin-panel, .modal-content { min-width:320px; max-width:450px; position:relative; box-shadow:0 4px 36px #00fff722; padding:36px 32px; border:2px solid #00fff7;}
-    .admin-panel h2, .modal-content h2 { margin-top:0; margin-bottom:22px; color:#00fff7; font-size:1.14em; font-weight:bold; text-align:center;}
-    .admin-user-row { display:flex; align-items:center; gap:8px; margin-bottom:13px;}
-    .admin-user-label { flex:1.2; font-weight:600; color:#fff; font-size:1.07em;}
-    .admin-user-row select, .admin-user-row input, .modal-content input, .modal-content textarea { background:#1c232b; color:#00fff7; border:1px solid #00fff7; padding:4px 6px; border-radius:5px; font-size:1em; outline:none; margin-right:2px;}
-    .admin-user-row button, .modal-content button { background:#00fff7; color:#101820; border:none; border-radius:5px; padding:3px 12px; cursor:pointer; font-weight:500; transition:background 0.15s, color 0.2s;}
-    .admin-user-row button:hover, .modal-content button:hover { background:#101820; color:#00fff7; border:1px solid #00fff7;}
-    .admin-close-btn, .modal-close-btn { background:#101820; color:#00fff7; border:2px solid #00fff7; margin-top:2em; padding:0.8em 2em; border-radius:7px; font-weight:bold; font-size:1em; margin-left:auto; margin-right:auto; cursor:pointer; display:block;}
-    .hamburger { position:absolute; top:14px; left:20px; font-size:2em; color:#00fff7; background:none; border:none; cursor:pointer; z-index:99;}
-    .user-menu { position:fixed; top:0; left:0; width:210px; height:100vh; background:#101820f0; box-shadow:2px 0 14px #00fff77a; padding-top:70px; z-index:1001; display:none; flex-direction:column; }
-    .user-menu button { background:none; border:none; color:#00fff7; font-size:1.15em; text-align:left; padding:16px 24px; cursor:pointer; width:100%; transition:background 0.15s, color 0.2s;}
-    .user-menu button:hover { background:#00fff71a; color:#fff;}
-    .user-menu .close-menu { font-size:1.4em; position:absolute; top:12px; right:16px; background:none; border:none; color:#00fff7; cursor:pointer;}
-    .console-area { background:#101820; color:#00fff7; border-radius:8px; padding:12px; font-size:1em; height:160px; overflow-y:auto; margin-bottom:10px;}
-    .console-input-row { display:flex; gap:8px;}
-    .console-input { flex:1; background:#1c232b; color:#00fff7; border:1px solid #00fff7; border-radius:5px; padding:4px;}
-    .console-send-btn { background:#00fff7; color:#101820; border:none; border-radius:5px; padding:4px 15px; cursor:pointer; font-weight:500;}
+    .list-ul {list-style:none; padding:0; margin:0 0 8px 0;}
+    .list-ul li { background:#232323; color:#ff8800; margin-bottom:9px; padding:8px 16px; border-radius:7px; font-size:1.06em;}
+    .footer { width:100%; background:#181818 !important; color:#ff8800 !important; padding:18px 0 10px 0; text-align:center; font-size:1.05em; position:fixed; left:0; bottom:0; z-index:99;}
     @media (max-width:650px){ .card-grid{grid-template-columns:1fr;} .sidebar{width:56px;min-width:56px;} .sidebar .logo{font-size:1.2em;} .main{margin-bottom:54px;} .topbar{height:54px;} .topbar .title{font-size:1.1em;} }
   </style>
 </head>
 <body>
 <div id="authPanels"></div>
-<div class="container" id="container" style="display:none">
+<div class="container panel-bg" id="container" style="display:none">
   <div class="sidebar" id="sidebar">
     <div class="logo">Maki</div>
     <button class="side-btn" id="btn-dashboard" title="Dashboard"><i class="ri-dashboard-3-line"></i></button>
     <button class="admin-btn" id="btn-admin" title="Panel Administrativo" onclick="showAdminCodeModal()"><i class="ri-shield-user-line"></i></button>
   </div>
-  <div class="main">
+  <div class="main panel-main">
     <div class="topbar">
       <span class="title" id="topbar-title">Panel de Usuario</span>
-      <button class="logout-btn" onclick="logout()">Salir</button>
+      <button class="logout-btn panel-btn" onclick="logout()">Salir</button>
     </div>
     <button class="hamburger" onclick="openUserMenu()" id="hamburgerBtn"><i class="ri-menu-line"></i></button>
     <div id="userMenu" class="user-menu"></div>
@@ -76,32 +58,32 @@
     <div id="ticketsPanel" class="card-grid" style="display:none"></div>
     <div id="storePanel" class="card-grid" style="display:none"></div>
     <div id="adminModal" class="admin-modal-bg" style="display:none">
-      <div class="admin-panel">
+      <div class="admin-panel panel-modal-content">
         <h2>Panel de Administración</h2>
         <div id="adminUsers"></div>
-        <button onclick="closeAdminModal()" class="admin-close-btn">Cerrar</button>
+        <button onclick="closeAdminModal()" class="admin-close-btn panel-btn">Cerrar</button>
       </div>
     </div>
     <div id="adminCodeModal" class="modal-bg" style="display:none">
-      <div class="modal-content">
+      <div class="modal-content panel-modal-content">
         <h2>Ingresa el código de administrador</h2>
-        <input id="adminCodeInput" placeholder="Código" autocomplete="off" />
-        <div id="adminCodeMsg" style="color:#00fff7; margin-top:12px;"></div>
-        <button onclick="checkAdminCode()">Entrar</button>
-        <button onclick="closeAdminCodeModal()" class="modal-close-btn">Cancelar</button>
+        <input id="adminCodeInput" placeholder="Código" autocomplete="off" class="panel-input"/>
+        <div id="adminCodeMsg" style="color:#ff8800; margin-top:12px;"></div>
+        <button onclick="checkAdminCode()" class="panel-btn">Entrar</button>
+        <button onclick="closeAdminCodeModal()" class="modal-close-btn panel-btn">Cancelar</button>
       </div>
     </div>
     <div id="editUserModal" class="modal-bg" style="display:none;">
-      <div class="modal-content">
+      <div class="modal-content panel-modal-content">
         <h2>Editar usuario</h2>
         <div id="editUserForm"></div>
-        <button onclick="saveEditedUser()">Guardar cambios</button>
-        <button onclick="closeEditUserModal()" class="modal-close-btn">Cancelar</button>
+        <button onclick="saveEditedUser()" class="panel-btn">Guardar cambios</button>
+        <button onclick="closeEditUserModal()" class="modal-close-btn panel-btn">Cancelar</button>
       </div>
     </div>
   </div>
 </div>
-<div class="footer">© Panel Simulado Hosting | Todos los derechos reservados</div>
+<div class="footer">© Maki Host | Todos los derechos reservados</div>
 <script>
 const STORAGE_KEY = "panel_sim_host_v2";
 function getInitialData() {
@@ -259,7 +241,7 @@ function renderServers() {
     <h3><i class="ri-server-line"></i> Servidores</h3>`;
   if (!currentUser.servidores.length) html += `<div style="margin-bottom:8px;">No tienes servidores.</div>`;
   currentUser.servidores.forEach((srv,i)=>{
-    html += `<div style="background:#101820;color:#00fff7;border-radius:7px;padding:8px 12px;margin-bottom:6px;">
+    html += `<div style="background:#232323;color:#ff8800;border-radius:7px;padding:8px 12px;margin-bottom:6px;">
       <b>${srv.nombre}</b> (${srv.coins} coins)
     </div>`;
   });
@@ -296,7 +278,7 @@ function renderStore() {
     <h3><i class="ri-shopping-cart-line"></i> Tienda</h3>
     <b>Plan 1: 200 coins</b> <button onclick="buyPlan(200,'MAK28')">Comprar</button><br>
     <b>Plan 2: 400 coins</b> <button onclick="buyPlan(400,'MAK29')">Comprar</button><br>
-    <div id="storeMsg" style="color:#00fff7;margin-top:10px;"></div>
+    <div id="storeMsg" style="color:#ff8800;margin-top:10px;"></div>
   </div>`;
   document.getElementById("storePanel").innerHTML = html;
 }
