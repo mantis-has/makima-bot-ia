@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Panel Hosting Simulado</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset content="width=device-width,initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
   <style>
-    body { margin:0; font-family:sans-serif; background:#181818; color:#fff; min-height:100vh;}
+    body { margin:0; font-family:sans-serif; min-height:100vh; color:#fff; background:#181818;}
     .container { display:flex; min-height:100vh;}
     .sidebar { background:#101820; width:70px; min-width:70px; display:flex; flex-direction:column; align-items:center; padding-top:36px; gap:0.3em; z-index:10;}
     .logo { font-size:2em; font-weight:bold; color:#ff8800; margin-bottom:22px; letter-spacing:2px;}
-    .side-btn, .admin-btn { background:transparent; border:none; color:#ff8800; font-size:1.6em; margin:0.3em 0; border-radius:12px; width:52px; height:52px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background 0.15s;}
+    .side-btn, .admin-btn { background:transparent; border:none; color:#ff8800; font-size:1.6em; margin:0.3em 0; border-radius:12px; width:52px; height:52px; display:flex; align-items:center; justify-content:center; cursor:pointer;}
     .side-btn.active, .side-btn:hover, .admin-btn.active, .admin-btn:hover { background:#ff88001a; color:#fff;}
     .admin-btn { margin-top:1.5em; font-size:1.7em; display:none;}
     .main { flex:1; display:flex; flex-direction:column; align-items:stretch; min-height:100vh; padding:0 0.5em; margin-bottom:54px;}
-    .topbar { display:flex; align-items:center; padding:0 28px; height:72px; background:#232323;}
-    .topbar .title { font-size:1.4em; font-weight:600; color:#fff; letter-spacing:1px; margin-right:auto;}
+    .topbar { display:flex; align-items:center; padding:0 28px; height:72px; background:#222;}
+    .topbar .title { font-size:1.4em; font-weight:600; color:#;}
     .topbar .logout-btn { background:#ff8800; color:#fff; border:none; border-radius:7px; padding:8px 16px; font-weight:bold; font-size:1em; margin-left:16px; cursor:pointer;}
     .auth-panel { max-width:370px; margin:80px auto; background:#222; border-radius:16px; padding:36px 32px; text-align:center; color:#fff;}
     .auth-panel h2 { margin-bottom:18px; color:#ff8800; font-weight:600; font-size:1.5em;}
