@@ -21,11 +21,15 @@
     .auth-panel h2 { margin-bottom:18px; color:#ff8800; font-weight:600; font-size:1.5em;}
     .auth-panel input { width:90%; padding:8px 12px; border:none; border-radius:7px; background:#181818; color:#fff; margin-bottom:14px; font-size:1.07em; outline:none;}
     .auth-panel input:focus { box-shadow:0 0 0 2px #ff8800;}
-    .auth-panel button { background:#ff8800; color:#fff; border-radius:7px; border:none; font-weight:bold; font-size:1em; color:#fff !important; border:none !important; border-radius:7px; font-weight:bold; font-size:1em; cursor:pointer;}
+    .auth-panel button { background:#ff8800; color:#fff; border-radius:7px; border:none; font-weight:bold; font-size:1em; padding:9px 22px; margin-top:4px; cursor:pointer; margin-bottom:8px;}
+    .auth-panel .secondary { background:#181818; color:#ff8800; border:1px solid #ff8800; margin-left:8px;}
+    .auth-panel .extra { margin-top:16px; font-size:0.98em;}
+    .panel-bg, .main, .panel-main, .dashboardPanel, .card, .admin-panel, .modal-content, .user-menu, .console-area { background:#181818 !important; color:#fff !important;}
+    .card, .admin-panel, .modal-content { border-radius:16px; box-shadow:none; border:none;}
+    .card h3, .panel-card h3, .admin-panel h2, .modal-content h2, .topbar .title { color:#ff8800 !important;}
+    .panel-btn, .admin-close-btn, .modal-close-btn, .card-btn, .console-send-btn, .user-menu button, .card .card-btn { background:#ff8800 !important; color:#fff !important; border:none !important; border-radius:7px; font-weight:bold; font-size:1em; cursor:pointer;}
     .panel-input, .panel-select, .console-input { background:#181818; color:#fff; border:1px solid #ff8800; border-radius:7px; padding:8px 12px; margin-bottom:8px;}
     .card-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(270px,1fr)); gap:24px; margin:36px 30px 0 30px;}
-    .list-ul {list-style:none; padding:0; margin:0 0 8px 0;}
-    .list-ul li { background:#232323; color:#ff8800; margin-bottom:9px; padding:8px 16px; border-radius:7px; font-size:1.06em;}
     .footer { width:100%; background:#181818 !important; color:#ff8800 !important; padding:18px 0 10px 0; text-align:center; font-size:1.05em; position:fixed; left:0; bottom:0; z-index:99;}
     .admin-modal-bg, .modal-bg { position:fixed; top:0; left:0; right:0; bottom:0; background:#181818cc; z-index:999; display:flex; align-items:center; justify-content:center;}
     .admin-panel, .modal-content { min-width:320px; max-width:450px; position:relative; box-shadow:none; padding:36px 32px;}
@@ -251,7 +255,8 @@ function renderServers() {
       <b>${srv.nombre}</b> (${srv.coins} coins)
     </div>`;
   });
-  let allowCreate = (":"disabled"}>+ Crear servidor</button>
+  let allowCreate = (currentUser.servidores.length < (currentUser.maxServers || 1));
+  html += `<button class="card-btn" onclick="createServer()" ${allowCreate?"":"disabled"}>+ Crear servidor</button>
     ${!allowCreate?'<div style="color:#ff4444;margin-top:8px;">Has alcanzado el límite de servidores permitidos.</div>':''}
     </div>`;
   document.getElementById("serversPanel").innerHTML = html;
@@ -348,7 +353,10 @@ function openEditUserModal(idx) {
     <label>Usuario: <input id="editUsuario" value="${u.usuario}" /></label><br>
     <label>Token: <input id="editToken" value="${u.token}" /></label><br>
     <label>Rol: <select id="editRol">
-      <option value="lector" ${u.role=="lector"?"selected":""}>: <input type="number" id="editCoinsUsed" value="${u.coinsUsed}" /></label><br>
+      <option value="lector" ${u.role=="lector"?"selected":""}>Lector</option>
+      <option value="admin" ${u.role=="admin"?"selected":""}>Admin</option>
+    </select></label><br>
+    <label>Coins usados: <input type="number" id="editCoinsUsed" value="${u.coinsUsed}" /></label><br>
     <label>Coins totales: <input type="number" id="editCoinsTotal" value="${u.coinsTotal}" /></label><br>
     <label>Servidores permitidos: <input type="number" id="editMaxServers" value="${u.maxServers??1}" min="1" /></label><br>
     <button onclick="saveEditedUser()">Guardar</button>
