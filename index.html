@@ -21,6 +21,7 @@
   </style>
 </head>
 <body class="bg-gray-900 text-white font-sans">
+
   <!-- Encabezado -->
   <header class="bg-purple-700 p-4 flex justify-between items-center">
     <button id="menuButton" class="text-2xl">☰</button>
@@ -31,93 +32,79 @@
   <!-- Menú Hamburguesa -->
   <div id="sideMenu" class="fixed top-0 left-0 w-64 h-full bg-gray-800 slide-menu slide-out z-50 p-4 space-y-4">
     <button id="closeMenu" class="text-right w-full text-white text-lg">✖</button>
-    <button onclick="showSection('inicio')" class="w-full text-left hover:text-purple-400">Inicio</button>
-    <button onclick="showSection('console')" class="w-full text-left hover:text-purple-400">Consola</button>
-    <button onclick="showSection('files')" class="w-full text-left hover:text-purple-400">Archivos</button>
-    <button onclick="showSection('databases')" class="w-full text-left hover:text-purple-400">Bases de Datos</button>
+    <button onclick="showSection('console')" class="w-full text-left hover:text-purple-400">🔍 Consola</button>
+    <button onclick="showSection('files')" class="w-full text-left hover:text-purple-400">📁 Archivos</button>
+    <button onclick="showSection('databases')" class="w-full text-left hover:text-purple-400">🧠 Bases de Datos</button>
   </div>
 
   <!-- Contenedor principal -->
-  <main id="mainContent" class="p-6 space-y-10"> 
-<!-- Sección: Inicio -->
-<section id="inicio" class="hidden fade-in">
-  <h2 class="text-xl font-bold mb-4">🚀 Inicio</h2>
-  <input id="repoURL" type="text" placeholder="URL del repositorio de GitHub" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-2">
-  <input id="repoBranch" type="text" placeholder="Nombre de rama (opcional)" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-4">
-</section>
+  <main id="mainContent" class="p-6 space-y-10">
 
-<!-- Sección: Consola -->
-<section id="console" class="hidden fade-in">
-  <h2 class="text-xl font-bold mb-2">🔍 Consola Interactiva</h2>
+    <!-- Sección: Inicio -->
+    <section id="inicio" class="fade-in">
+      <h2 class="text-2xl font-bold mb-4">🛠️ BIENVENIDO AL PANEL</h2>
+      <p class="mb-4 text-lg">Aquí puedes administrar tus servidores y alojar tus bots.</p>
+      <button onclick="activarMenu()" class="bg-purple-600 px-6 py-3 rounded hover:bg-purple-800 text-lg">Entrar al Panel</button>
+    </section>
 
-  <!-- Terminal simulada -->
-  <div id="terminalOutput" class="bg-black text-green-400 font-mono p-4 h-60 overflow-y-auto rounded border border-gray-700 mb-4">
-    <p>[Makima] Esperando comandos...</p>
-  </div>
+    <!-- Sección: Consola -->
+    <section id="console" class="hidden fade-in">
+      <h2 class="text-xl font-bold mb-2">🔍 Consola Interactiva</h2>
+      <div id="terminalOutput" class="bg-black text-green-400 font-mono p-4 h-60 overflow-y-auto rounded border border-gray-700 mb-4">
+        <p>[Makima] Esperando comandos...</p>
+      </div>
+      <input id="commandInput" type="text" placeholder="Ejecuta comandos como git clone [url]" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-4">
+      <button onclick="runCommand()" class="bg-purple-600 px-4 py-2 rounded hover:bg-purple-800">Ejecutar comando</button>
+      <div class="flex gap-4 mt-6">
+        <button onclick="startProcess()" class="bg-green-600 px-4 py-2 rounded hover:bg-green-800">🟢 Iniciar</button>
+        <button onclick="restartProcess()" class="bg-yellow-600 px-4 py-2 rounded hover:bg-yellow-800">🔄 Reiniciar</button>
+        <button onclick="stopProcess()" class="bg-red-600 px-4 py-2 rounded hover:bg-red-800">🛑 Detener</button>
+      </div>
+      <div class="mt-10">
+        <h3 class="text-lg font-semibold mb-2">📊 Monitor del Sistema</h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-gray-800 p-4 rounded">CPU: <span id="cpu">12%</span></div>
+          <div class="bg-gray-800 p-4 rounded">RAM: <span id="ram">456MB</span></div>
+          <div class="bg-gray-800 p-4 rounded">Red: <span id="network">32kbps</span></div>
+          <div class="bg-gray-800 p-4 rounded">Uptime: <span id="uptime">00:00:00</span></div>
+        </div>
+      </div>
+    </section>
 
-  <!-- Entrada de comandos -->
-  <input id="commandInput" type="text" placeholder="Escribe un comando (ej. git clone ...)" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-4">
-  <button onclick="runCommand()" class="bg-purple-600 px-4 py-2 rounded hover:bg-purple-800">Ejecutar comando</button>
+    <!-- Sección: Archivos -->
+    <section id="files" class="hidden fade-in">
+      <h2 class="text-xl font-bold mb-4">📁 Archivos Subidos</h2>
+      <input id="fileUpload" type="file" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-4" />
+      <ul id="fileList" class="list-disc pl-6 space-y-2"></ul>
+    </section>
 
-  <!-- Botones de control -->
-  <div class="flex gap-4 mt-6">
-    <button onclick="startProcess()" class="bg-green-600 px-4 py-2 rounded hover:bg-green-800">🟢 Iniciar</button>
-    <button onclick="restartProcess()" class="bg-yellow-600 px-4 py-2 rounded hover:bg-yellow-800">🔄 Reiniciar</button>
-    <button onclick="stopProcess()" class="bg-red-600 px-4 py-2 rounded hover:bg-red-800">🛑 Detener</button>
-  </div>
+    <!-- Sección: Bases de Datos -->
+    <section id="databases" class="hidden fade-in">
+      <h2 class="text-xl font-bold mb-4">🧠 Bases de Datos</h2>
+      <input id="newDbName" type="text" placeholder="Nombre de la nueva base de datos" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-4">
+      <button onclick="createDatabase()" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-800">Crear Base de Datos</button>
+      <p id="dbMessage" class="mt-4 text-green-400"></p>
+      <div id="dbList" class="mt-6 space-y-2"></div>
+      <div id="dbEditor" class="mt-6 hidden fade-in">
+        <h3 class="text-lg font-semibold mb-2" id="dbTitle">Base activa:</h3>
+        <textarea id="dbContent" rows="5" placeholder="Escribe contenido..." class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-4"></textarea>
+        <button onclick="saveDbContent()" class="bg-purple-600 px-4 py-2 rounded hover:bg-purple-800">Guardar Contenido</button>
+      </div>
+    </section>
+  </main>
 
-  <!-- Monitor del sistema integrado -->
-  <div class="mt-10">
-    <h3 class="text-lg font-semibold mb-2">📊 Monitor del Sistema</h3>
-    <div class="grid grid-cols-2 gap-4">
-      <div class="bg-gray-800 p-4 rounded">CPU: <span id="cpu">12%</span></div>
-      <div class="bg-gray-800 p-4 rounded">RAM: <span id="ram">456MB</span></div>
-      <div class="bg-gray-800 p-4 rounded">Red: <span id="network">32kbps</span></div>
-      <div class="bg-gray-800 p-4 rounded">Uptime: <span id="uptime">00:00:00</span></div>
-    </div>
-  </div>
-</section>
-<!-- Sección: Archivos -->
-<section id="files" class="hidden fade-in">
-  <h2 class="text-xl font-bold mb-4"> Archivos Subidos</h2>
-
-  <!-- Campo para subir archivo -->
-  <input id="fileUpload" type="file" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-4" />
-
-  <!-- Lista de archivos subidos -->
-  <ul id="fileList" class="list-disc pl-6 space-y-2">
-    <!-- Los archivos aparecerán aquí -->
-  </ul>
-</section>
-<!-- Sección: Bases de Datos -->
-<section id="databases" class="hidden fade-in">
-  <h2 class="text-xl font-bold mb-4">🧠 Bases de Datos</h2>
-
-  <!-- Crear nueva base -->
-  <input id="newDbName" type="text" placeholder="Nombre de la nueva base de datos" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-4">
-  <button onclick="createDatabase()" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-800">Crear Base de Datos</button>
-  <p id="dbMessage" class="mt-4 text-green-400"></p>
-
-  <!-- Listado de bases creadas -->
-  <div id="dbList" class="mt-6 space-y-2">
-    <!-- Aquí aparecerán los botones para abrir cada base -->
-  </div>
-
-  <!-- Editor de contenido de base activa -->
-  <div id="dbEditor" class="mt-6 hidden fade-in">
-    <h3 class="text-lg font-semibold mb-2" id="dbTitle">Base activa:</h3>
-    <textarea id="dbContent" rows="5" placeholder="Escribe contenido..." class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-4"></textarea>
-    <button onclick="saveDbContent()" class="bg-purple-600 px-4 py-2 rounded hover:bg-purple-800">Guardar Contenido</button>
-  </div>
-</section>
-</main>
-
-  <!-- Scripts -->
+  <!-- Script -->
   <script>
     const menuButton = document.getElementById("menuButton");
     const sideMenu = document.getElementById("sideMenu");
     const closeMenu = document.getElementById("closeMenu");
     const sections = document.querySelectorAll("main section");
+    const terminal = document.getElementById("terminalOutput");
+    const commandInput = document.getElementById("commandInput");
+
+    function activarMenu() {
+      showSection('console');
+    }
 
     menuButton.onclick = () => sideMenu.classList.replace("slide-out", "slide-in");
     closeMenu.onclick = () => sideMenu.classList.replace("slide-in", "slide-out");
@@ -128,132 +115,11 @@
       sideMenu.classList.replace("slide-in", "slide-out");
     }
 
-    // Monitor - Simulador simple
-    let uptimeSeconds = 0;
-    setInterval(() => {
-      uptimeSeconds++;
-      const hrs = String(Math.floor(uptimeSeconds / 3600)).padStart(2, '0');
-      const mins = String(Math.floor((uptimeSeconds % 3600) / 60)).padStart(2, '0');
-      const secs = String(uptimeSeconds % 60).padStart(2, '0');
-      document.getElementById("uptime").textContent = `${hrs}:${mins}:${secs}`;
-    }, 1000);
-
-    // Consola - Simulación
-    const terminal = document.getElementById("terminalOutput");
-    const commandInput = document.getElementById("commandInput");
-
-    function runCommand() {
-      const cmd = commandInput.value.trim();
-      if (cmd) {
-        terminal.innerHTML += `<p>$ ${cmd}</p>`;
-        commandInput.value = "";
-        localStorage.setItem("consoleLogs", terminal.innerHTML);
-      }
-    }
-
     function startProcess() {
-      terminal.innerHTML += `<p>[Makima] 🟢 Iniciando clonación del repositorio...</p>`;
+      terminal.innerHTML += `<p>[Makima] 🟢 Iniciando clonación...</p>`;
       localStorage.setItem("consoleLogs", terminal.innerHTML);
     }
 
     function restartProcess() {
-      terminal.innerHTML += `<p>[Makima] 🔄 Reiniciando proceso desde cero...</p>`;
-      localStorage.setItem("consoleLogs", terminal.innerHTML);
-    }
-
-    function stopProcess() {
-      terminal.innerHTML += `<p>[Makima] 🛑 Proceso detenido.</p>`;
-      localStorage.setItem("consoleLogs", terminal.innerHTML);
-    }
-
-    // Restaurar consola
-    if (localStorage.getItem("consoleLogs")) {
-      terminal.innerHTML = localStorage.getItem("consoleLogs");
-    }
-
-    // Repositorio persistente
-    const repoURL = document.getElementById("repoURL");
-    const repoBranch = document.getElementById("repoBranch");
-    repoURL.value = localStorage.getItem("repoURL") || "";
-    repoBranch.value = localStorage.getItem("repoBranch") || "";
-
-    repoURL.oninput = () => localStorage.setItem("repoURL", repoURL.value);
-    repoBranch.oninput = () => localStorage.setItem("repoBranch", repoBranch.value);
-
-    // Archivos - Subida simulada
-    const fileUpload = document.getElementById("fileUpload");
-    const fileList = document.getElementById("fileList");
-
-    function renderFiles() {
-      fileList.innerHTML = "";
-      const files = JSON.parse(localStorage.getItem("uploadedFiles") || "[]");
-      files.forEach(name => {
-        fileList.innerHTML += `<li>${name}</li>`;
-      });
-    }
-
-    fileUpload.addEventListener("change", () => {
-      const file = fileUpload.files[0];
-      if (file) {
-        const files = JSON.parse(localStorage.getItem("uploadedFiles") || "[]");
-        files.push(file.name);
-        localStorage.setItem("uploadedFiles", JSON.stringify(files));
-        renderFiles();
-      }
-    });
-
-    renderFiles();
-
-    // Bases de Datos
-    const newDbName = document.getElementById("newDbName");
-    const dbMessage = document.getElementById("dbMessage");
-    const dbList = document.getElementById("dbList");
-    const dbEditor = document.getElementById("dbEditor");
-    const dbTitle = document.getElementById("dbTitle");
-    const dbContent = document.getElementById("dbContent");
-
-    function createDatabase() {
-      const name = newDbName.value.trim();
-      if (name) {
-        const dbs = JSON.parse(localStorage.getItem("makimaDB") || "{}");
-        dbs[name] = dbs[name] || "";
-        localStorage.setItem("makimaDB", JSON.stringify(dbs));
-        newDbName.value = "";
-        dbMessage.textContent = "✅ Base de datos creada";
-        renderDatabases();
-      }
-    }
-
-    function renderDatabases() {
-      dbList.innerHTML = "";
-      const dbs = JSON.parse(localStorage.getItem("makimaDB") || "{}");
-      Object.keys(dbs).forEach(name => {
-        const btn = document.createElement("button");
-        btn.textContent = `📂 ${name}`;
-        btn.className = "bg-gray-700 px-3 py-2 rounded hover:bg-gray-600 w-full text-left";
-        btn.onclick = () => openDatabase(name);
-        dbList.appendChild(btn);
-      });
-    }
-
-    function openDatabase(name) {
-      const dbs = JSON.parse(localStorage.getItem("makimaDB") || "{}");
-      dbEditor.classList.remove("hidden");
-      dbTitle.textContent = `📂 ${name}`;
-      dbContent.value = dbs[name] || "";
-      dbEditor.dataset.activeDb = name;
-    }
-
-    function saveDbContent() {
-      const name = dbEditor.dataset.activeDb;
-      const content = dbContent.value;
-      const dbs = JSON.parse(localStorage.getItem("makimaDB") || "{}");
-      dbs[name] = content;
-      localStorage.setItem("makimaDB", JSON.stringify(dbs));
-      alert("Contenido guardado ✅");
-    }
-
-    renderDatabases();
-  </script>
-</body>
-</html>
+      terminal.innerHTML += `<p>[Makima] 🔄 Reiniciando todo...</p>`;
+      localStorage.set
