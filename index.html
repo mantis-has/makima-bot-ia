@@ -2,38 +2,88 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Server Maki Host</title>
+  <title>Terminal Web</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
   <style>
-    #terminal { width: 100%; height: 80vh; }
-    body { background: #222; color: #fff; font-family: monospace; }
-    .input-area { width: 100%; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #222;
+      color: #fff;
+      font-family: monospace;
+      width: 100vw;
+      overflow: hidden;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+    }
+    #terminal {
+      flex: 1 1 auto;
+      width: 100vw;
+      height: 100vh;
+      min-height: 0;
+    }
+    .input-area {
+      width: 100vw;
+      box-sizing: border-box;
+      padding: 12px;
+      font-size: 1rem;
+      background: #111;
+      color: #fff;
+      border: none;
+      outline: none;
+    }
+    @media (max-width: 600px) {
+      .input-area { font-size: 1.2rem; padding: 18px; }
+    }
   </style>
 </head>
 <body>
-  <h2>Terminal Web</h2>
   <div id="terminal"></div>
-  <input id="input" class="input-area" autofocus placeholder="Escribe un comando y presiona Enter..." />
+  <input id="input" class="input-area" autofocus autocomplete="off" placeholder="Escribe un comando y presiona Enter..." />
   <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
   <script>
-    const term = new Terminal();
+    const term = new Terminal({ theme: { background: '#222', foreground: '#fff' } });
     term.open(document.getElementById('terminal'));
     term.write('Bienvenido a la terminal web\r\n$ ');
 
     const input = document.getElementById('input');
+    function scrollToBottom() {
+      term.element.scrollTop = term.element.scrollHeight;
+    }
     input.addEventListener('keydown', async (e) => {
       if (e.key === 'Enter') {
         const command = input.value;
+        if(command.trim() === '') return;
         term.write(command + '\r\n');
         input.value = '';
-        const res = await fetch('http://localhost:3001/command', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ command })
-        });
-        const output = await res.text();
-        term.write(output + '\r\n$ ');
+        try {
+          const res = await fetch('http://localhost:3001/command', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ command })
+          });
+          const output = await res.text();
+          term.write(output + '\r\n$ ');
+          scrollToBottom();
+        } catch (err) {
+          term.write('Error de conexión\r\n$ ');
+        }
       }
+    });
+
+    // Haz que el input siempre esté visible cuando se usa el teclado en móvil
+    window.addEventListener('touchstart', () => input.focus());
+    window.addEventListener('click', () => input.focus());
+
+    // Para que el terminal ocupe toda la pantalla incluso al cambiar tamaño
+    window.addEventListener('resize', () => {
+      term.fit && term.fit();
     });
   </script>
 </body>
