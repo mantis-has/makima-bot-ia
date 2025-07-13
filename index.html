@@ -727,7 +727,7 @@
   function toggleAdminPanel() {
     if (!isAdmin()) return;
     const modal = document.getElementById("adminModal");
-    if (modal.style.display === "none") {
+    if (modal.style.display === "none" || modal.style.display === "") {
       renderAdminUsers();
       modal.style.display = "flex";
     } else {
@@ -755,4 +755,66 @@
         if (u.role === r) opt.selected = true;
         roleSel.appendChild(opt);
       });
-      roleSel.onchange =
+      roleSel.onchange = () => {
+        panelData.users[idx].role = roleSel.value;
+        panelData.logs.push(`[${now()}] Cambiado rol de ${u.user} a ${roleSel.value}`);
+        saveData();
+        renderUsers();
+        renderAdminUsers();
+      };
+      row.appendChild(roleSel);
+      // Coins usados/totales
+      const coinsUsedInput = document.createElement("input");
+      coinsUsedInput.type = "number";
+      coinsUsedInput.value = u.coinsUsed ?? 0;
+      coinsUsedInput.style.width = "55px";
+      coinsUsedInput.title = "Coins en uso";
+      coinsUsedInput.onchange = () => {
+        panelData.users[idx].coinsUsed = parseFloat(coinsUsedInput.value) || 0;
+        panelData.logs.push(`[${now()}] Cambiado coins en uso de ${u.user} a ${coinsUsedInput.value}`);
+        saveData();
+        renderAdminUsers();
+        renderDashboard();
+      };
+      row.appendChild(coinsUsedInput);
+      const coinsTotalInput = document.createElement("input");
+      coinsTotalInput.type = "number";
+      coinsTotalInput.value = u.coinsTotal ?? 0;
+      coinsTotalInput.style.width = "55px";
+      coinsTotalInput.title = "Coins totales";
+      coinsTotalInput.onchange = () => {
+        panelData.users[idx].coinsTotal = parseFloat(coinsTotalInput.value) || 0;
+        panelData.logs.push(`[${now()}] Cambiado coins totales de ${u.user} a ${coinsTotalInput.value}`);
+        saveData();
+        renderAdminUsers();
+        renderDashboard();
+      };
+      row.appendChild(coinsTotalInput);
+      // Eliminar usuario
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "Eliminar";
+      delBtn.onclick = () => {
+        if (confirm("¿Eliminar este usuario?")) {
+          panelData.users.splice(idx, 1);
+          panelData.logs.push(`[${now()}] Usuario eliminado: ${u.user}`);
+          saveData();
+          renderUsers();
+          renderAdminUsers();
+        }
+      };
+      row.appendChild(delBtn);
+      container.appendChild(row);
+    });
+  }
+
+  // --- Helpers ---
+  function now() { return new Date().toLocaleString(); }
+  function isAdmin() { return currentUser && currentUser.role === "admin"; }
+  function canEdit() { return currentUser && (currentUser.role === "admin" || currentUser.role === "editor"); }
+
+  // --- Init ---
+  renderAuthPanels();
+  showLogin();
+</script>
+</body>
+</html>
