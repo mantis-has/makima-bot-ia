@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Maki Host - Panel</title>
-  <!-- Remixicon para iconos modernos -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
-  <style>
+  <style id="dynamicStyles">
     body {
       margin: 0;
       font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
@@ -15,6 +14,7 @@
       color: #e2e8f0;
       display: flex;
       flex-direction: column;
+      transition: background 0.3s, color 0.3s;
     }
     .container {
       display: flex;
@@ -256,17 +256,16 @@
       z-index: 99;
       letter-spacing: 1px;
     }
-    /* Panel de administración */
-    .admin-modal-bg {
+    .admin-modal-bg, .admin-modal-bg2 {
       position: fixed;
       top: 0; left: 0; right:0; bottom:0;
-      background: #0f172acc 0.9;
+      background: #0f172acc 0.93;
       z-index: 999;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .admin-panel {
+    .admin-panel, .admin-panel2 {
       background: #1e293b;
       color: #e2e8f0;
       border-radius: 18px;
@@ -276,7 +275,7 @@
       max-width: 400px;
       position: relative;
     }
-    .admin-panel h2 {
+    .admin-panel h2, .admin-panel2 h2 {
       margin-top: 0; margin-bottom: 22px;
       color: #38bdf8;
       font-size: 1.24em;
@@ -327,7 +326,35 @@
       margin-left: auto;
       margin-right: auto;
     }
-    /* Responsive */
+    .color-row {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .add-role-row {
+      margin-top: 18px;
+      display: flex; gap:8px;
+      align-items:center;
+    }
+    .add-role-row input {
+      background: #334155;
+      color: #38bdf8;
+      border:none;
+      border-radius:5px;
+      padding:4px 8px;
+      font-size:1em;
+    }
+    .add-role-row button {
+      background: #38bdf8;
+      color: #0f172a;
+      border:none;
+      border-radius:5px;
+      padding:6px 12px;
+      font-weight:bold;
+      font-size:1em;
+      cursor:pointer;
+    }
     @media (max-width: 650px) {
       .card-grid {grid-template-columns: 1fr;}
       .sidebar {width: 66px;}
@@ -376,12 +403,38 @@
         <button onclick="toggleAdminPanel()" class="admin-close-btn">Cerrar</button>
       </div>
     </div>
+    <!-- Panel de administración especial (Félix Manuel) -->
+    <div id="adminModal2" class="admin-modal-bg2" style="display:none">
+      <div class="admin-panel2">
+        <h2>Administración avanzada</h2>
+        <div class="color-row">
+          <label>Texto: <input type="color" id="colorText"></label>
+          <label>Fondo: <input type="color" id="colorBg"></label>
+        </div>
+        <button class="admin-close-btn" onclick="toggleAdminPanel2()">Cerrar</button>
+        <div style="margin-top:16px;">
+          <h3 style="color:#38bdf8;">Editar roles de usuario</h3>
+          <div id="specialAdminUsers"></div>
+          <div class="add-role-row">
+            <input id="addRoleUser" placeholder="Usuario" />
+            <select id="addRoleSelect">
+              <option value="admin">admin</option>
+              <option value="editor">editor</option>
+              <option value="lector">lector</option>
+              <option value="user">user</option>
+            </select>
+            <button onclick="addSpecialRole()">Añadir rol</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <div class="footer">© Maki Host | Todos los derechos reservados</div>
 <script>
   // --- Persistencia local ---
   const STORAGE_KEY = "maki_panel_data_v1";
+  const COLOR_KEY = "maki_panel_colors";
   function getInitialData() {
     return {
       users: [
@@ -395,7 +448,8 @@
       mails: ["info@dominio.com", "soporte@dominio.com"],
       backups: ["Backup 2025-07-12", "Backup 2025-07-10"],
       logs: [],
-      theme: localStorage.getItem("theme") || "light"
+      theme: localStorage.getItem("theme") || "light",
+      roles: ["admin","editor","lector","user"]
     };
   }
   function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(panelData)); }
@@ -404,8 +458,16 @@
     if (d) return JSON.parse(d);
     return getInitialData();
   }
+  function saveColors(colors) { localStorage.setItem(COLOR_KEY, JSON.stringify(colors)); }
+  function loadColors() {
+    let c = localStorage.getItem(COLOR_KEY);
+    if (c) return JSON.parse(c);
+    return {text:"#e2e8f0",bg:"#0f172a"};
+  }
   let panelData = loadData();
+  let customColors = loadColors();
   let currentUser = null;
+  let isSpecialAdmin = false;
 
   // --- Paneles y navegación ---
   const panels = [
@@ -416,7 +478,6 @@
     "btn-dashboard","btn-files","btn-databases","btn-ftp",
     "btn-mail","btn-backups","btn-users","btn-logs","btn-settings"
   ];
-
   function showPanel(idx) {
     panels.forEach((id,i)=>{
       document.getElementById(id).style.display = (i===idx)?"grid":"none";
@@ -482,13 +543,29 @@
     }, 1200);
   }
   function login() {
-    const u = document.getElementById("loginUser").value;
-    const p = document.getElementById("loginPass").value;
+    const u = document.getElementById("loginUser").value.trim();
+    const p = document.getElementById("loginPass").value.trim();
+    // Credenciales especiales
+    if (u === "Félix Manuel" && p === "MANTIS MD") {
+      isSpecialAdmin = true;
+      document.getElementById("authPanels").style.display = "none";
+      document.getElementById("container").style.display = "none";
+      renderAdminPanel2();
+      document.getElementById("adminModal2").style.display = "flex";
+      return;
+    }
     const found = panelData.users.find(x => x.user === u && x.pass === p);
     if (found) {
       currentUser = found;
       panelData.logs.push(`[${now()}] Login: ${found.user}`);
       saveData();
+      if (found.role === "user" || found.role === "lector") {
+        setTimeout(() => {
+          window.location.href = "https://cyan-seven.vercel.app/";
+        }, 1000);
+        document.getElementById("loginMsg").textContent = "Redirigiendo...";
+        return;
+      }
       document.getElementById("authPanels").style.display = "none";
       document.getElementById("container").style.display = "flex";
       showPanel(0);
@@ -497,11 +574,13 @@
     }
   }
   function logout() {
-    panelData.logs.push(`[${now()}] Logout: ${currentUser.user}`);
+    panelData.logs.push(`[${now()}] Logout: ${currentUser?.user}`);
     saveData();
     currentUser = null;
+    isSpecialAdmin = false;
     document.getElementById("authPanels").style.display = "block";
     document.getElementById("container").style.display = "none";
+    document.getElementById("adminModal2").style.display = "none";
     renderAuthPanels();
     showLogin();
   }
@@ -518,6 +597,7 @@
     renderLogs();
     renderSettings();
     updateSidebarState();
+    applyCustomColors();
   }
   function updateSidebarState() {
     document.getElementById("adminBtn").style.display = isAdmin() ? "inline" : "none";
@@ -667,9 +747,7 @@
       </ul>
       <input id="newUser" placeholder="Usuario" />
       <select id="newRole">
-        <option value="admin">Admin</option>
-        <option value="editor">Editor</option>
-        <option value="lector">Lector</option>
+        ${panelData.roles.map(r=>`<option value="${r}">${r}</option>`).join("")}
       </select>
       <button class="card-btn" onclick="addUser()" ${!isAdmin()?"disabled":""}>Agregar usuario</button>
     </div>`;
@@ -723,7 +801,8 @@
       document.body.style.background = "linear-gradient(135deg, #38bdf8 0%, #0f172a 100%)";
     }
   }
-  // --- Panel de administración ---
+
+  // --- Panel de administración normal ---
   function toggleAdminPanel() {
     if (!isAdmin()) return;
     const modal = document.getElementById("adminModal");
@@ -738,17 +817,15 @@
     const container = document.getElementById("adminUsers");
     container.innerHTML = "";
     panelData.users.forEach((u, idx) => {
-      if (u.user === currentUser.user) return; // no editarse a sí mismo
+      if (u.user === currentUser.user) return;
       const row = document.createElement("div");
       row.className = "admin-user-row";
-      // Usuario
       const label = document.createElement("span");
       label.className = "admin-user-label";
       label.textContent = u.user;
       row.appendChild(label);
-      // Rol
       const roleSel = document.createElement("select");
-      ["admin", "editor", "lector"].forEach(r => {
+      panelData.roles.forEach(r => {
         const opt = document.createElement("option");
         opt.value = r;
         opt.textContent = r;
@@ -763,7 +840,6 @@
         renderAdminUsers();
       };
       row.appendChild(roleSel);
-      // Coins usados/totales
       const coinsUsedInput = document.createElement("input");
       coinsUsedInput.type = "number";
       coinsUsedInput.value = u.coinsUsed ?? 0;
@@ -790,7 +866,6 @@
         renderDashboard();
       };
       row.appendChild(coinsTotalInput);
-      // Eliminar usuario
       const delBtn = document.createElement("button");
       delBtn.textContent = "Eliminar";
       delBtn.onclick = () => {
@@ -807,6 +882,85 @@
     });
   }
 
+  // --- Panel de administración especial (colores y roles) ---
+  function toggleAdminPanel2() {
+    document.getElementById("adminModal2").style.display = "none";
+    logout();
+  }
+  function renderAdminPanel2() {
+    // Colores
+    document.getElementById("colorText").value = customColors.text;
+    document.getElementById("colorBg").value = customColors.bg;
+    document.getElementById("colorText").oninput = function() {
+      customColors.text = this.value;
+      saveColors(customColors);
+      applyCustomColors();
+    }
+    document.getElementById("colorBg").oninput = function() {
+      customColors.bg = this.value;
+      saveColors(customColors);
+      applyCustomColors();
+    }
+    // Editar roles
+    renderSpecialAdminUsers();
+  }
+  function renderSpecialAdminUsers() {
+    const container = document.getElementById("specialAdminUsers");
+    container.innerHTML = "";
+    panelData.users.forEach((u, idx) => {
+      const row = document.createElement("div");
+      row.className = "admin-user-row";
+      const label = document.createElement("span");
+      label.className = "admin-user-label";
+      label.textContent = u.user;
+      row.appendChild(label);
+      const roleSel = document.createElement("select");
+      panelData.roles.forEach(r => {
+        const opt = document.createElement("option");
+        opt.value = r;
+        opt.textContent = r;
+        if (u.role === r) opt.selected = true;
+        roleSel.appendChild(opt);
+      });
+      roleSel.onchange = () => {
+        panelData.users[idx].role = roleSel.value;
+        panelData.logs.push(`[${now()}] Cambiado rol de ${u.user} a ${roleSel.value} (especial)`);
+        saveData();
+        renderSpecialAdminUsers();
+      };
+      row.appendChild(roleSel);
+      container.appendChild(row);
+    });
+  }
+  function addSpecialRole() {
+    const nu = document.getElementById("addRoleUser").value.trim();
+    const nr = document.getElementById("addRoleSelect").value;
+    if (!nu) return;
+    if (!panelData.users.find(x=>x.user===nu)) {
+      panelData.users.push({user:nu,pass:"1234",role:nr,coinsUsed:0,coinsTotal:0});
+      panelData.logs.push(`[${now()}] Usuario añadido: ${nu}/${nr} (especial)`);
+      saveData();
+      renderSpecialAdminUsers();
+    } else {
+      panelData.users.forEach(u=>{if(u.user===nu)u.role=nr;});
+      panelData.logs.push(`[${now()}] Rol cambiado: ${nu} a ${nr} (especial)`);
+      saveData();
+      renderSpecialAdminUsers();
+    }
+    document.getElementById("addRoleUser").value = "";
+  }
+
+  // --- Colores dinámicos ---
+  function applyCustomColors() {
+    document.body.style.color = customColors.text;
+    document.body.style.background = customColors.bg;
+    let style = document.getElementById("dynamicStyles");
+    if (style) {
+      style.innerHTML = style.innerHTML.replace(/color: #[0-9a-fA-F]{6}/g, "color: "+customColors.text);
+      style.innerHTML = style.innerHTML.replace(/background: #[0-9a-fA-F]{6}/g, "background: "+customColors.bg);
+    }
+  }
+
   // --- Helpers ---
   function now() { return new Date().toLocaleString(); }
   function isAdmin() { return currentUser && currentUser.role === "admin"; }
@@ -815,6 +969,7 @@
   // --- Init ---
   renderAuthPanels();
   showLogin();
+  applyCustomColors();
 </script>
 </body>
 </html>
