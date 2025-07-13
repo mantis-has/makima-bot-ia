@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Makima Control Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white">
+  <!-- Encabezado -->
+  <header class="bg-purple-700 p-4 text-center text-2xl font-bold">Makima Control Panel</header>
+
+  <!-- Menú de navegación -->
+  <nav class="bg-gray-800 p-3 flex flex-wrap justify-center gap-4 text-sm">
+    <a href="#repos" class="hover:text-purple-400">📦 Repositorios</a>
+    <a href="#console" class="hover:text-purple-400">🔍 Consola</a>
+    <a href="#files" class="hover:text-purple-400">📁 Archivos</a>
+    <a href="#databases" class="hover:text-purple-400">🧠 Bases de Datos</a>
+    <a href="#startup" class="hover:text-purple-400">🚀 Inicio</a>
+    <a href="#settings" class="hover:text-purple-400">⚙️ Configuración</a>
+    <a href="#monitor" class="hover:text-purple-400">📊 Monitor</a>
+    <a href="#whatsapp" class="hover:text-purple-400">💬 WhatsApp</a>
+  </nav>
+
+  <!-- Contenido principal -->
+  <main class="p-6 space-y-10">
+    
+    <!-- Repositorios -->
+    <section id="repos">
+      <h2 class="text-xl font-semibold mb-2">📦 Instalar Repositorio</h2>
+      <input type="text" placeholder="URL del repositorio de GitHub" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-2" />
+      <input type="text" placeholder="Nombre de rama (opcional)" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-2" />
+      <button class="bg-purple-600 px-4 py-2 rounded hover:bg-purple-800">Instalar Repositorio</button>
+    </section>
+
+    <!-- Consola -->
+    <section id="console">
+      <h2 class="text-xl font-semibold mb-2">🔍 Consola Interactiva</h2>
+      <div class="bg-black text-green-400 font-mono p-4 h-60 overflow-y-auto border border-gray-700 rounded">
+        <p>[INFO] Bot iniciado correctamente...</p>
+        <p>[LOG] Mensaje recibido desde WhatsApp</p>
+      </div>
+      <button class="mt-4 bg-red-600 px-4 py-2 rounded hover:bg-red-800">Reiniciar Servidor</button>
+    </section>
+
+    <!-- Archivos -->
+    <section id="files">
+      <h2 class="text-xl font-semibold mb-2">📁 Archivos del Repositorio</h2>
+      <div class="bg-gray-800 p-4 rounded">Aquí se mostrarán los archivos importados</div>
+    </section>
+
+    <!-- Bases de Datos -->
+    <section id="databases">
+      <h2 class="text-xl font-semibold mb-2">🧠 Bases de Datos</h2>
+      <input type="text" placeholder="Nombre de la base de datos" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-2" />
+      <button class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-800">Crear Base de Datos</button>
+    </section>
+
+    <!-- Inicio del Bot -->
+    <section id="startup">
+      <h2 class="text-xl font-semibold mb-2">🚀 Script de Inicio</h2>
+      <pre class="bg-gray-800 p-4 rounded text-sm overflow-x-auto">
+if [[ -d .git ]] && [[ 1 == "1" ]]; then git pull; fi;
+if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi;
+if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi;
+if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;
+/usr/local/bin/node /home/container/${MAIN_FILE}
+      </pre>
+    </section>
+
+    <!-- Configuración -->
+    <section id="settings">
+      <h2 class="text-xl font-semibold mb-2">⚙️ Configuración del Servidor</h2>
+      <input type="text" placeholder="Nombre del servidor" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-2" />
+      <button class="bg-yellow-600 px-4 py-2 rounded hover:bg-yellow-800">Reinstalar Servidor</button>
+    </section>
+
+    <!-- Monitor -->
+    <section id="monitor">
+      <h2 class="text-xl font-semibold mb-2">📊 Monitor del Sistema</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-gray-800 p-4 rounded">CPU: 12%</div>
+        <div class="bg-gray-800 p-4 rounded">Memoria: 456MB</div>
+        <div class="bg-gray-800 p-4 rounded">Red: 32kbps</div>
+        <div class="bg-gray-800 p-4 rounded">Uptime: 5h 23min</div>
+      </div>
+    </section>
+
+    <!-- Bot de WhatsApp -->
+    <section id="whatsapp">
+      <h2 class="text-xl font-semibold mb-2">💬 Bot de WhatsApp</h2>
+      <input type="text" placeholder="Token API" class="w-full p-2 bg-gray-800 border border-purple-500 rounded mb-2" />
+      <button class="bg-green-600 px-4 py-2 rounded hover:bg-green-800">Activar Bot</button>
+    </section>
+
+  </main>
+</body>
+</html>
