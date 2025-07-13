@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Mi Panel</title>
+  <title>Mi Panel Hosting</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -13,6 +13,23 @@
     <input id="loginPass" placeholder="Contraseña" type="password" />
     <button onclick="login()">Entrar</button>
     <div id="loginMsg"></div>
+    <div class="login-extra">
+      ¿No tienes cuenta?
+      <button onclick="showRegister()" class="secondary">Crear cuenta nueva</button>
+    </div>
+  </div>
+  <div id="registerPanel" class="hidden">
+    <h2>Crear Cuenta Nueva</h2>
+    <input id="regUser" placeholder="Usuario" />
+    <input id="regPass" placeholder="Contraseña" type="password" />
+    <select id="regRole">
+      <option value="admin">Admin</option>
+      <option value="editor">Editor</option>
+      <option value="lector">Lector</option>
+    </select>
+    <button onclick="register()">Registrar</button>
+    <button onclick="showLogin()" class="secondary">Volver</button>
+    <div id="regMsg"></div>
   </div>
   <div id="mainPanel" class="hidden">
     <nav>
