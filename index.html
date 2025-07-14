@@ -143,7 +143,7 @@
 
     // Botones consola
     function startProcess() {
-      terminal.innerHTML += `<p>[Makima] 🟢 Iniciando clonación...</p>`;
+      terminal.innerHTML += `<p>[Makima] 🟢 Iniciando el proceso...</p>`;
       localStorage.setItem("consoleLogs", terminal.innerHTML);
     }
 
@@ -177,7 +177,8 @@
 
     function simulateInstallSequence() {
       const steps = [
-        "Clonado e iniciando instalación del repositorio...",
+        "Clonado e iniciando instalación del repositorio...", 
+  "if [[ -d .git ]] && [[ 1 == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi; /usr/local/bin/node /home/container/${MAIN_FILE}",
         "Iniciación npm install",
         "Procesando... Iniciando descarga...",
         "Descargando archivos... Guardando todos los archivos...",
